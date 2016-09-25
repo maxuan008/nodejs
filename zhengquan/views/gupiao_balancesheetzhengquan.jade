@@ -50,25 +50,32 @@
 
 <table id='table_gupiaoBlance' name= '#{modgupiaoxin}' class="table table-hover"  >
 <thead><tr class='info'>
-<th >总资产： #{gupiaoBalance_total}   (人民币)  
-
-
+<th  colspan='3'>总资产： #{gupiaoBalance_total}   (人民币)  
 <br>  <br>
 </th>
+
+<th></th>
+
 <th></th>
 <th></th>
-<th></th>
-<td align='right' >
+
+<td  colspan='2' >
 <a href="/gupiao_balancesheetzhengquan" class="button button-primary button-pill button-small">刷新</a>
 </td>
+
 </tr></thead>
 				
 <tr  class='success'>
 <td>股票/代码</td>
-<td>持仓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td>现价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td>盈亏&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;操作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>购买总数<br>(目前持仓)</td>
+<td>持股时长<br>(平均每股)</td>
+
+<td>现价</td>
+<td>账面盈亏</td>
+<td>交割盈亏<br>(实际盈亏)</td>
+<td>收益率<br>(平均每股)</td>
+
+<td>&nbsp;&nbsp;操作&nbsp;&nbsp;</td>
 </tr>
 
 !{gupiaoBalancellist }

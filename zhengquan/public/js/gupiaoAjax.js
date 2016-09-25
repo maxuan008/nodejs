@@ -163,9 +163,7 @@ function AjaxCancelQiquan(id) {
 
 
 
-
-
-
+//注销股票
 function AjaxCancelGupiao(gp_id) { 
 	con=confirm("确定要注销吗?");
 	if(con==true) {
@@ -304,9 +302,9 @@ function addGupiaoJiaoyi(id, str){
 	var tmp='';
 
 	tmp= tmp + " <tr  id='tr_SheetTmp"+id+"'  class='success'>  ";
-	tmp= tmp + "   <td colspan='5' align='right'>  ";
+	tmp= tmp + "   <td colspan='8' align='right'>  ";
 	tmp= tmp + " <table id='tb_SheetTmp"+id+"' frame='below'  > ";
-	tmp= tmp + " <tr><td colspan='5' align='right'> ";
+	tmp= tmp + " <tr><td colspan='8' align='right'> ";
 
 	tmp= tmp + " <div> &nbsp;<br>  ";
 	tmp= tmp + " <input id='nameTmp"+id+"' type='text'  style='width:100px;' placeholder='"+str+"' disabled   />&nbsp;&nbsp;&nbsp;";
@@ -398,7 +396,7 @@ function addmingxi(id)
 				 //hide("slow");
 				 if(data.des==true) { 
 						tmp= tmp + "<tr  id='tr_SheetTmp"+id+"'   class='success' >  ";
-						tmp= tmp + "<td colspan='5' align='right'>  ";
+						tmp= tmp + "<td colspan='8' align='right'>  ";
 
 						tmp= tmp + "<table id='tb_SheetTmp"+id+"'   frame='below'> ";
 						tmp= tmp + "<thead><tr class='info'  > ";

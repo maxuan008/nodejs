@@ -63,10 +63,20 @@ function IsGupiaoExist(gupiaoname  , gupiaocode ,userid, callback) {
 		else
 			if(doc.length!=0)  return callback('股票已存在，请重新输入!')
 			else return callback(err,0)
-   });
+    });
 }
 
 
+
+ Zhengquan.IsExistDeal= function IsExistDeal(gp_id,userid,callback) {
+	var sqlstr="select * FROM `gupiao_deal`  where  `status` = 1 and `userid`='"+ userid +"' and `gp_id` = '" + gp_id + "'  ";
+	console.log(sqlstr);
+	MySql.query(sqlstr, function(err, doc) {
+		 console.log(doc);
+	     return callback(err,doc)
+    }); 
+	 
+ }
 
 
 
@@ -316,7 +326,9 @@ Zhengquan.GetQiquanList = function GetQiquanList(userid,callback){
 
 
 function GetCountAndying(gp_id,userid, callback) {
-	var  nulltmp=null,n=0 , count=0, ying=0;
+	var  nulltmp=null,n=0 , count=0, ying=0, data={}, days=0 , jiaoge_yingli=0 , yield = 0,  totalBuy=0;
+	var  buyStamp = 0, sellStamp = 0;
+	var  buy_money_stamp=0 , sell_money_stamp=0 ;
 	var sqlstr= "SELECT * FROM `gupiao_deal`  where status = 1 and gp_id = " + gp_id + " and userid= " + userid;
 	console.log(sqlstr);
 	MySql.query(sqlstr, function(err, results) {
@@ -325,12 +337,40 @@ function GetCountAndying(gp_id,userid, callback) {
 		   else
 			   async.eachSeries(results,function(value,callback){
 				   n++;
-				   if(value.flag==1) {count=count + value.count;  ying = ying - value.count * value.price;}
-				   if(value.flag==2) {count=count - value.count;  ying = ying + value.count * value.price;} 
+				   if(value.flag==1) {
+					   totalBuy = totalBuy +  value.count;  
+					   count=count + value.count;  
+					   ying = ying - value.count * value.price; 
+					   jiaoge_yingli = jiaoge_yingli - value.deal_money;
+					   buyStamp = buyStamp + value.count * Date.parse( value.dealdate  );
+					   
+					   buy_money_stamp = buy_money_stamp +   value.count * Date.parse( value.dealdate  );
+					  
+					   
+					   return callback();
+					} else if(value.flag==2) {
+					    count=count - value.count; 
+					    ying = ying + value.count * value.price; 
+						jiaoge_yingli = jiaoge_yingli + value.deal_money;
+					    sellStamp = sellStamp + value.count * Date.parse( value.dealdate  );
+						
+						sell_money_stamp = sell_money_stamp +   value.count * Date.parse( value.dealdate  );						
+						
+						return callback();
+					 } 
+				   
+				   
 				   return callback();
 			   }, function(err){
-			    
-			    	return callback(err,count, ying,n);
+				    data.yield = yield;
+					data.jiaoge_yingli = jiaoge_yingli;
+					
+					data.totalBuy = totalBuy;
+					
+					data.days = [ count * Date.parse(new Date()) + sellStamp -  buyStamp ] / (totalBuy * 86400000) ;
+
+			     
+			    	return callback(err,count, ying,n,data);
 
 		});  // async  end
 		   
@@ -344,6 +384,9 @@ function GetCountAndying(gp_id,userid, callback) {
 Zhengquan.GetGupiaoSheetList= function GetGupiaoSheetList(userid, callback) 
 {   var reu='', nulltmp=null,n=0 , total=0 , idtmp='null', codetmp='null';
   console.log('USER:' + userid);
+  
+
+  
   var sqlstr="SELECT * FROM `gupiao`   where status = 1 and userid= "+ userid  + " ORDER BY code DESC" ;
 	MySql.query(sqlstr, function(err, results) {
 		   if (err) callback(err);
@@ -353,7 +396,7 @@ Zhengquan.GetGupiaoSheetList= function GetGupiaoSheetList(userid, callback)
 		    else 
 		    async.eachSeries(results,function(value,callback){
 		    	
-		    	GetCountAndying(value.gp_id, userid,  function(err,count,ying,n){
+		    	GetCountAndying(value.gp_id, userid,  function(err,count,ying,n, data){
 		    		
 		    		var td_div_pricetmp='td_div_price' + value.gp_id;
 			    	var td_input_pricetmp='td_input_price' + value.gp_id;
@@ -363,15 +406,27 @@ Zhengquan.GetGupiaoSheetList= function GetGupiaoSheetList(userid, callback)
 					var counttmp='td_div_count' + value.gp_id;
 
 		    		 total  = total + count * value.price;
-		    		 var yingli = ying + count * value.price;
-					 var yingli =yingli.toFixed(3);
+		    		 var yingli = ying + count * value.price ; yingli =yingli.toFixed(3);
+					 var jiaoge_yingli=data.jiaoge_yingli;  jiaoge_yingli = jiaoge_yingli.toFixed(1);
+					 var days = data.days  ; days = days.toFixed(1);
 					 
+					 var shiji_yingli =  data.jiaoge_yingli +  count * value.price;  shiji_yingli = shiji_yingli.toFixed(1); // shiji_shouyi = shiji_shouyi.toFixed(1);
+					 
+					 var yield = shiji_yingli / 
+					 					 
 		    		 var tr_tmp='tr_gupiaoSheet' +value.gp_id;
 		    		 reu=reu + " <tr id=\'" + tr_tmp +  "\'  class='success'> ";
 		    		 reu=reu + "<td>"+ value.name + " <br>"+ value.code + " </td>";
-		    		 reu=reu + "<td><div id='"+counttmp+"'>" + count + "</div></td>";
-		    		 reu=reu + "<td  ondblclick=\"showInput('"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\" ><div id='" + td_div_pricetmp +"' >" + value.price +"</div>  <input  id='"+td_input_pricetmp +"'  type='text'  value='"+value.price+"'  style='display: none; width:100px;'  onblur= \"updateKey('gupiao' , 'price', "+value.gp_id+", '"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\"  /></td>";
-		    		 reu=reu + "<td><div id='"+yinglitmp+"'>" + yingli  + "</td>";
+		    		 reu=reu + "<td><div id='"+counttmp+"'>" + data.totalBuy + " / " +  count  + "</div></td>";
+					 
+		    		 reu=reu + "<td> " + days + "(天) </td>";		
+					 			 
+		    		 reu=reu + "<td  ondblclick=\"showInput('"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\" ><div id='" + td_div_pricetmp +"' >" + value.price +"</div>  <input  id='"+td_input_pricetmp +"'  type='text'  value='"+value.price+"'  style='display: none; width:100px;'  onblur= \"updateKey('gupiao' , 'price', "+value.gp_id+", '"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\"  /> </div></td>";
+		    		 reu=reu + "<td><div id='"+yinglitmp+"'>" + yingli  + "</div></td>";
+
+					 reu=reu + "<td>" + jiaoge_yingli + "<br>("+ shiji_yingli + ")"  + "</div></td>";		 
+					 reu=reu + "<td>" + yield + "</div></td>";	
+					 					 
 		    		 reu=reu + "<td><a  id='"+mingxitmp+"'   onclick='addmingxi("+value.gp_id+")' >明细</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <a id='"+jiaoyitmp+"'   onclick=\"addGupiaoJiaoyi("+value.gp_id+", '"+value.name+"')\" >交易</a>" ;
 		    		 reu=reu +	"<input type='hidden' id='"+jiaoyitmp+"' value='0' ><input type='hidden' id='"+mingxitmp+"'  value='0' ></td>";
 		    		 reu=reu + "</tr>";	
@@ -386,6 +441,9 @@ Zhengquan.GetGupiaoSheetList= function GetGupiaoSheetList(userid, callback)
 		    }, function(err){
 		    	//console.log(reu);	    	
 				var allcode=idtmp + "|" + codetmp ;
+				
+				  //var dd1='2016-01-01' , dd2='2016-01-02';
+                  //console.log('uu:', [Date.parse(dd2)  - Date.parse(dd1)] / (24*60*60 )  );
 		    	return callback(err,reu,total , allcode);	   
 		    });  // async  end
     });  // MySql  query  end
@@ -397,7 +455,7 @@ Zhengquan.GetGupiaoSheetList= function GetGupiaoSheetList(userid, callback)
 
 
 function GetCountAndying_qiquan(id, userid, callback) {
-	var  nulltmp=null,n=0 , count=0, ying=0;
+	var  nulltmp=null,n=0 , count=0, ying=0, data={};
 	var sqlstr= "SELECT * FROM `qiquan_deal`   where status = 1 and qq_id =  " + id + " and userid=" + userid;
 	//console.log(sqlstr);
 	MySql.query(sqlstr, function(err, results) {
@@ -410,7 +468,7 @@ function GetCountAndying_qiquan(id, userid, callback) {
 				   if(value.flag==2) {count=count - value.count;  ying = ying + value.count * value.price;} 
 				   callback();
 			   }, function(err){		    
-			    	return callback(err,count, ying,n);
+			    	return callback(err,count, ying,n, data);
 		});  // async  end
 		   
 	});
