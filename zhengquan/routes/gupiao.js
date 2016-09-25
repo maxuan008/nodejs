@@ -412,7 +412,7 @@ Zhengquan.GetGupiaoSheetList= function GetGupiaoSheetList(userid, callback)
 					 
 					 var shiji_yingli =  data.jiaoge_yingli +  count * value.price;  shiji_yingli = shiji_yingli.toFixed(1); // shiji_shouyi = shiji_shouyi.toFixed(1);
 					 
-					 var yield = shiji_yingli / 
+					 var yield =0;
 					 					 
 		    		 var tr_tmp='tr_gupiaoSheet' +value.gp_id;
 		    		 reu=reu + " <tr id=\'" + tr_tmp +  "\'  class='success'> ";
