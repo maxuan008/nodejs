@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>#{prjname} </title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="/favicon.ico">
+<!--[if lte IE 8]><link rel="stylesheet" href="/respon/responsive-nav.css"><![endif]-->
+<!--[if gt IE 8]><!--><link rel="stylesheet" href="/respon/styles.css"><!--<![endif]-->
+<!--[if lt IE 9]><script src='/assets/js/ie8-responsive-file-warning.js'></script><![endif]-->
+<script src='/assets/js/ie-emulation-modes-warning.js'></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<!--<script src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js'></script> -->
+<!--<script src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js'></script>  -->
+<![endif]-->
+
+<script src="/respon/responsive-nav.js"></script>
+<script src='/js/jquery.min.js'> </script>
+<script src='/js/jquery.js'> </script>
+<script src='/js/gupiaoAjax.js'> </script>
+
+<script></script>
+
+
+
+<link href='/css/buttons.css' rel='stylesheet'>
+<link href='/css/bootstrap.min.css' rel='stylesheet'>
+<link href='/css/blog.css' rel='stylesheet'>
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div role="navigation" id="foo" class="nav-collapse">
+<ul>
+<li class="active"><a >Home</a></li>
+
+!{modelist}
+
+<li class="active"><a href='http://localhost:#{port}/projectSelecter' >退出</a></li>
+</ul>
+</div>
+<div role="main" class="main">
+<a href="#nav" class="nav-toggle">Menu</a>
+<h2>#{prjname} - 期权</h2>
+<a ><p class="intro">Role@user:#{username};       Date:#{date} </p></a>
+
+<div class="row-fluid">
+<div class="span12">
+
+<table id='table_qiquan' name= '#{modgupiaoxin}' class="table table-hover">
+<thead><tr>
+<th>期权衍生品</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr></thead>
+				
+<tbody>
+<tr>
+<td>期权名称</td>
+<td>认沽/认购</td>
+<td>代码</td>
+<td>价格</td>
+<td>操作</td>
+</tr>
+
+!{list }
+
+
+<!--<tr class="success">-->
+<!--<td>15年8月2100 </td>-->
+<!--<td>认购 </td>-->
+<!--<td>152010556</td>-->
+<!--<td>13.3</td>-->
+<!--<td><a>修改</a>  <a>注销</a></td>-->
+<!--</tr>-->
+
+
+
+</tbody>
+</table>
+
+
+<table id='table_tianjia'   class="table table-hover">
+<tr name='tr_tianjia' id='tr_tianjia' class="info">
+<td name='td_qiquanname_tianjia' id='td_qiquanname_tianjia'  ><input name='input_qiquanname_tianjia'  id='input_qiquanname_tianjia'   type="text"  style="width:120px;"    placeholder="输入期权名称" required autofocus  /></td>
+
+<td name='td_qiquanflag_tianjia' id='td_qiquanflag_tianjia' >&nbsp;&nbsp;&nbsp;&nbsp; <select id="qiquanflag" name='qiquanflag'>  <option  value='1'>认购&nbsp;&nbsp;&nbsp;&nbsp;</option>  <option  value='2'>认沽 &nbsp;&nbsp;&nbsp;&nbsp;</option>   </select></td>
+
+<td name='td_qiquancode_tianjia' id='td_qiquancode_tianjia' ><input  name='input_qiquancode_tianjia' id='input_qiquancode_tianjia'  type="text"  style="width:120px;"    placeholder="期权代码" required autofocus /></td>
+<td name='td_qiquanprice_tianjia' id='td_qiquanprice_tianjia'><input  name='input_qiquanprice_tianjia' id='input_qiquanprice_tianjia'   type="text"  style="width:70px;"    placeholder="价格" required autofocus  /></td>
+<td><a class="button button-primary button-rounded button-small" onclick='AjaxAddqiquan()'>添加</a></td>
+</tr>
+</table>
+
+
+</div>
+</div>
+
+<script>var navigation = responsiveNav("foo", {customToggle: ".nav-toggle"});</script>
+</body>
+</html>

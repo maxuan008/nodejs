@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>#{prjname} </title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="/favicon.ico">
+<!--[if lte IE 8]><link rel="stylesheet" href="/respon/responsive-nav.css"><![endif]-->
+<!--[if gt IE 8]><!--><link rel="stylesheet" href="/respon/styles.css"><!--<![endif]-->
+<!--[if lt IE 9]><script src='/assets/js/ie8-responsive-file-warning.js'></script><![endif]-->
+<script src='/assets/js/ie-emulation-modes-warning.js'></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<!--<script src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js'></script> -->
+<!--<script src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js'></script>  -->
+<![endif]-->
+
+<script src="/respon/responsive-nav.js"></script>
+<script src='/js/jquery.min.js'> </script>
+<script src='/js/jquery.js'> </script>
+<script src='/js/gupiaoAjax.js'> </script>
+
+<script></script>
+
+
+
+<link href='/css/buttons.css' rel='stylesheet'>
+<link href='/css/bootstrap.min.css' rel='stylesheet'>
+<link href='/css/blog.css' rel='stylesheet'>
+
+
+
+
+
+
+</head>
+<body onload='getPrice()'>
+
+<input type='hidden' id='allcode' value="#{allcode}" >
+<div role="navigation" id="foo" class="nav-collapse">
+<ul>
+<li class="active"><a >Home</a></li>
+
+!{modelist}
+
+<li class="active"><a href='http://localhost:#{port}/projectSelecter' >退出</a></li>
+</ul>
+</div>
+<div role="main" class="main">
+<a href="#nav" class="nav-toggle">Menu</a>
+<h2>#{prjname}</h2>
+<a ><p class="intro">Role@user:#{username};       Date:#{date} </p></a>
+
+<div class="row-fluid">
+<div class="span12">
+
+<table id='table_gupiao' name= '#{modgupiaoxin}' class="table table-hover">
+<thead><tr>
+<th>股票信息</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+				
+<tbody>
+<tr>
+<td>股票</td>
+<td>代码</td>
+<td>股价</td>
+<td >操作</td>
+</tr>
+
+!{gupiaolist }
+
+
+<!--<tr class="success">-->
+<!--<td>华域汽车 </td>-->
+<!--<td>601166</td>-->
+<!--<td>13.3</td>-->
+<!--<td><a>修改</a>  <a>注销</a></td>-->
+<!--</tr>-->
+
+
+
+</tbody>
+</table>
+
+
+<table id='table_tianjia'  name= '#{modgupiaoxin}'   class="table table-hover">
+<tr name='tr_tianjia' id='tr_tianjia' class="info">
+<td name='td_gupiaoname_tianjia' id='td_gupiaoname_tianjia'  ><input name='input_gupiaoname_tianjia'  id='input_gupiaoname_tianjia'   type="text"  style="width:100px;"    placeholder="输入股票名称" required autofocus  /></td>
+<td name='td_gupiaocode_tianjia' id='td_gupiaocode_tianjia' ><input  name='input_gupiaocode_tianjia' id='input_gupiaocode_tianjia'  type="text"  style="width:100px;"    placeholder="股票代码" required autofocus /></td>
+<td name='td_gupiaoprice_tianjia' id='td_gupiaoprice_tianjia'><input  name='input_gupiaoprice_tianjia' id='input_gupiaoprice_tianjia'   type="text"  style="width:70px;"    placeholder="股价" required autofocus  /></td>
+<td><a class="button button-primary button-rounded button-small" onclick='AjaxAddGupiao()'>添加</a></td>
+</tr>
+</table>
+
+
+</div>
+</div>
+
+<script>var navigation = responsiveNav("foo", {customToggle: ".nav-toggle"});</script>
+</body>
+</html>

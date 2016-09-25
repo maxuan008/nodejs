@@ -1,0 +1,59 @@
+-- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
+--
+-- Host: localhost    Database: zhengquan
+-- ------------------------------------------------------
+-- Server version	5.7.12-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `qiquan_deal`
+--
+
+DROP TABLE IF EXISTS `qiquan_deal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `qiquan_deal` (
+  `qd_id` int(11) NOT NULL AUTO_INCREMENT,
+  `qq_id` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `buysell` float DEFAULT NULL,
+  `flag` tinyint(1) NOT NULL,
+  `count` int(11) NOT NULL,
+  `dealdate` date DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `price` float NOT NULL,
+  PRIMARY KEY (`qd_id`),
+  UNIQUE KEY `qd_id_UNIQUE` (`qd_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `qiquan_deal`
+--
+
+LOCK TABLES `qiquan_deal` WRITE;
+/*!40000 ALTER TABLE `qiquan_deal` DISABLE KEYS */;
+INSERT INTO `qiquan_deal` VALUES (1,19,37,NULL,1,50000,NULL,1,0.15),(2,19,37,NULL,2,40000,NULL,1,0.2),(3,20,37,NULL,1,3000,NULL,1,0.15),(4,20,37,NULL,2,2000,NULL,1,0.12),(5,21,72,NULL,1,5000,NULL,1,0.15),(6,21,72,NULL,2,2000,NULL,1,0.25),(7,22,72,NULL,1,8000,NULL,1,0.2),(8,22,72,NULL,2,5000,NULL,1,0.5),(9,19,37,NULL,2,5000,NULL,1,0.35),(10,19,37,NULL,2,2000,'2016-05-01',1,0.55),(11,20,37,NULL,1,3000,'2016-05-09',1,0.15),(12,20,37,NULL,2,1000,'2016-03-07',1,0.5);
+/*!40000 ALTER TABLE `qiquan_deal` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2016-05-26 21:20:02

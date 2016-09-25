@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>#{prjname}</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="/favicon.ico">
+<!--[if lte IE 8]><link rel="stylesheet" href="/respon/responsive-nav.css"><![endif]-->
+<!--[if gt IE 8]><!--><link rel="stylesheet" href="/respon/styles.css"><!--<![endif]-->
+<!--[if lt IE 9]><script src='/assets/js/ie8-responsive-file-warning.js'></script><![endif]-->
+<script src='/assets/js/ie-emulation-modes-warning.js'></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<!--<script src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js'></script> -->
+<!--<script src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js'></script>  -->
+<![endif]-->
+
+<script src="/respon/responsive-nav.js"></script>
+<script src='/js/jquery.min.js'> </script>
+<script src='/js/jquery.js'> </script>
+<script src='/js/gupiaoAjax.js'> </script>
+
+<script></script>
+
+
+
+<link href='/css/buttons.css' rel='stylesheet'>
+<link href='/css/bootstrap.min.css' rel='stylesheet'>
+<link href='/css/blog.css' rel='stylesheet'>
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div role="navigation" id="foo" class="nav-collapse">
+<ul>
+<li class="active"><a >Home</a></li>
+!{modelist}
+<li class="active"><a href='http://localhost:#{port}/projectSelecter' >退出</a></li>
+</ul>
+</div>
+<div role="main" class="main">
+<a href="#nav" class="nav-toggle">Menu</a>
+<h2>#{prjname} -- 期权资产表</h2>
+<a ><p class="intro">Role@user:#{username};       Date:#{date} </p></a>
+<br><br><br>
+<div class="row-fluid">
+<div class="span12">
+
+<table id='table_Blance' class="table table-hover">
+<thead><tr class='info'>
+<th >总资产： #{Balance_total}   (人民币)</th>
+<th></th>
+<th></th>
+<th></th>
+<td align='right' >
+<a href="/qiquan_balancesheetzhengquan" class="button button-primary button-pill button-small">刷新</a>
+</td>
+</tr></thead>
+				
+<tbody>
+<tr  class='success'>
+<td>期权/认沽认购</td>
+<td>持仓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>现价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>盈亏&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;操作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+
+!{Balancellist}
+
+
+
+
+
+
+</tbody>
+</table>
+
+
+
+
+</div>
+</div>
+
+<script>var navigation = responsiveNav("foo", {customToggle: ".nav-toggle"});</script>
+</body>
+</html>
