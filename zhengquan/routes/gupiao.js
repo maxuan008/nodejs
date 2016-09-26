@@ -404,27 +404,43 @@ Zhengquan.GetGupiaoSheetList= function GetGupiaoSheetList(userid, callback)
 			    	var mingxitmp='mingxi' + value.gp_id;
 					var yinglitmp='td_div_yingli' + value.gp_id;
 					var counttmp='td_div_count' + value.gp_id;
+					var jiaogetmp = 'jiaoge'+value.gp_id;
+					var shijitmp = 'shiji'+value.gp_id;
+
 
 		    		 total  = total + count * value.price;
-		    		 var yingli = ying + count * value.price ; yingli =yingli.toFixed(3);
+		    		 var yingli = ying + count * value.price ; yingli =yingli.toFixed(1);
 					 var jiaoge_yingli=data.jiaoge_yingli;  jiaoge_yingli = jiaoge_yingli.toFixed(1);
 					 var days = data.days  ; days = days.toFixed(1);
 					 
 					 var shiji_yingli =  data.jiaoge_yingli +  count * value.price;  shiji_yingli = shiji_yingli.toFixed(1); // shiji_shouyi = shiji_shouyi.toFixed(1);
 					 
 					 var yield =0;
+					 
+					 var  codeTmp= value.code + '' ;
+					 var  yingli_TMP = '';
+					 console.log(codeTmp,'len:', codeTmp.length );
+					 if(codeTmp.length == 5)  {  //如果为港股
+						 yingli_TMP = yingli + "(港币)";
+						 
+					 } else { //非港股
+						 yingli_TMP = yingli + "(元)";						 
+						 
+					 }
+
 					 					 
 		    		 var tr_tmp='tr_gupiaoSheet' +value.gp_id;
 		    		 reu=reu + " <tr id=\'" + tr_tmp +  "\'  class='success'> ";
 		    		 reu=reu + "<td>"+ value.name + " <br>"+ value.code + " </td>";
-		    		 reu=reu + "<td><div id='"+counttmp+"'>" + data.totalBuy + " / " +  count  + "</div></td>";
+		    		 reu=reu + "<td>" + data.totalBuy + " /<div id='"+counttmp+"'>" +  count  + "</div></td>";
 					 
 		    		 reu=reu + "<td> " + days + "(天) </td>";		
 					 			 
 		    		 reu=reu + "<td  ondblclick=\"showInput('"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\" ><div id='" + td_div_pricetmp +"' >" + value.price +"</div>  <input  id='"+td_input_pricetmp +"'  type='text'  value='"+value.price+"'  style='display: none; width:100px;'  onblur= \"updateKey('gupiao' , 'price', "+value.gp_id+", '"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\"  /> </div></td>";
-		    		 reu=reu + "<td><div id='"+yinglitmp+"'>" + yingli  + "</div></td>";
+		    		
+					 reu=reu + "<td><div id='"+yinglitmp+"'>" + yingli_TMP  + "</div></td>";
 
-					 reu=reu + "<td>" + jiaoge_yingli + "<br>("+ shiji_yingli + ")"  + "</div></td>";		 
+					 reu=reu + "<td><div id='"+jiaogetmp+"'  >" + jiaoge_yingli + "</div><br><label id='"+shijitmp+"' >"+ shiji_yingli + "</label>"  + "</td>";		 
 					 reu=reu + "<td>" + yield + "</div></td>";	
 					 					 
 		    		 reu=reu + "<td><a  id='"+mingxitmp+"'   onclick='addmingxi("+value.gp_id+")' >明细</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <a id='"+jiaoyitmp+"'   onclick=\"addGupiaoJiaoyi("+value.gp_id+", '"+value.name+"')\" >交易</a>" ;
@@ -437,7 +453,7 @@ Zhengquan.GetGupiaoSheetList= function GetGupiaoSheetList(userid, callback)
 			    	 callback();	    
 
 		    	});
-
+    
 		    }, function(err){
 		    	//console.log(reu);	    	
 				var allcode=idtmp + "|" + codetmp ;

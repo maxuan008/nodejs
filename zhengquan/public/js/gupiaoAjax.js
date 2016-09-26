@@ -710,6 +710,8 @@ function showprice()
 		  if(i>1)  listid= listid + "," +tmpcode;		  
 	  }
 	  
+	  //添加港币汇率
+	   listid= listid + ",fx_shkdcny";	
 	  //alert(listid);
 	  
 	  $.ajax({
@@ -720,15 +722,27 @@ function showprice()
 	
             success : function(){
                //alert(data)
-			   console.log(codevalue);
+			   //console.log(codevalue);
+
+			   var hk_shizhi_total=0, rmb_shizhi_total=0;
+			   var zhangmian_yingli_total=0, shiji_yingli_total=0;
+			   
 			   for(x in codevalue)
 			   { 
 				   //var tmp=eval('hq_str_sh' + codevalue[x]); 
 				   // alert(tmp);
-			
+			        //console.log(eval('hq_str_fx_shkdcny')); 
+					
+					var hk_hlstr = eval('hq_str_fx_shkdcny');
+					var hk_hlarr = hk_hlstr.split(',');
+					
+					var hk_exchange =  hk_hlarr[1];
+					//console.log('港币汇率:' ,  hk_exchange);
+					var 
+					
 				    sst = codevalue[x];
 				    codetype = sst[0]  ;
-
+ 
 				   //console.log('首位:', sst[0]);
 				   tmpstr='' , typeflag ='';
 				  if(codevalue[x].length == 6  && codevalue[x] != 'null')  {
@@ -736,40 +750,64 @@ function showprice()
 					  //判断股票属于哪个交易所，如：上海交易所，深圳交易所，香港交易所...
 				      if(sh_txt.indexOf(codetype) != -1  ) {tmpstr= "hq_str_sh" + codevalue[x];   typeflag='sh'; }
 					  else if(sz_txt.indexOf(codetype) != -1 ) {tmpstr= "hq_str_sz" + codevalue[x];   typeflag='sz'; }					  
-					
 			      }
-				  
-				  
+
 		          if(codevalue[x].length == 5 && codevalue[x] != 'null' )  {tmpstr= "hq_str_hk" + codevalue[x];  typeflag='hk';} 
 				  
-				  console.log(tmpstr,eval(tmpstr)); 
+				  //console.log(tmpstr,eval(tmpstr)); 
 			   
 				  if(x > 0 && eval(tmpstr)!='' ) {
 					  
 					var tmp=eval(tmpstr);  
-					console.log(codevalue[x], tmp); 
+					//console.log(codevalue[x], tmp); 
 					var ele=tmp.split(",");
 					
-					var prictmp=0,nametmp='';
+					var prictmp=0,nametmp='' , gupiao_value=0, new_shiji_yingli=0;
+					var count =$('#td_div_count'+idvalue[x]).text();
+					var jiaoge_yingli =  $('#jiaoge'+idvalue[x]).text()  ;
+					
+					
+			//var hk_shizhi_total=0, rmb_shizhi_total=0;
+			//   var zhangmian_yingli_total=0, shiji_yingli_total=0;
 					if(typeflag=='sh') {
 							 prictmp=ele[3];
-							 nametmp=ele[0];						
+							 nametmp=ele[0];
+							 gupiao_value = prictmp * count ; //股票市值
+							 rmb_shizhi_total =parseFloat( rmb_shizhi_total) + parseFloat(gupiao_value);
+
+							 					
 					}
 					
 				   if(typeflag=='sz') {
 							 prictmp=ele[3];
-							 nametmp=ele[0];						
+							 nametmp=ele[0];	
+							 gupiao_value = prictmp * count ;
+							 rmb_shizhi_total = parseFloat( rmb_shizhi_total )+  parseFloat(gupiao_value);
+			
 					}
 					
 					if(typeflag=='hk') {
-							 prictmp=ele[6];
-							 nametmp="HK" + ele[1];						
-					}					
+							 prictmp=ele[6]; 
+							 nametmp="HK" + ele[1];		
+							 gupiao_value = prictmp * count * hk_exchange;
+							 hk_shizhi_total =  parseFloat( hk_shizhi_total) +  parseFloat( gupiao_value);
+	 			
+					}		
+					
+					new_shiji_yingli = parseFloat(jiaoge_yingli)  + parseFloat(gupiao_value)  ;
+					shiji_yingli_total = shiji_yingli_total + new_shiji_yingli;
+					new_shiji_yingli=new_shiji_yingli.toFixed(1) + "(元)";
+					
+					//console.log('市值：',gupiao_value);
+					//console.log('交割：',jiaoge_yingli);				
+					//console.log(codevalue[x],prictmp, count,'实际盈利：',new_shiji_yingli);			
 
 					
-					
+					 //更新实际盈利
+					 $('#shiji'+idvalue[x]).text(new_shiji_yingli);
 					 //alert(ele[0]);
 					var divValuetmp=$('div#td_div_price'+idvalue[x]).text();
+					
 					
 					if(divValuetmp != prictmp )  //如果股价发生变化
 					  {
@@ -788,7 +826,18 @@ function showprice()
 						  var count=$('div#td_div_count'+idvalue[x]).text();
 						  var yinglitmp = parseFloat(yinglitmp) + (parseFloat(prictmp)-parseFloat(divValuetmp) ) * parseFloat(count);
 						  
-						  var yinglitmp =yinglitmp.toFixed(3);
+						  var yinglitmp =yinglitmp.toFixed(1);
+						  var zhangmianTmp = yinglitmp;
+						  if(typeflag == 'hk') {  //如果为港股
+							  yinglitmp = yinglitmp + '(港币)' ;
+							  zhangmianTmp =zhangmianTmp * hk_exchange;
+
+						  } else {
+							  yinglitmp = yinglitmp + '(元)' ;							  
+							  
+						  }
+						  
+						  zhangmian_yingli_total = parseFloat(zhangmian_yingli_total) + parseFloat(zhangmianTmp);
 						  
 						  //var a=1.27662727;
 						  //alert(a.toFixed(3));
@@ -807,6 +856,12 @@ function showprice()
 				   }	
 				   
 			   }  //for end
+			   shiji_yingli_total = shiji_yingli_total.toFixed(1);   zhangmian_yingli_total = zhangmian_yingli_total.toFixed(1);
+			   console.log('港股市值:', hk_shizhi_total, 'A股市值：', rmb_shizhi_total);
+			   console.log('账面盈亏总额:' , zhangmian_yingli_total , "实际盈亏总额：" , shiji_yingli_total );
+			   
+			   $('#rmb_total_value').text(rmb_shizhi_total);$('#hk_total_value').text(hk_shizhi_total);
+			   $('#zhangmian_total_yingli').text(zhangmian_yingli_total);$('#shiji_total_yingli').text(shiji_yingli_total + "(元)");			   
 
             } //success end
    
