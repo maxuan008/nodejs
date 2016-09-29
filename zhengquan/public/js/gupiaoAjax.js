@@ -857,11 +857,17 @@ function showprice()
 				   
 			   }  //for end
 			   shiji_yingli_total = shiji_yingli_total.toFixed(1);   zhangmian_yingli_total = zhangmian_yingli_total.toFixed(1);
+			   hk_shizhi_total = hk_shizhi_total.toFixed(1); 
+			   var total_val = parseFloat(rmb_shizhi_total) +  parseFloat(hk_shizhi_total) * hk_exchange;
+			   total_val = total_val.toFixed(1); 
 			   console.log('港股市值:', hk_shizhi_total, 'A股市值：', rmb_shizhi_total);
 			   console.log('账面盈亏总额:' , zhangmian_yingli_total , "实际盈亏总额：" , shiji_yingli_total );
 			   
-			   $('#rmb_total_value').text(rmb_shizhi_total);$('#hk_total_value').text(hk_shizhi_total);
-			   $('#zhangmian_total_yingli').text(zhangmian_yingli_total);$('#shiji_total_yingli').text(shiji_yingli_total + "(元)");			   
+			   $('#total_val').text(total_val+ "(元)");			   
+			   $('#rmb_total_value').text(rmb_shizhi_total+ "(元)");
+			   $('#hk_total_value').text(hk_shizhi_total+ "(港币)");
+			   $('#zhangmian_total_yingli').text(zhangmian_yingli_total);
+			   $('#shiji_total_yingli').text(shiji_yingli_total + "(元)");			   
 
             } //success end
    
