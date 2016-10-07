@@ -3,15 +3,29 @@
 var qiquanAllCodeInfo={};
 
 
-//页面加载运行
-(function(){
+//期权信息页面加载运行
+function qiquanLoad() {
    var allcodetmp = $('#allcode').val();
    qiquanAllCodeInfo=JSON.parse(allcodetmp);
    console.log('期权ID信息:',qiquanAllCodeInfo );
 
    getPrice();
 
-})();
+}
+
+
+//期权资产表页面加载运行
+function  qiquan_assets_Load() {
+
+  //console.log('abc');
+
+}	
+
+
+
+
+
+
 
 
 
@@ -600,7 +614,6 @@ function addmingxi(id)
 function addmingxi_qiquan(id)
 {
 	var tmp='';
-
 	var flag=$("input#mingxi"+id).val();
 	var jiaoyiFlag=$("input#jiaoyi"+id).val();
 	// alert(jiaoyiFlag) ;
@@ -628,10 +641,14 @@ function addmingxi_qiquan(id)
 				 //hide("slow");
 				 if(data.des==true) { 
 						tmp= tmp + "<tr  id='tr_SheetTmp"+id+"'   class='success' >  ";
-						tmp= tmp + "<td colspan='5' align='right'>  ";
+
+
+						tmp= tmp + "<td colspan='6' align='right'>  ";
 
 						tmp= tmp + "<table id='tb_SheetTmp"+id+"'   frame='below'> ";
 						tmp= tmp + "<thead><tr class='info'  > ";
+						tmp= tmp + "<th style='width:110px;' ></th> ";		
+						tmp= tmp + "<th style='width:110px;' ></th> ";					
 						tmp= tmp + "<th style='width:110px;' >日期</th> ";
 						tmp= tmp + "<th style='width:100px;' >买入/卖出</th> ";
 						tmp= tmp + "<th style='width:100px;' >成交价</th> ";
@@ -675,38 +692,34 @@ function addmingxi_qiquan(id)
 
 
 
-
-
-
-
 function addQiquanJiaoyi(id, str){
 	var tmp='';
 
 	tmp= tmp + " <tr  id='tr_SheetTmp"+id+"'  class='success'>  ";
-	tmp= tmp + "   <td colspan='5' align='right'>  ";
+	tmp= tmp + "   <td colspan='6' align='right'>  ";
 	tmp= tmp + " <table id='tb_SheetTmp"+id+"' frame='below'  > ";
-	tmp= tmp + " <tr><td colspan='5' align='right'> ";
+	tmp= tmp + " <tr><td colspan='6' align='right'> ";
 
 	tmp= tmp + " <div> &nbsp;<br>  ";
 	tmp= tmp + " <input id='nameTmp"+id+"' type='text'  style='width:185px;' placeholder='"+str+"' disabled   />&nbsp;&nbsp;&nbsp;";
-	tmp= tmp + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	tmp= tmp + "&nbsp;&nbsp;";
 	tmp= tmp + " <input id='priceTmp"+id+"' type='text'  style='width:100px;' placeholder='交易价格' required autofocus  />&nbsp;&nbsp;&nbsp; ";
-	tmp= tmp + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	tmp= tmp + "&nbsp;&nbsp;";
 	tmp= tmp + " <input id='countTmp"+id+"' type='text'  style='width:80px;' placeholder='数量' required autofocus  />&nbsp;&nbsp;&nbsp; ";
-	tmp= tmp + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	
-    tmp= tmp + " <input id='dealMoneyTmp"+id+"' type='text'  style='width:100px;' placeholder='交割金额' required autofocus  />&nbsp;&nbsp;&nbsp; ";
 	tmp= tmp + "&nbsp;&nbsp;";
 	
+    //tmp= tmp + " <input id='dealMoneyTmp"+id+"' type='text'  style='width:100px;' placeholder='交割金额' required autofocus  />&nbsp;&nbsp;&nbsp; ";
+	//tmp= tmp + "&nbsp;&nbsp;";
+	
 	tmp= tmp + " <input id='dateTmp"+id+"' type='text'  style='width:100px;' placeholder='交易日期' required autofocus  />&nbsp;&nbsp;&nbsp; ";
-	tmp= tmp + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	tmp= tmp + "&nbsp;&nbsp;";
 
 	
 	tmp= tmp + " <input id='remarkTmp"+id+"' type='text'  style='width:100px;' placeholder='备注' required autofocus  />&nbsp;&nbsp;&nbsp; ";
-	tmp= tmp + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	tmp= tmp + "&nbsp;&nbsp;";
 
 	tmp= tmp + "<a class='button button-primary button-rounded button-small' onclick='AjaxBuyQiquan("+id+",1)'>买入</a>";
-	tmp= tmp + "&nbsp;&nbsp;&nbsp;";
+	tmp= tmp + "&nbsp;&nbsp;";
 	tmp= tmp + "<a class='button button-primary button-rounded button-small' onclick='AjaxBuyQiquan("+id+",2)'>卖出</a>";
 
 	tmp= tmp + " <br></div></td></tr> ";
@@ -753,6 +766,8 @@ function AjaxBuy(id,flag) {
 	var deal_money=$("input#dealMoneyTmp"+id).val();	
 	var remark=$("input#remarkTmp"+id).val(); 
 
+
+ 
 	var datajson = {'id':id , 'flag':flag, 'price':price, 'Count':Count, 'Date':Date , 'deal_money' :deal_money ,'remark' :remark } ;
 	
 	if(price =='' || Count=='' || Date =='' || deal_money == '') {alert('warn:输入数据不能为空！')}
@@ -779,11 +794,22 @@ function AjaxBuyQiquan(id,flag) {
 	var price=$("input#priceTmp"+id).val();
 	var Count=$("input#countTmp"+id).val();
 	var Date=$("input#dateTmp"+id).val();
-	var deal_money=$("input#dealMoneyTmp"+id).val();	
+	//var deal_money=$("input#dealMoneyTmp"+id).val();	
 	var remark=$("input#remarkTmp"+id).val(); 
+
+	var deal_money=0;
+	var commission = 7;
+
+
+	if(flag==1)   deal_money = parseFloat(price * Count * 10000)  + parseFloat(commission * Count);
+	 else if(flag == 2)  deal_money = [parseFloat(price) * parseFloat(Count) * 10000]  - parseFloat(commission * Count);
+     
+	// console.log(deal_money);
+	deal_money = deal_money.toFixed(1);
 	
 	var datajson = {'id':id , 'flag':flag, 'price':price, 'Count':Count , 'Date':Date , 'deal_money' :deal_money ,'remark' :remark} ;
-	
+    console.log('参数:', datajson );
+
 	if(price =='' || Count=='' || Date =='' || deal_money == '' ) {alert('warn:输入数据不能为空！')}
 	else
 	$.ajax({

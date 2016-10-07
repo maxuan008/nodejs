@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 	//console.log(req.session.users);
 	//console.log(req.session.users);	
 
-	var result={};
+	var result={};    
 	if(req.session.users !=null  &&  req.session.selproject !=null ) {
 		//var date = new Date();
 		//var day =  date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();

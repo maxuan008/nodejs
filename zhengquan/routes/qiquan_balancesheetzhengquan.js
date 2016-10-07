@@ -9,6 +9,7 @@ var moment = require('moment');
 router.get('/', function(req, res, next) {
 	//console.log(req.session.users);
 	//console.log(req.session.selproject);	
+	var result={};
 	if(req.session.users !=null &&  req.session.selproject !=null) {
 		//var date = new Date();
 		//var day =  date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
@@ -19,10 +20,23 @@ router.get('/', function(req, res, next) {
 		
 	    Module.GetUsermodlist_V2(req.session.selproject['projid']  ,req.session.users['userid'],function(err,modlistdoc){
 			//console.log(modlistdoc);    ,
-			Gupiao.GetQiquanSheetList(req.session.users['userid'],function(err,list , total){     //  
+			Gupiao.GetQiquanSheetList(req.session.users['userid'],function(err,list , total ,datas){     
+				result.Balancellist = list;
+				result.modelist = modlistdoc ;   
+				result.Balance_total = total ;   
+				result.prjname = req.session.selproject['name'] ;   
+				result.date = day ;
+				result.username = req.session.users['name'] ;   
+				if(datas) { result.loadCodeInfo= datas.loadCodeInfo;  result.total_val = datas.shizhi_total ; result.shiji_total_yingli = datas.shiji_yingli_total ;  } 
+				              
 				Idindex.idfindone(function(err,IDdoc){
-				res.render('qiquan_balancesheetzhengquan', {Balancellist:list ,modelist:  modlistdoc  , Balance_total: total,   prjname: req.session.selproject['name'] , date:day, username:req.session.users['name'], port: IDdoc.homeport});
-				});
+                 
+				   result.port = IDdoc.homeport;           
+
+
+				   res.render('qiquan_balancesheetzhengquan',  result);
+				
+			    });
 			});
 						
 		});
