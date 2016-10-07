@@ -558,6 +558,7 @@ Zhengquan.GetQiquanSheetList= function GetQiquanSheetList(userid, callback) {
 					var yinglitmp='td_div_yingli' + value.qq_id;
 					var shijitmp = 'shiji'+ value.qq_id;
 					var jiaogetmp = 'jiaoge'+ value.qq_id;	
+					var counttmp = 'td_div_count' + value.qq_id;
 					var jiaoge = 0;
 
 					if(datasDoc) jiaoge =  datasDoc.jiaoge;
@@ -579,6 +580,7 @@ Zhengquan.GetQiquanSheetList= function GetQiquanSheetList(userid, callback) {
 
 						shizhi_total= shizhi_total.toFixed(1); 
 						shiji_yingli_total = shiji_yingli_total.toFixed(1);
+						shizhi = shizhi.toFixed(1);
 
 			    		var yingli = ying + count * value.price*10000;
 			    		var tr_tmp='tr_Sheet' +value.qq_id;
@@ -586,11 +588,11 @@ Zhengquan.GetQiquanSheetList= function GetQiquanSheetList(userid, callback) {
 
 			    		reu=reu + " <tr id=\'" + tr_tmp +  "\'  class='success'> ";
 			    		reu=reu + "<td>"+ nametmp + " </td>";
-			    		reu=reu + "<td>" + count + "</td>";
+			    		reu=reu + "<td><div id='" + counttmp + "'>" + count + "</div></td>";
 			    		reu=reu + "<td ><div id='" + td_div_pricetmp +"' >" + value.price +"</div></td>";
 			    		reu=reu + "<td ><div id='" + shizhitmp +"' >" + shizhi +"</div></td>";	
 								    	 
-			    		reu=reu + "<td><div id='"+jiaogetmp+"'  >" + jiaoge + "</div><label id='"+shijitmp+"' >"+ shiji_yingli + "</label>(元)"  + "</td>";	
+			    		reu=reu + "<td><div id='"+jiaogetmp+"'  >" + jiaoge + "</div><label id='"+shijitmp+"' >"+ shiji_yingli + "</label><label>(元)</label>"  + "</td>";	
 			    		reu=reu + "<td><a id='"+mingxitmp+"'   onclick='addmingxi_qiquan("+value.qq_id+")' >明细</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <a id='"+jiaoyitmp+"'   onclick=\"addQiquanJiaoyi("+value.qq_id+", '"+namestr+"')\" >交易</a>" ;
 		    		    reu=reu +	"<input type='hidden' id='"+jiaoyitmp+"' value='0' ><input type='hidden' id='"+mingxitmp+"'  value='0' ></td>";
 			    		reu=reu + "</tr>";
