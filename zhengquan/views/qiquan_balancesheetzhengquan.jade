@@ -16,9 +16,7 @@
 <![endif]-->
 
 <script src="/respon/responsive-nav.js"></script>
-<script src='/js/jquery.min.js'> </script>
-<script src='/js/jquery.js'> </script>
-<script src='/js/gupiaoAjax.js'> </script>
+
 
 <script></script>
 
@@ -54,11 +52,11 @@
 
 <table id='table_Blance' class="table table-hover">
 <thead><tr class='info'>
-<th >总资产： #{Balance_total}   (人民币)</th>
+<th  colspan='2' >总资产： #{Balance_total}   (人民币)</th>
 <th></th>
 <th></th>
 <th></th>
-<td align='right' >
+<td colspan='2'  >
 <a href="/qiquan_balancesheetzhengquan" class="button button-primary button-pill button-small">刷新</a>
 </td>
 </tr></thead>
@@ -66,24 +64,23 @@
 <tbody>
 <tr  class='success'>
 <td>期权/认沽认购</td>
-<td>持仓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td>现价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td>盈亏&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;操作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>持仓</td>
+<td>现价</td>
+<td>市值</td>
+<td>盈亏(账面/交割/实际)</td>
+<td>&nbsp;&nbsp;操作&nbsp;&nbsp;</td>
 </tr>
 
 !{Balancellist}
-
-
-
-
 
 
 </tbody>
 </table>
 
 
-
+<script src='/js/jquery.min.js'> </script>
+<script src='/js/jquery.js'> </script>
+<script src='/js/qiquanAjax.js'> </script>
 
 </div>
 </div>

@@ -122,6 +122,7 @@ function GetCountAndying(gp_id, callback) {
 	//console.log(sqlstr);
 	MySql.query(sqlstr, function(err, results) {
 		//console.log(results);
+		
 	  	if(results ==null)  return callback(err,0,0);
 		   else
 			   async.eachSeries(results,function(value,callback){
@@ -129,7 +130,7 @@ function GetCountAndying(gp_id, callback) {
 				   if(value.flag==2) {count=count - value.count;  ying = ying + value.count * value.price;} 
 			   }, function(err){
 			    
-			    	return callback(err,count, ying);
+		return callback(err,count, ying);
 
 		});  // async  end
 		   

@@ -1,0 +1,13 @@
+2016-05-26T18:47:03.776+0800 I CONTROL  [main] Hotfix KB2731284 or later update is not installed, will zero-out data files
+2016-05-26T18:47:03.781+0800 I CONTROL  [initandlisten] MongoDB starting : pid=6300 port=27017 dbpath=C:\mongodb\data 32-bit host=SC-201605251422
+2016-05-26T18:47:03.782+0800 I CONTROL  [initandlisten] targetMinOS: Windows Vista/Windows Server 2008
+2016-05-26T18:47:03.782+0800 I CONTROL  [initandlisten] db version v3.2.6
+2016-05-26T18:47:03.782+0800 I CONTROL  [initandlisten] git version: 05552b562c7a0b3143a729aaa0838e558dc49b25
+2016-05-26T18:47:03.782+0800 I CONTROL  [initandlisten] allocator: tcmalloc
+2016-05-26T18:47:03.783+0800 I CONTROL  [initandlisten] modules: none
+2016-05-26T18:47:03.783+0800 I CONTROL  [initandlisten] build environment:
+2016-05-26T18:47:03.783+0800 I CONTROL  [initandlisten]     distarch: i386
+2016-05-26T18:47:03.783+0800 I CONTROL  [initandlisten]     target_arch: i386
+2016-05-26T18:47:03.783+0800 I CONTROL  [initandlisten] options: { config: "C:\mongodb\mongo.config", storage: { dbPath: "C:\mongodb\data" }, systemLog: { destination: "file", path: "C:\mongodb\log\mongo.log" } }
+2016-05-26T18:47:03.786+0800 I STORAGE  [initandlisten] exception in initAndListen: 28663 Cannot start server. The default storage engine 'wiredTiger' is not available with this build of mongod. Please specify a different storage engine explicitly, e.g. --storageEngine=mmapv1., terminating
+2016-05-26T18:47:03.786+0800 I CONTROL  [initandlisten] dbexit:  rc: 100

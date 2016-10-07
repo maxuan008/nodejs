@@ -1,4 +1,4 @@
-var express = require('express');
+   var express = require('express');
 var router = express.Router();
 var Module=require('./module');
 var Gupiao=require('./gupiao');
@@ -9,6 +9,8 @@ var moment = require('moment');
 router.get('/', function(req, res, next) {
 	//console.log(req.session.users);
 	//console.log(req.session.users);	
+
+	var result={};
 	if(req.session.users !=null  &&  req.session.selproject !=null ) {
 		//var date = new Date();
 		//var day =  date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
@@ -19,11 +21,26 @@ router.get('/', function(req, res, next) {
 		Module.GetUsermodlist_V2(req.session.selproject['projid']  ,req.session.users['userid'],function(err,modlistdoc){
 			//console.log(modlistdoc);   
 			//console.log('A');  
-			Gupiao.GetQiquanList(req.session.users['userid'],function(err,list){  
-				//console.log('B');  
+		
+			Gupiao.GetQiquanList(req.session.users['userid'],function(err,list,datas){  
+				console.log('B',datas); 
+
+				result.modelist = modlistdoc; 
+				result.list = list;
+				result.prjname = req.session.selproject['name'];
+				result.date=day ;
+				result.username=req.session.users['name'] ;
+				if(datas) result.loadCodeInfo= datas.loadCodeInfo;
+				
+
+
 				Idindex.idfindone(function(err,IDdoc){
+					result.port=IDdoc.homeport ;
+					console.log('IDdoc:',IDdoc);
+
+
 					//console.log('C');    
-				  res.render('qiquanzhengquan', {modelist:  modlistdoc  , 'list':list ,  prjname: req.session.selproject['name'] , date:day, username:req.session.users['name'], port: IDdoc.homeport });
+				  res.render('qiquanzhengquan', result);
 				});
 			});
 						

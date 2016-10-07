@@ -79,6 +79,19 @@ function IsGupiaoExist(gupiaoname  , gupiaocode ,userid, callback) {
  }
 
 
+ Zhengquan.IsExistDeal_qiquan= function IsExistDeal_qiquan(qq_id,userid,callback) {
+	var sqlstr="select * FROM `qiquan_deal`  where  `status` = 1 and `userid`='"+ userid +"' and `qq_id` = '" + qq_id + "'  ";
+	console.log(sqlstr);
+	MySql.query(sqlstr, function(err, doc) {
+		 console.log(doc);
+	     return callback(err,doc)
+    }); 
+	 
+ }
+
+
+
+
 
 Zhengquan.AddGupiao=function AddGupiao(gupiaoname  , gupiaocode , gupiaoprice ,userid,callback) {
 	 IsGupiaoExist(gupiaoname  , gupiaocode ,userid, function(err ,flag){
@@ -205,8 +218,20 @@ Zhengquan.mingxi = function mingxi(userid , sql, callback) {
 Zhengquan.qiquanbuy=function qiquanbuy(userid,sql, callback) {
 	//console.log(sql); //console.log(userid) 
 	//var sqlstr = "INSERT INTO qiquan_deal  SET  'gp_id': parseInt(sql['id']) "
-	
-MySql.query('INSERT INTO qiquan_deal  SET ?',  {'dealdate': sql['Date'] , 'qq_id': parseInt(sql['id']) ,'price': parseFloat(sql['price']) ,  'userid': parseInt(userid )   ,  'flag': parseInt(sql['flag'] ) ,  'count':  sql['Count'], 'status': 1  } , function(err, doc) {
+	//deal_money
+    var data={};
+	data.deal_money = sql.deal_money;
+	data.dealdate = sql.Date;
+	data.qq_id = parseInt(sql['id']) ;
+	data.price = parseFloat(sql['price']);
+	data.userid = parseInt(userid );
+	data.flag = sql.parseInt(sql['flag'] );
+	data.count = sql['Count'];	
+	data.status = 1;	
+	data.remark = sql.remark;	
+
+	console.log(data);
+MySql.query('INSERT INTO qiquan_deal  SET ?',  data , function(err, doc) {
 				 // console.log(err);  console.log(doc);
     //console.log(err);
 	//return callback(null);
@@ -264,13 +289,15 @@ Zhengquan.GetGupiaoList= function GetGupiaoList(userid,callback) {
 Zhengquan.GetQiquanList = function GetQiquanList(userid,callback){
 	var reu='', nulltmp=null,n=0 ;
     var sqlstr="SELECT * FROM `qiquan`  where status = 1 and userid=" + userid;
+	var loadCodeInfo={} , datas={} ;
 	MySql.query(sqlstr, function(err, results) {
 		   if (err) callback(err);
 		   
 		    //console.log(results);
-		    if(results.length==0) return callback(err,nulltmp);
+		    if(results.length==0) return callback(err,nulltmp,datas);
 		    
 		    async.eachSeries(results,function(value,callback){
+                loadCodeInfo[value.qq_id] = value.code;
 		    	var tr_tmp= 'tr_qiquan' + value.qq_id ,  hid_tmp= 'hid_qiquan' + value.qq_id  ;
 		    	var td_div_nametmp='td_div_name'+value.qq_id  ,   td_div_codetmp='td_div_code' + value.qq_id, td_div_pricetmp='td_div_price' + value.qq_id;
 		    	var td_input_nametmp='td_input_name'+value.qq_id,   td_input_codetmp='td_input_code' + value.qq_id, td_input_pricetmp='td_input_price' + value.qq_id;
@@ -311,7 +338,12 @@ Zhengquan.GetQiquanList = function GetQiquanList(userid,callback){
 		    	
 		    }, function(err){
 		    	//MySql.end();
-		    	return callback(err,reu);
+
+				console.log(loadCodeInfo);
+
+				datas.loadCodeInfo = JSON.stringify(loadCodeInfo);
+
+		    	return callback(err,reu,datas);
 		    
 		   
 		    });  // async  end

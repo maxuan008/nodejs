@@ -809,7 +809,7 @@ function showprice()
 					var divValuetmp=$('div#td_div_price'+idvalue[x]).text();
 					
 					
-					if(divValuetmp != prictmp )  //如果股价发生变化
+					if(divValuetmp != '' )  //如果股价发生变化
 					  {
 					    
 					     //$('div#td_div_price'+idvalue[x]).addClass("FireBrick"); 
@@ -827,6 +827,9 @@ function showprice()
 						  var yinglitmp = parseFloat(yinglitmp) + (parseFloat(prictmp)-parseFloat(divValuetmp) ) * parseFloat(count);
 						  
 						  var yinglitmp =yinglitmp.toFixed(1);
+						  
+
+						  
 						  var zhangmianTmp = yinglitmp;
 						  if(typeflag == 'hk') {  //如果为港股
 							  yinglitmp = yinglitmp + '(港币)' ;
@@ -837,7 +840,7 @@ function showprice()
 							  
 						  }
 						  
-						  zhangmian_yingli_total = parseFloat(zhangmian_yingli_total) + parseFloat(zhangmianTmp);
+						 zhangmian_yingli_total = zhangmian_yingli_total  +    parseFloat(zhangmianTmp);
 						  
 						  //var a=1.27662727;
 						  //alert(a.toFixed(3));
