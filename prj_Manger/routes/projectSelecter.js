@@ -15,34 +15,26 @@ function sleep(milliSeconds) {
 router.post('/',function(req,res,next) {
     console.log(req.session.users);
 	console.log(req.session.selecterPrj);
+
+	//console.log('URL:',req.hostname);
+    
 	if(req.session.users !=null && req.session.selecterPrj!=null ) {   
 		var ep = new EventProxy();
-	
+	    var hostname = req.hostname;
 		//console.log('Session PRJ:' + req.session.selecterPrj);
 		//console.log(req.session);
 	     var projid=0;
-	
+	   
 	      //res.render('error',{message:'ERROR TEST'})
 	
 		Project.Prjfindone_X(1, req.session.selecterPrj,function(err,doc){
-			//console.log(doc.name +',port:' +doc.port);
-		
-		var objj = {a: 1, b: 2 , c:3};
-		async.forEachOf(objj, function (value, key, callback) {
-	
-		  if(value == 1) {
-			     req.session.selproject=doc;
-				 req.session.selecterPrj=null;  
-			     callback();
-			   }  else {  callback(); }	  
 
-		  }, function (err) {
-			if (err) console.log(err);
-			res.redirect("http://localhost:" + doc.port + "/"); 
-		});
 			
-			
-	  });
+			req.session.selproject=doc;
+			req.session.selecterPrj=null; 
+			console.log(doc.name +',port:' +doc.port);
+			res.redirect("http://" + hostname + ":" + doc.port + "/"); 
+	    });
 			
 	} else {
 		 res.redirect('/');
