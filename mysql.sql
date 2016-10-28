@@ -40,7 +40,7 @@ CREATE TABLE `gupiao` (
 
 LOCK TABLES `gupiao` WRITE;
 /*!40000 ALTER TABLE `gupiao` DISABLE KEYS */;
-INSERT INTO `gupiao` VALUES (51,'600741','华域汽车',1,14.233,37),(56,'601166','兴业银行',1,12,37),(57,'600519','贵州茅台',1,250,37),(59,'600660','福耀玻璃',1,13.9,38),(67,'600660','福耀玻璃',1,13.677,37),(68,'601166','兴业银行',1,15.5,72),(69,'601006','大秦铁路',1,6.35,72),(70,'999999','test',1,9.9,72),(71,'000000','注销',0,1,72),(72,'601939','建设银行',1,4.8,3),(73,'600519','贵州茅台',1,256.13,3),(74,'600741','华域汽车',1,14.28,3),(75,'600660','福耀玻璃',1,14.49,3),(76,'600265','*ST景谷',1,25.08,3),(77,'601939','建设银行',0,5.23,12),(78,'601166','兴业银行',0,15.98,12),(79,'600519','贵州茅台',0,256.13,12),(80,'600519','贵州茅台',0,297.68,12),(81,'656770','test',0,1,12),(82,'06818','HK光大银行',0,3,12),(83,'00656','福星',0,13,12),(84,'00656','HK复星国际',1,11.38,12),(85,'00939','HK建设银行',1,5.64,12),(86,'06818','HK中国光大银行',1,3.58,12),(87,'600741','华域汽车',1,15.81,12),(88,'150175','H股A',1,1.045,12),(89,'150194','互联网A',1,1.082,12),(90,'150207','地产A端',1,1.077,12),(91,'601166','兴业银行',1,15.98,12),(92,'601939','建设银行',1,5.14,12),(93,'600660','福耀玻璃',1,17.66,12),(94,'600519','贵州茅台',0,297.68,12),(95,'600519','贵州茅台',0,297.68,12);
+INSERT INTO `gupiao` VALUES (51,'600741','华域汽车',1,14.233,37),(56,'601166','兴业银行',1,12,37),(57,'600519','贵州茅台',1,250,37),(59,'600660','福耀玻璃',1,13.9,38),(67,'600660','福耀玻璃',1,13.677,37),(68,'601166','兴业银行',1,15.5,72),(69,'601006','大秦铁路',1,6.35,72),(70,'999999','test',1,9.9,72),(71,'000000','注销',0,1,72),(72,'601939','建设银行',1,4.8,3),(73,'600519','贵州茅台',1,256.13,3),(74,'600741','华域汽车',1,14.28,3),(75,'600660','福耀玻璃',1,14.49,3),(76,'600265','*ST景谷',1,25.08,3),(77,'601939','建设银行',0,5.23,12),(78,'601166','兴业银行',0,15.98,12),(79,'600519','贵州茅台',0,256.13,12),(80,'600519','贵州茅台',0,297.68,12),(81,'656770','test',0,1,12),(82,'06818','HK光大银行',0,3,12),(83,'00656','福星',0,13,12),(84,'00656','HK复星国际',1,11.44,12),(85,'00939','HK建设银行',1,5.62,12),(86,'06818','HK中国光大银行',1,3.55,12),(87,'600741','华域汽车',1,16.24,12),(88,'150175','H股A',1,1.059,12),(89,'150194','互联网A',1,1.074,12),(90,'150207','地产A端',1,1.072,12),(91,'601166','兴业银行',1,16.27,12),(92,'601939','建设银行',1,5.26,12),(93,'600660','福耀玻璃',1,17.48,12),(94,'600519','贵州茅台',0,297.68,12),(95,'600519','贵州茅台',0,297.68,12);
 /*!40000 ALTER TABLE `gupiao` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +96,7 @@ CREATE TABLE `qiquan` (
   `userid` int(11) NOT NULL,
   PRIMARY KEY (`qq_id`),
   UNIQUE KEY `qq_id_UNIQUE` (`qq_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +105,7 @@ CREATE TABLE `qiquan` (
 
 LOCK TABLES `qiquan` WRITE;
 /*!40000 ALTER TABLE `qiquan` DISABLE KEYS */;
-INSERT INTO `qiquan` VALUES (34,'10000699','50ETF购10月2200',0,1,NULL,0.05,12),(35,'10000712','1',0,2,NULL,1,12),(36,'10000707','50ETF沽10月2350',0,2,NULL,0.118,12),(37,'10000706','50ETF沽10月2300',0,2,NULL,0.0742,12),(38,'10000706','50ETF沽10月2300',0,2,NULL,0.0742,12),(39,'10000629','50ETF购12月1950',1,1,NULL,0.2901,12),(40,'10000630','50ETF沽12月1950',0,2,NULL,0.0035,12),(41,'10000671','50ETF购3月2100',0,1,NULL,0.1737,12),(42,'10000682','50ETF沽3月2350',0,2,NULL,0.1823,12);
+INSERT INTO `qiquan` VALUES (34,'10000699','50ETF购10月2200',0,1,NULL,0.05,12),(35,'10000712','1',0,2,NULL,1,12),(36,'10000707','50ETF沽10月2350',0,2,NULL,0.118,12),(37,'10000706','50ETF沽10月2300',0,2,NULL,0.0742,12),(38,'10000706','50ETF沽10月2300',0,2,NULL,0.0742,12),(39,'10000629','50ETF购12月1950',1,1,NULL,0.351,12),(40,'10000630','50ETF沽12月1950',0,2,NULL,0.0035,12),(41,'10000671','50ETF购3月2100',0,1,NULL,0.1737,12),(42,'10000682','50ETF沽3月2350',0,2,NULL,0.1823,12),(43,'10000629','50ETF购12月1950',0,1,NULL,0.361,12),(44,'10000671','50ETF购3月2100',1,1,NULL,0.2084,12),(45,'10000671','50ETF购3月2100',0,1,NULL,0.2084,12);
 /*!40000 ALTER TABLE `qiquan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +130,7 @@ CREATE TABLE `qiquan_deal` (
   `remark` text NOT NULL COMMENT '备注',
   PRIMARY KEY (`qd_id`),
   UNIQUE KEY `qd_id_UNIQUE` (`qd_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,8 +139,37 @@ CREATE TABLE `qiquan_deal` (
 
 LOCK TABLES `qiquan_deal` WRITE;
 /*!40000 ALTER TABLE `qiquan_deal` DISABLE KEYS */;
-INSERT INTO `qiquan_deal` VALUES (3,39,12,NULL,1,2,'2016-07-21',1,0.279,5594,''),(4,39,12,NULL,1,3,'2016-07-21',1,0.2798,8415,''),(5,39,12,NULL,1,2,'2016-09-05',1,0.3406,6826,'');
+INSERT INTO `qiquan_deal` VALUES (3,39,12,NULL,1,2,'2016-07-21',1,0.279,5594,''),(4,39,12,NULL,1,3,'2016-07-21',1,0.2798,8415,''),(5,39,12,NULL,1,2,'2016-09-05',1,0.3406,6826,''),(6,39,12,NULL,2,5,'2016-10-25',1,0.3631,18120,''),(7,39,12,NULL,2,2,'2016-10-25',1,0.3623,7232,''),(10,44,12,NULL,1,7,'2016-10-25',1,0.2198,15435,'');
 /*!40000 ALTER TABLE `qiquan_deal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `refer_qiquan`
+--
+
+DROP TABLE IF EXISTS `refer_qiquan`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `refer_qiquan` (
+  `rq_id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(45) DEFAULT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `flag` tinyint(1) DEFAULT NULL,
+  `cancelDate` date DEFAULT NULL,
+  `buy_1` varchar(45) DEFAULT NULL,
+  `userid` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`rq_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='智能期权的对比物';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `refer_qiquan`
+--
+
+LOCK TABLES `refer_qiquan` WRITE;
+/*!40000 ALTER TABLE `refer_qiquan` DISABLE KEYS */;
+/*!40000 ALTER TABLE `refer_qiquan` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -152,4 +181,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-20 17:46:01
+-- Dump completed on 2016-10-28 17:30:00

@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
 		
 	    Module.GetUsermodlist_V2(req.session.selproject['projid']  ,req.session.users['userid'],function(err,modlistdoc){
 			//console.log(modlistdoc);    ,
-			Gupiao.GetQiquanSheetList(req.session.users['userid'],function(err,list , total ,datas){     
+			Gupiao.GetQiquanSheetList_for_auto(req.session.users['userid'],function(err,list , total ,datas){     
 				result.Balancellist = list;
 				result.modelist = modlistdoc ;   
 				result.Balance_total = total.toFixed(2) ;   
@@ -34,7 +34,7 @@ router.get('/', function(req, res, next) {
 				   result.port = IDdoc.homeport;           
 
 
-				   res.render('qiquan_balancesheetzhengquan',  result);
+				   res.render('autoDecisionzhengquan',  result);
 				
 			    });
 			});

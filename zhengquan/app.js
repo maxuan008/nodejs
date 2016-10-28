@@ -19,6 +19,10 @@ var gupiaozhengquan= require('./routes/gupiaozhengquan');
 var gupiao_balancesheetzhengquan = require('./routes/gupiao_balancesheetzhengquan');
 var qiquanzhengquan = require('./routes/qiquanzhengquan');
 var qiquan_balancesheetzhengquan = require('./routes/qiquan_balancesheetzhengquan');
+var autoDecisionzhengquan = require('./routes/autoDecisionzhengquan');
+
+
+
 
 //var cancelprj = require('./routes/cancelprj');
 //var addaccountAdm=require('./routes/addaccountAdm');
@@ -33,7 +37,10 @@ var AjaxCancelGupiao=require('./routes/AjaxCancelGupiao');
 var AjaxAddGupiao=require('./routes/AjaxAddGupiao');
 var AjaxupdateKey=require('./routes/AjaxupdateKey');
 var AjaxAddqiquan=require('./routes/AjaxAddqiquan');
+var AjaxAddqiquan_refer=require('./routes/AjaxAddqiquan_refer');
 var AjaxCancelQiquan=require('./routes/AjaxCancelQiquan');
+var AjaxCancelQiquan_refer=require('./routes/AjaxCancelQiquan_refer');
+
 var AjaxBuy=require('./routes/AjaxBuy');
 var AjaxBuyQiquan=require('./routes/AjaxBuyQiquan');
 
@@ -99,6 +106,8 @@ app.use('/gupiaozhengquan',gupiaozhengquan);
 app.use('/gupiao_balancesheetzhengquan',gupiao_balancesheetzhengquan);
 app.use('/qiquanzhengquan',qiquanzhengquan);
 app.use('/qiquan_balancesheetzhengquan',qiquan_balancesheetzhengquan);
+app.use('/autoDecisionzhengquan',autoDecisionzhengquan);
+
 
 //app.use('/cancelprj', cancelprj);
 //app.use('/addaccountAdm',  addaccountAdm);
@@ -115,7 +124,12 @@ app.use('/AjaxAddGupiao', AjaxAddGupiao);
 
 app.use('/AjaxupdateKey', AjaxupdateKey);
 app.use('/AjaxAddqiquan', AjaxAddqiquan);
+app.use('/AjaxAddqiquan_refer', AjaxAddqiquan_refer);
+
+
 app.use('/AjaxCancelQiquan', AjaxCancelQiquan);
+app.use('/AjaxCancelQiquan_refer', AjaxCancelQiquan_refer);
+
 app.use('/AjaxBuy', AjaxBuy);
 app.use('/AjaxBuyQiquan', AjaxBuyQiquan);
 app.use('/AjaxMingxi', AjaxMingxi);

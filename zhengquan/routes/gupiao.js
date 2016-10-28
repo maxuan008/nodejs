@@ -619,6 +619,116 @@ Zhengquan.GetQiquanSheetList= function GetQiquanSheetList(userid, callback) {
 
  
  
+
+
+
+
+
+
+
+Zhengquan.GetQiquanSheetList_for_auto= function GetQiquanSheetList_for_auto(userid, callback) {
+	var reu='', nulltmp=null, total=0, nametmp='' , namestr='', shizhi=0 , shizhi_total = 0, shiji_yingli_total = 0;
+    var sqlstr= "SELECT * FROM `qiquan`   where status = 1 and userid=  " + userid;
+    //console.log(sqlstr);
+	var loadCodeInfo={} , datas={} ;
+	MySql.query(sqlstr, function(err, results) {
+		   if (err) callback(err);
+		   // console.log(results);
+		    //console.log('cont:'+results.length);
+
+		    if(results.length==0)   return callback(err,null,total ,datas);
+		    else 
+		    async.eachSeries(results,function(value,callback){
+		    	
+		     GetCountAndying_qiquan(value.qq_id, userid, function(err,count,ying, n , datasDoc){	
+					
+				if(count == 0) callback();	
+				else {				
+						loadCodeInfo[value.qq_id] = value.code;
+						var td_div_pricetmp='td_div_price' + value.qq_id;
+						var td_input_pricetmp='td_input_price' + value.qq_id;
+						var shizhitmp='td_shizhi' + value.qq_id;
+						var jiaoyitmp='jiaoyi' + value.qq_id;
+						var mingxitmp='mingxi' + value.qq_id;
+						var yinglitmp='td_div_yingli' + value.qq_id;
+						var shijitmp = 'shiji'+ value.qq_id;
+						var jiaogetmp = 'jiaoge'+ value.qq_id;	
+						var counttmp = 'td_div_count' + value.qq_id;
+						var jiaoge = 0;
+
+						if(datasDoc) jiaoge =  datasDoc.jiaoge;
+
+						var  shiji_yingli = parseFloat(jiaoge) +  count * value.price*10000;
+
+						shiji_yingli = shiji_yingli.toFixed(1);
+
+						nametmp=value.name + "&nbsp;&nbsp;<br> ("+value.code +") ";  
+						namestr =value.name +"  "+ value.code  ;  
+
+						total  = total + count * value.price*10000;
+						shizhi = count * value.price*10000;
+
+						shizhi_total = parseFloat(shizhi_total) + parseFloat(shizhi);
+						shiji_yingli_total = parseFloat(shiji_yingli_total) + parseFloat(shiji_yingli);
+
+						shizhi_total= shizhi_total.toFixed(1); 
+						shiji_yingli_total = shiji_yingli_total.toFixed(1);
+						shizhi = shizhi.toFixed(1);
+
+						var yingli = ying + count * value.price*10000;
+						var tr_tmp='tr_Sheet' +value.qq_id;
+
+						reu=reu + " <tr id=\'" + tr_tmp +  "\'  class='success'> ";
+						reu=reu + "<td>"+ nametmp + " </td>";
+						reu=reu + "<td><div id='" + counttmp + "'>" + count + "</div></td>";
+						reu=reu + "<td ><div id='" + td_div_pricetmp +"' >" + value.price +"</div></td>";
+						reu=reu + "<td ><div id='" + shizhitmp +"' >" + shizhi +"</div></td>";	
+										
+						reu=reu + "<td><div id='"+jiaogetmp+"'  >" + jiaoge + "</div><label id='"+shijitmp+"' >"+ shiji_yingli + "</label><label>(元)</label>"  + "</td>";	
+						reu=reu + "<td><a id='"+mingxitmp+"'   onclick='addmingxi_qiquan("+value.qq_id+")' >明细</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <a id='"+jiaoyitmp+"'   onclick=\"addQiquanJiaoyi("+value.qq_id+", '"+namestr+"')\" >交易</a>" ;
+						reu=reu +	"<input type='hidden' id='"+jiaoyitmp+"' value='0' ><input type='hidden' id='"+mingxitmp+"'  value='0' ></td>";
+						reu=reu + "</tr>";
+						callback();	
+					} //if end
+
+		     });
+
+		 }, function(err){
+		    	//console.log(reu);
+
+				console.log(loadCodeInfo);
+				datas.loadCodeInfo = JSON.stringify(loadCodeInfo);
+				datas.shizhi_total =  shizhi_total;
+				datas.shiji_yingli_total = shiji_yingli_total;
+		    	
+		    	return callback(err,reu,total ,datas);
+		   
+		    });  // async  end
+		    
+		 	
+    });  // MySql  query  end
+
+}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  Zhengquan.updateSQLstring = function updateSQLstring(sql, userid, callback) {
 	 var sqlstr=sql + " and `userid` = '" + userid +"'";
 	 console.log(sqlstr);

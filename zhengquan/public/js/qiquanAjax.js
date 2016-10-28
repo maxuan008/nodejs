@@ -2,6 +2,10 @@
 
 var qiquanAllCodeInfo={};
 
+var qiquanRefer={};  //智能决策的参照物
+
+
+
 
 //期权信息页面加载运行
 function qiquanLoad() {
@@ -22,6 +26,42 @@ function  qiquan_assets_Load() {
    getPrice_qiquan();
 
 }	
+
+
+//决策系统加载运行
+function qiquan_autoDecision_Load() {
+   var allcodetmp = $('#allcode').val();
+   qiquanAllCodeInfo=JSON.parse(allcodetmp);
+   console.log('期权ID信息:',qiquanAllCodeInfo );
+   getPrice_qiquan_autoDecision();
+
+}
+
+function getPrice_qiquan_autoDecision()
+{
+ showprice_qiquan();
+ 
+ //在规定的时间段进行实时股价显示 如 09:00---16:20
+ 
+ var oDate = new Date();
+ var oMonth = oDate.getMonth() +1;
+ var oDay = oDate.getFullYear() + "-" + oMonth + "-" + oDate.getDate();
+ 
+ console.log(oDay);
+ 
+ var headTime = oDay + " 09:00:00";
+ var footTime = oDay + " 15:10:00";
+ 
+ var time1 = Date.parse(headTime);
+ var time2 = Date.parse(footTime);
+ var nowtimeStamp = Date.parse(new Date());
+ 
+ console.log(time1, nowtimeStamp, time2 );
+ 
+ if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice_qiquan()",30000);	
+
+}
+
 
 
 function getPrice_qiquan()
@@ -48,6 +88,11 @@ function getPrice_qiquan()
  if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice_qiquan()",30000);	
 
 }
+
+
+
+
+
 
 
 function showprice_qiquan() {
@@ -384,6 +429,106 @@ function  AjaxAddGupiao()
 }
 
 
+
+
+
+function isReferExist(code){
+   var flag =0;
+  $.each(qiquanRefer,function(id,val){
+      if(val == code ) flag =1;
+  });
+
+  return flag;
+
+}
+
+
+
+
+
+function AjaxAddqiquan_auto() 
+{
+	//var name=$('#input_qiquanname_tianjia').val();
+	var code=$('#input_qiquancode_tianjia').val();
+	//var price=$('#input_qiquanprice_tianjia').val();
+	//var flag=$('select#qiquanflag').val();
+	var flagname='';
+     
+	if(isReferExist(code) == 1 ) {alert('此期权已存在.'); return ;}
+	
+	//if(flag==1) flagname='认购';
+	//if(flag==2) flagname='认沽';
+	//alert(name);alert(code);alert(price);	alert(flag);
+	
+	if( code==''  )  alert('Warn:请检查输入期权数据,  数据不能为空!'); 
+	
+	else
+		{
+
+		 $.ajax({
+			 url:'/AjaxAddqiquan_refer',
+			 data:{ 'code':code   },
+			 type:'Post',
+			 datatype:'json',
+			 
+			 success: function(data) {
+				 
+				 //alert(data.des); alert(data.gp_id)
+				 if(data.status=='200') {
+					// alert('添加成功');
+					// $('#input_qiquanname_tianjia').val(null);
+					// $('#input_qiquancode_tianjia').val(null);
+					// $('#input_qiquanprice_tianjia').val(null);
+					// alert(data.id);
+
+					 
+						var  trtmp= "<tr id='tr_qiquan"+data.id+"' class='success'> ";
+						trtmp = trtmp +  "<td  > <div id='td_div_name"+data.id+"' ></div>" +
+					                      "</td>" ;
+						trtmp = trtmp +  "<td  > <div id='td_div_flag"+data.id+"' ></div>" +
+								"  </td>" ;
+						trtmp = trtmp +  "<td  ondblclick=\"showInput('td_input_code"+data.id+"','td_div_code"+data.id+"')\">  <div id='td_div_code"+data.id+"' >" + code + "</div><input  id='td_input_code"+data.id+"'  type='text'  value='" + code + "'  style='display: none; width:100px;'   onblur=\"updateSQL(  'qiquan' , 'code' ,  'qq_id' , "+data.id+" ,'td_input_code"+data.id+"','td_div_code"+data.id+"', 1)\"   /></td>" ;
+						
+						trtmp = trtmp +	"<td  >   <div id='td_div_price"+data.id+"' ></div></td>";
+						
+						trtmp= trtmp +  "<td> <a onclick=\'AjaxCancelQiquan_auto("+data.id+")\'>注销</a></td> ";
+						trtmp= trtmp +  "</tr>";
+						//alert(trtmp);
+						
+						$("table#table_qiquan").append(trtmp); 
+
+                        qiquanRefer[data.id] =code;
+
+					 }
+				 
+					if(data.status=='404')  alert('warn:' + data.err);
+			 }
+			 
+		 });  //ajax end
+			
+		}//if end
+
+
+
+
+}
+
+
+
+
+function isQiquanExist(code){
+   var flag =0;
+  $.each(qiquanAllCodeInfo,function(id,val){
+      if(val == code ) flag =1;
+  });
+
+  return flag;
+
+}
+
+
+
+
 function AjaxAddqiquan()
 {
 	var name=$('#input_qiquanname_tianjia').val();
@@ -392,7 +537,7 @@ function AjaxAddqiquan()
 	var flag=$('select#qiquanflag').val();
 	var flagname='';
 
-	
+	if(isQiquanExist(code) == 1 )  {alert('此期权已存在.'); return ;}
 	
 	if(flag==1) flagname='认购';
 	if(flag==2) flagname='认沽';
@@ -445,6 +590,32 @@ function AjaxAddqiquan()
 
 }
 
+function AjaxCancelQiquan_auto(id) {
+
+		$.ajax({
+			url:'/AjaxCancelQiquan_refer',
+			data:{'id':id},
+			type:'POST',
+			datatype:'json',
+			
+		   success: function(data) {
+
+			 if(data.status== '200') {var trtmp='tr#tr_qiquan' + id;  $(trtmp).remove();}
+			 if(data.status== '404' ) alert('warn:' + data.err);
+
+			 qiquanRefer[id] = '';
+		   }      
+			
+		})   //ajax  end
+
+}
+
+
+
+
+
+
+
 
 
 function AjaxCancelQiquan(id) { 
@@ -470,6 +641,11 @@ function AjaxCancelQiquan(id) {
 	}
 	
 }
+
+
+
+
+
 
 
 
