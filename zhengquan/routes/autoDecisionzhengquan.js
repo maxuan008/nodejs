@@ -5,6 +5,8 @@ var Gupiao=require('./gupiao');
 var Idindex = require('./idindex');
 var moment = require('moment');
 
+var refer_qiquan=require('./class/refer_qiquan');
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	//console.log(req.session.users);
@@ -29,14 +31,24 @@ router.get('/', function(req, res, next) {
 				result.username = req.session.users['name'] ;   
 				if(datas) { result.loadCodeInfo= datas.loadCodeInfo;  result.total_val = datas.shizhi_total ; result.shiji_total_yingli = datas.shiji_yingli_total ;  } 
 				              
-				Idindex.idfindone(function(err,IDdoc){
-                 
-				   result.port = IDdoc.homeport;           
+
+                refer_qiquan.getReferList(req.session.users['userid'],function (err,referList, referDatas){
+                    if(err) res.send('err:',err);
+					else {
+					    result.referList = referList;
+						result.loadCodeInfo_refer = referDatas.loadCodeInfo_refer;
+
+						console.log(result);
+						Idindex.idfindone(function(err,IDdoc){
+						result.port = IDdoc.homeport;           
+						res.render('autoDecisionzhengquan',  result);
+						});
+
+					} //if end
+
+				});  //refer_qiquan.getReferList  end 
 
 
-				   res.render('autoDecisionzhengquan',  result);
-				
-			    });
 			});
 						
 		});

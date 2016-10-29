@@ -97,7 +97,7 @@ refer_qiquan.searchData_Json = function searchData_Json(data, callback ) {
 
 
 
-refer_qiquan.delRole =  function delRole(ID ,  callback ) {
+refer_qiquan.del =  function del(ID ,  callback ) {
 	var sqlstr="DELETE FROM `refer_qiquan`   WHERE `rq_id` = '" + ID + "'"; 
 	console.log(sqlstr);
 	MySql.query(sqlstr, function(err, doc) {
@@ -121,15 +121,53 @@ refer_qiquan.delRole =  function delRole(ID ,  callback ) {
 
 
 
+refer_qiquan.getReferList = function getReferList(userid,callback) {
+	var loadCodeInfo_refer={} , datas={};
+    var sql = "select * from `refer_qiquan` WHERE  `userid` = '" + userid + "'  and `status` = '1' ";
+     MySql.query(sql,  function(err,docs) {
+	     console.log(err, docs.length);
+         if( err ) return callback(err);
+		 else {
+            var reu = '';
+            async.eachSeries(docs,function(value,callback){
+				
+                reu = reu + 
+                      "<tr id='tr_qiquan"+value.rq_id+"' class='success'> " + 
+						    "<td  > <div id='td_div_name"+value.rq_id+"' ></div> </td>" +
+						    "<td  > <div id='td_div_flag"+value.rq_id+"' ></div> </td>" +
+						    "<td  >  <div id='td_div_code"+value.rq_id+"' >" + value.code + "</div></td>" +
+						    "<td  >   <div id='td_div_price"+value.rq_id+"' ></div></td>"+
+						    "<td> <a  onclick=\'AjaxCancelQiquan_auto("+value.rq_id+")\'>注销</a></td> ";
+					  "</tr>";
+
+				loadCodeInfo_refer[value.rq_id] = value.code;	  
+		    	
+		    	callback();
+		    	
+		    }, function(err){
+
+				datas.loadCodeInfo_refer = JSON.stringify(loadCodeInfo_refer);
+		    	//MySql.end();
+		    	//console.log(reu);
+		    	return callback(err,reu,datas);
+		    });  // async  end
+
+		 } //if end
+
+     }); //MySql.query end 
+
+}
+
+
 
 
 
 //code是否存在
-refer_qiquan.isExist_ForCode =  function isExist_ForCode(code , callback){
-   var sqlstr = "SELECT * FROM `refer_qiquan` WHERE  `code`= '" + code + "'  and `status` = '1'";
+refer_qiquan.isExist_ForCode =  function isExist_ForCode(code ,userid, callback){
+   var sqlstr = "SELECT * FROM `refer_qiquan` WHERE  `code`= '" + code + "' and `userid` = '" + userid + "'  and `status` = '1'  ";
    console.log(sqlstr);
    MySql.query(sqlstr,  function(err,docs) {
-	   //console.log(err, docs.length);
+	   console.log(err, docs.length);
       if( err || docs.length <= 0  ) return callback(false);
 	  else if(docs.length > 0 )   return callback(true);
     });

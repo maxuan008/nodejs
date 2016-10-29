@@ -22,6 +22,8 @@
 |</head>
 |<body>
 |<input type="hidden" id="allcode" value='#{loadCodeInfo}'   >
+|<input type="hidden" id="refercode" value='#{loadCodeInfo_refer}'   >
+
 
 |<div role="navigation" id="foo" class="nav-collapse">
 |<ul>
@@ -105,6 +107,9 @@
 |  <td name='td_qiquancode_tianjia' id='td_qiquancode_tianjia' ><input  name='input_qiquancode_tianjia' id='input_qiquancode_tianjia'  type="text"  style="width:120px;"    placeholder="期权代码" required autofocus /></td>
 | <!-- <td name='td_qiquanprice_tianjia' id='td_qiquanprice_tianjia'><input  name='input_qiquanprice_tianjia' id='input_qiquanprice_tianjia'   type="text"  style="width:70px;"    placeholder="价格" required autofocus  /></td>  -->
 |  <td><a class="button button-primary button-rounded button-small" onclick='AjaxAddqiquan_auto()'>添加</a></td>
+| <td> </td>
+| <td> </td>
+| <td> </td>
 |</tr>
 |</table>
 
@@ -120,7 +125,7 @@
 |<td>操作</td>
 |</tr>
 
-| !{list }
+| !{referList }
 
 |</tbody>
 |</table>

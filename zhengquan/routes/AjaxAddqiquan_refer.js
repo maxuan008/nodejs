@@ -15,9 +15,10 @@ router.post('/', function(req,res,next)  {
 		else  {
 			    var data = {};
 				data.code =  req.body['code'] ;
-				data.userid =  req.body['userid'] ;
+				data.userid =  req.session.users['userid'] ;
+				data.status = 1;
 
-                refer_qiquan.isExist_ForCode(req.body['code'],function(flag){
+                refer_qiquan.isExist_ForCode(req.body['code'],req.session.users['userid'],function(flag){
                     if(flag) res.send({status:'404',err: '已存在'});
 					else
 

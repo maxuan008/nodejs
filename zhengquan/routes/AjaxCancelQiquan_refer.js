@@ -9,24 +9,25 @@ router.post('/', function(req,res,next)  {
 	
 	if(req.session.users !=null &&  req.session.selproject !=null) {
 		//console.log(req.body['id']);
-		 Zhengquan.isExist_ForID(req.body['id'],  function(err,dealDoc){
-				if(err) {console.log(err); res.send({des: err}); }
-				else if(dealDoc.length > 0) res.send({des: '无法注销，此期权已存在交易.'});
-				else if(dealDoc.length <= 0) //如果股票不存在交易，则可以删除
 
-					Zhengquan.CancelQiquan(parseInt(req.body['id']),function(err,doc){
-						if(err) 	{console.log(err);res.send({des: err});   }
-						else   
-							if(doc==null)  res.send({des: 'Null'});
-							else    res.send({des: true});
-					});
+		if(req.body['id'] == '' || req.body['id'] == undefined) res.send({ status:'404', err:'code数据不正确'});
+        else {
+				refer_qiquan.isExist_ForID(req.body['id'],function(flag){
+                    if(!flag) res.send({status:'404',err: '要注销的对象不存在'});
+					else
+						refer_qiquan.del(req.body['id']  ,function(err,doc){
+							if(err) 	res.send({status:'404',err: err});
+							else   
+						       res.send({status:'200',des: true , id:doc.insertId});
+						});
 
-			}); //Gupiao.IsExistDeal END
+				}); //refer_qiquan.isExist_ForID  end
 
+		} //if end
 
 	    
 	} else {
-		res.send({des: 'Session Out, Login again!'});
+		res.send({ status:'404', err:'session已退出'});
 	}
 
 });

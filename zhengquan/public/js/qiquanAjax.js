@@ -32,6 +32,10 @@ function  qiquan_assets_Load() {
 function qiquan_autoDecision_Load() {
    var allcodetmp = $('#allcode').val();
    qiquanAllCodeInfo=JSON.parse(allcodetmp);
+
+   var refercodetmp =  $('#refercode').val();
+   qiquanRefer = JSON.parse(refercodetmp );
+
    console.log('期权ID信息:',qiquanAllCodeInfo );
    getPrice_qiquan_autoDecision();
 
@@ -39,7 +43,7 @@ function qiquan_autoDecision_Load() {
 
 function getPrice_qiquan_autoDecision()
 {
- showprice_qiquan();
+ showprice_qiquan_autoDecision();
  
  //在规定的时间段进行实时股价显示 如 09:00---16:20
  
@@ -58,7 +62,7 @@ function getPrice_qiquan_autoDecision()
  
  console.log(time1, nowtimeStamp, time2 );
  
- if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice_qiquan()",30000);	
+ if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice_qiquan_autoDecision()",30000);	
 
 }
 
@@ -88,6 +92,181 @@ function getPrice_qiquan()
  if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice_qiquan()",30000);	
 
 }
+
+
+
+
+
+function showprice_qiquan_autoDecision() {
+  //获取已有的期权代号和ID信息
+  var idvalue=[],codevalue=[];
+  $.each(qiquanAllCodeInfo,function(qqid,qqval){
+      idvalue[idvalue.length] = qqid;
+	  codevalue[codevalue.length] = qqval;
+  });
+
+   //获取对比物的期权代号和ID信息
+  var idvalue_refer=[],codevalue_refer=[];
+  $.each(qiquanRefer,function(id,val){
+      idvalue_refer[idvalue_refer.length] = id;
+	  codevalue_refer[codevalue_refer.length] = val;
+  }); 
+  //console.log(idvalue,codevalue); 
+
+
+//从新浪财经处获取期权交易信息
+  var listid='list=fx_shkdcny';
+
+  var sst='' ,codetype='';
+  var tmpstr='' , typeflag ='';
+  
+  if(codevalue.length > 0) {  //如果存在期权，则
+	 
+	  for (i in codevalue) {	 //制作新浪请求的参数		
+		    sst = codevalue[i];
+		    listid= listid + ",CON_OP_" +sst;		  
+	  }  //for end
+	  
+
+	  for (j in codevalue_refer) {	 //制作新浪请求的参数		
+		    sst = codevalue_refer[j];
+		    listid= listid + ",CON_OP_" +sst;		  
+	  }  //for end
+
+
+
+     console.log('参数:',listid);
+  
+	  $.ajax({
+	        cache : true,
+	        url:"http://hq.sinajs.cn/"+listid,
+	        type : "GET",
+	        dataType : "script",
+
+			success : function(){
+              var  shiji_yingli_total=0, shizhi_total=0;
+			  
+
+		    	//获取港币汇率
+			    var hk_hlstr = eval('hq_str_fx_shkdcny');
+			    var hk_hlarr = hk_hlstr.split(',');
+		    	var hk_exchange =  hk_hlarr[1];
+
+				
+
+         	  for (z in codevalue) {	 //制作新浪请求的参数		
+				   
+					//获取对比物期权价格
+					var  hq_str_CON_OP =  eval('hq_str_CON_OP_' + codevalue[z]);
+					var  ele =hq_str_CON_OP.split(',');
+                    
+					 //把已有的标的，与对比物足够比较分析。
+					 // 步骤 1. 获取已有标的的 购 沽方向 ， 月份，期价 ，买价
+				 	 // 步骤 2. 循环获取对比物中购 沽方向一致的对比物的信息， 月份，期价 ，卖价
+					// 步骤 3. 分析认购情况：估值1.获取标的的期价（转化）+ 买价 ， 估值2.获取对比物期价（转化）+ 卖价+双向手续费
+					//         如果估值2 < 估值1 ， 则出现市场漏洞。
+                    var name_exist = ele[37], buyPrice_exist = ele[1];
+                    if(name_exist.indexOf('购')!=-1)  { var type_exist=1; }
+    				if(name_exist.indexOf('沽')!=-1)  { var type_exist=1; }   
+
+  
+
+
+					console.log('已存期权',ele[37], '卖出价:',ele[3], '卖出数量：',ele[4]);
+
+	           }  //for end    
+         	 
+			   for (y in codevalue_refer) {	 //制作新浪请求的参数		
+				   
+					//获取对比物期权价格
+					var  hq_str_CON_OP =  eval('hq_str_CON_OP_' + codevalue_refer[y]);
+					var  ele =hq_str_CON_OP.split(',');
+					console.log('对比物期权',ele[37], '买入价:',ele[1], '买入数量：',ele[0]);
+
+	           }  //for end    
+
+
+			   for(x in codevalue)
+			   { 
+
+
+					//获取期权价格
+					var  hq_str_CON_SO =  eval('hq_str_CON_OP_' + codevalue[x]);
+					var  ele =hq_str_CON_SO.split(',');
+
+					//获取页面持仓，现价，市值，交割和实际盈亏
+					var td_count = $("#td_div_count" + idvalue[x] ).text();
+					var td_price = $("#td_div_price" + idvalue[x] ).text();
+					var td_shizhi = $("#td_shizhi" + idvalue[x] ).text();
+					var td_jiaoge = $("#jiaoge" + idvalue[x] ).text();	
+					var td_shiji = $("#shiji" + idvalue[x] ).text();	
+
+					console.log(td_count,td_price,td_shizhi , td_jiaoge , td_shiji   );								
+					
+					//console.log(arr_CON_SO);
+					var hq_name = ele[0];
+					var hq_price = ele[14];
+					console.log('名称：',hq_name,'价格：',hq_price);
+
+					var qiquanType= "", qiquanFlagVal='';
+    				if(hq_name.indexOf('购')!=-1)  { qiquanType= "认购"; qiquanFlagVal=1;  }
+    				if(hq_name.indexOf('沽')!=-1)  {qiquanType= "认沽";   qiquanFlagVal=2;  }                  
+					//更新价格...信息
+                    if(parseFloat(td_price) != parseFloat(hq_price) ) {  //如果价格发生变化
+                       var new_prece = parseFloat(hq_price);
+					   var new_shizhi = parseFloat(new_prece *  td_count * 10000);
+					   new_shizhi =  new_shizhi.toFixed(1);
+                       
+					   var chajiatmp =  parseFloat(new_shizhi - td_shizhi);
+
+					   var new_shiji = parseFloat(td_shiji) + parseFloat(chajiatmp)  ;
+					   new_shiji = new_shiji.toFixed(1);
+
+					   //总市值，总实际盈利
+                       shiji_yingli_total = parseFloat(shiji_yingli_total) + parseFloat(new_shiji) ;
+					   
+					   shizhi_total = parseFloat(shizhi_total)  +  parseFloat(new_shizhi) ;
+
+					   shiji_yingli_total = shiji_yingli_total.toFixed(1);
+					   shizhi_total = shizhi_total.toFixed(1);
+					   
+					   //$('#td_div_name'+idvalue[x]).text(hq_name);
+					   $('#td_div_price'+idvalue[x]).text(hq_price);
+					   $("#td_shizhi" + idvalue[x] ).text(new_shizhi);
+					   $("#shiji" + idvalue[x] ).text(new_shiji);
+					   $("#total_val").text(shizhi_total);
+					   $("#shiji_total_yingli").text(shiji_yingli_total); 
+					}
+
+
+					//更新股票数据库
+					var sqlstring="UPDATE `qiquan` SET `flag`='" + qiquanFlagVal + "', `name`='" + hq_name + "' , `price`= '"+ hq_price +"' WHERE  `qq_id` ='"+idvalue[x] + "'";
+					updateSQLstring(sqlstring);
+
+
+			   }
+
+
+			} //success end
+
+
+
+	  });
+
+
+
+
+  } //if end
+
+
+
+}
+
+
+
+
+
+
 
 
 
@@ -602,7 +781,6 @@ function AjaxCancelQiquan_auto(id) {
 
 			 if(data.status== '200') {var trtmp='tr#tr_qiquan' + id;  $(trtmp).remove();}
 			 if(data.status== '404' ) alert('warn:' + data.err);
-
 			 qiquanRefer[id] = '';
 		   }      
 			
