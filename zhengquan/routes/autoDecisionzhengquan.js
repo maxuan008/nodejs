@@ -28,8 +28,14 @@ router.get('/', function(req, res, next) {
 				result.Balance_total = total.toFixed(2) ;   
 				result.prjname = req.session.selproject['name'] ;   
 				result.date = day ;
-				result.username = req.session.users['name'] ;   
-				if(datas) { result.loadCodeInfo= datas.loadCodeInfo;  result.total_val = datas.shizhi_total ; result.shiji_total_yingli = datas.shiji_yingli_total ;  } 
+				result.username = req.session.users['name'] ;  
+				 
+				if(datas) {
+					     result.loadCodeInfo= datas.loadCodeInfo;
+					     result.total_val = datas.shizhi_total ;
+						 //result.total_quan_val =  parseInt(result.total_val) *
+					     result.shiji_total_yingli = datas.shiji_yingli_total ; 
+					 } 
 				              
 
                 refer_qiquan.getReferList(req.session.users['userid'],function (err,referList, referDatas){

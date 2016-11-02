@@ -57,11 +57,11 @@
 |<tbody>
 |<tr  class='success'>
 |<td>期权/认沽认购</td>
+|<td>市场估值</td>
 |<td>持仓</td>
 |<td>现价</td>
 |<td>市值</td>
 |<td>盈亏(交割/实际)</td>
-|<td>&nbsp;&nbsp;操作&nbsp;&nbsp;</td>
 |</tr>
 
 | !{Balancellist}
@@ -69,6 +69,7 @@
 |<thead><tr class='info'>
 |<th  colspan='7'>
 |总市值：<lable id='total_val'> #{total_val} </lable> , &nbsp;&nbsp; 实际盈亏总额：<lable id='shiji_total_yingli'>  #{shiji_total_yingli} </lable>
+|, 权利市值：<lable id='total_quan_val'> #{total_quan_val} </lable> 
 |</th>
 
 |</tr></thead>
@@ -79,8 +80,12 @@
 |<hr >
 |<br>
 
-
-
+| <p id='infoshow' >  出现市场漏洞 </p>
+|<table id='loudong' class="table">
+|   <tr class="success" >
+|         <td colspan='7'>Approved</td>
+|   </tr>  
+| </table>
 
 
 
@@ -94,23 +99,18 @@
 
 |<table id='table_tianjia'   class="table table-hover"  >
 |<thead><tr>
-|<th>期权衍生品</th>
-|<th></th>
-|<th></th>
-|<th></th>
-|<th></th>
+|  <th >50ETF实价： <strong id='50etf'> </strong>   </th>
+|  <th >  </th>
 |</tr></thead>
 
-|<tr name='tr_tianjia' id='tr_tianjia' class="info">
-| <!--  <td name='td_qiquanname_tianjia' id='td_qiquanname_tianjia'  ><input disabled name='input_qiquanname_tianjia'  id='input_qiquanname_tianjia'   type="text"  style="width:120px;"    placeholder="输入期权名称" required autofocus  /></td>  -->
-| <!--  <td name='td_qiquanflag_tianjia' id='td_qiquanflag_tianjia' >&nbsp;&nbsp;&nbsp;&nbsp; <select id="qiquanflag" name='qiquanflag'>  <option  value='1'>认购&nbsp;&nbsp;&nbsp;&nbsp;</option>  <option  value='2'>认沽 &nbsp;&nbsp;&nbsp;&nbsp;</option>   </select></td>   -->
-|  <td name='td_qiquancode_tianjia' id='td_qiquancode_tianjia' ><input  name='input_qiquancode_tianjia' id='input_qiquancode_tianjia'  type="text"  style="width:120px;"    placeholder="期权代码" required autofocus /></td>
-| <!-- <td name='td_qiquanprice_tianjia' id='td_qiquanprice_tianjia'><input  name='input_qiquanprice_tianjia' id='input_qiquanprice_tianjia'   type="text"  style="width:70px;"    placeholder="价格" required autofocus  /></td>  -->
-|  <td><a class="button button-primary button-rounded button-small" onclick='AjaxAddqiquan_auto()'>添加</a></td>
-| <td> </td>
-| <td> </td>
-| <td> </td>
-|</tr>
+|  <tr name='tr_tianjia' id='tr_tianjia' class="info">
+|     <td  >添加对比物： </td>
+|    <td name='td_qiquancode_tianjia' id='td_qiquancode_tianjia' ><input  name='input_qiquancode_tianjia' id='input_qiquancode_tianjia'  type="text"  style="width:120px;"    placeholder="期权代码" required autofocus />
+|    &nbsp;&nbsp;&nbsp;&nbsp;<a class="button button-primary button-rounded button-small" onclick='AjaxAddqiquan_auto()'>添加</a></td>
+|    <td></td>
+|    <td> </td>
+|    <td> </td>
+|  </tr>
 |</table>
 
 
@@ -120,8 +120,9 @@
 |<tr>
 |<td>期权名称</td>
 |<td>认沽/认购</td>
+|<td>卖一估值</td>
 |<td>代码</td>
-|<td>价格</td>
+|<td>卖一价</td>
 |<td>操作</td>
 |</tr>
 

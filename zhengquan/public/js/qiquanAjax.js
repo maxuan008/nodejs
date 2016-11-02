@@ -62,7 +62,7 @@ function getPrice_qiquan_autoDecision()
  
  console.log(time1, nowtimeStamp, time2 );
  
- if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice_qiquan_autoDecision()",30000);	
+ if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice_qiquan_autoDecision()",2000);	
 
 }
 
@@ -81,7 +81,7 @@ function getPrice_qiquan()
  console.log(oDay);
  
  var headTime = oDay + " 09:00:00";
- var footTime = oDay + " 16:20:00";
+ var footTime = oDay + " 15:20:00";
  
  var time1 = Date.parse(headTime);
  var time2 = Date.parse(footTime);
@@ -113,9 +113,9 @@ function showprice_qiquan_autoDecision() {
   }); 
   //console.log(idvalue,codevalue); 
 
-
+var cc=0;
 //从新浪财经处获取期权交易信息
-  var listid='list=fx_shkdcny';
+  var listid='list=sh510050';
 
   var sst='' ,codetype='';
   var tmpstr='' , typeflag ='';
@@ -124,13 +124,12 @@ function showprice_qiquan_autoDecision() {
 	 
 	  for (i in codevalue) {	 //制作新浪请求的参数		
 		    sst = codevalue[i];
-		    listid= listid + ",CON_OP_" +sst;		  
+		    if(sst) listid= listid + ",CON_OP_" +sst;		  
 	  }  //for end
 	  
-
 	  for (j in codevalue_refer) {	 //制作新浪请求的参数		
 		    sst = codevalue_refer[j];
-		    listid= listid + ",CON_OP_" +sst;		  
+		    if(sst) listid= listid + ",CON_OP_" +sst;		  
 	  }  //for end
 
 
@@ -143,17 +142,20 @@ function showprice_qiquan_autoDecision() {
 	        type : "GET",
 	        dataType : "script",
 
-			success : function(){
-              var  shiji_yingli_total=0, shizhi_total=0;
-			  
+			success : function(){    
 
-		    	//获取港币汇率
-			    var hk_hlstr = eval('hq_str_fx_shkdcny');
-			    var hk_hlarr = hk_hlstr.split(',');
-		    	var hk_exchange =  hk_hlarr[1];
+				$("table#loudong").html(""); 
+				$("#infoshow").text(""); 
 
-				
-
+				//获取50etf
+			    var etf_str = eval('hq_str_sh510050');
+			    var etf_arr = etf_str.split(',');
+		    	var etf_price = etf_arr[3];
+				var etfvalue = etf_price*10000;
+                
+				console.log('50etf 价格:' ,etfvalue );
+				$("#50etf").text(etfvalue);
+                var emailInfo = '';
          	  for (z in codevalue) {	 //制作新浪请求的参数		
 				   
 					//获取对比物期权价格
@@ -165,99 +167,143 @@ function showprice_qiquan_autoDecision() {
 				 	 // 步骤 2. 循环获取对比物中购 沽方向一致的对比物的信息， 月份，期价 ，卖价
 					// 步骤 3. 分析认购情况：估值1.获取标的的期价（转化）+ 买价 ， 估值2.获取对比物期价（转化）+ 卖价+双向手续费
 					//         如果估值2 < 估值1 ， 则出现市场漏洞。
-                    var name_exist = ele[37], buyPrice_exist = ele[1];
+                    var name_exist = ele[37], buyPrice_exist = ele[1], price_exist = ele[2] ;
+					if(name_exist.length == 13  ) { var qijia= name_exist.substring(9); var month_exist =  name_exist[6] + name_exist[7]; } 
+					if(name_exist.length == 12  ) { var qijia= name_exist.substring(8); var month_exist =  name_exist[6]; }
+
                     if(name_exist.indexOf('购')!=-1)  { var type_exist=1; }
-    				if(name_exist.indexOf('沽')!=-1)  { var type_exist=1; }   
+    				if(name_exist.indexOf('沽')!=-1)  { var type_exist=2; }  
 
-  
+					var buy_exist =  ele[1], buy_count = ele[0] , code_exist= codevalue[z];
+
+					console.log('标的物代码',code_exist,'期价:',qijia,'月份:',month_exist,'方向',type_exist, '买入价:',buy_exist, '买入数量：',buy_count);
+                    
+					//var timestamp = Date.parse(new Date());
+					var myDate = new Date();
+					if( [ parseInt(myDate.getMonth() ) + 1 ] <= month_exist ) var shichang = month_exist - myDate.getMonth() ;
+					else var shichang = 12 + parseInt(month_exist - myDate.getMonth() );
+					
+					//更新股票数据库
+					var sqlstring="UPDATE `qiquan` SET `flag`='" + type_exist + "', `name`='" + name_exist + "' , `price`= '"+ price_exist +"' WHERE  `qq_id` ='"+idvalue[z] + "'";
+					updateSQLstring(sqlstring);
+
+					var qijia_zhunhua = parseInt(qijia*10) + parseInt(buy_exist*10000);
+					var buy1_exist_value = parseInt(qijia*10) + parseInt(buy_exist*10000);
+					var sale1_exist_value = parseInt(qijia*10) + parseInt(ele[3]*10000);
+
+					var buy1_chajia =  etfvalue - buy1_exist_value  ;
+					var sale1_chajia =  etfvalue - sale1_exist_value ;
+
+					var buy1_baifenbi = (buy1_chajia / etfvalue) * (12 / shichang) * 100;
+                    var sale1_baifenbi = (sale1_chajia / etfvalue) * (12 / shichang) * 100; 
+					buy1_baifenbi=buy1_baifenbi.toFixed(2) ,  sale1_baifenbi=sale1_baifenbi.toFixed(2);
+                    if(buy1_chajia < 0) buy1_baifenbi = "-" + buy1_baifenbi;
+                    if(sale1_chajia < 0) sale1_baifenbi = "-" + sale1_baifenbi;					
+
+                    //更新标的实时价格
+					$("#td_div_price" + idvalue[z] ).text(price_exist);
+					$("#sale1_val" + idvalue[z] ).text(sale1_exist_value + "("+  sale1_chajia + ", " + sale1_baifenbi + "% )");			
+					$("#buy1_val" + idvalue[z] ).text(buy1_exist_value + "("+ buy1_chajia + ", " + buy1_baifenbi + "% )");		
+                    
+                   if(type_exist == 1 ) {  //如果已有的此期权为认购类型
+                            
+							for (y in codevalue_refer) {	 //制作新浪请求的参数		
+								//获取对比物期权价格
+								var  hq_str_CON_OP_refer =  eval('hq_str_CON_OP_' + codevalue_refer[y]);
+								var  ele_refer =hq_str_CON_OP_refer.split(',');
+								var name_refer = ele_refer[37], salePrice_refer = ele_refer[3];
+								
+								if(name_refer.length == 13  ) { var qijia_refer = name_refer.substring(9); var month_refer =  name_refer[6] + name_refer[7]; } 
+								if(name_refer.length == 12  ) { var qijia_refer = name_refer.substring(8); var month_refer =  name_refer[6]; }
+								
+								if(name_refer.indexOf('购')!=-1)  { var type_refer=1; $("#td_div_flag" + idvalue_refer[y] ).text('认购');}
+								if(name_refer.indexOf('沽')!=-1)  { var type_refer=2; $("#td_div_flag" + idvalue_refer[y] ).text('认沽');}  
+
+								var sale_refer =  ele_refer[3], buy_refer = ele_refer[1]  , price_refer = ele_refer[2] ;
+								var sale_count = ele_refer[4] , code_refer= codevalue_refer[y];
+								console.log('对比物代码',code_refer,'期价:',qijia_refer,'月份:',month_refer,'方向',type_refer, '卖出价:',sale_refer, '卖出数量：',sale_count);
+
+								//更新股票数据库
+								var sqlstring="UPDATE `refer_qiquan` SET `flag`='" + type_refer + "', `name`='" + name_refer + "'  , `price` = '"+ price_refer +"' ,  `buy_1` = '"+ buy_refer +"'     , `sale_1`= '"+ sale_refer +"' WHERE  `rq_id` ='"+idvalue_refer[y] + "'";
+								updateSQLstring(sqlstring);
 
 
-					console.log('已存期权',ele[37], '卖出价:',ele[3], '卖出数量：',ele[4]);
+								var buy1_value_refer = parseInt(qijia_refer*10) + parseInt(buy_refer*10000);
+								var sale1_value_refer = parseInt(qijia_refer*10) + parseInt(sale_refer*10000);
+								//console.log('OOSID:', buy1_value_refer , sale1_value_refer );
+								var buy1_chajia_refer =  etfvalue - buy1_value_refer  ;
+								var sale1_chajia_refer =  etfvalue - sale1_value_refer ;
+
+								if( [ parseInt(myDate.getMonth() ) + 1 ] <= month_refer ) var shichang_refer = month_refer - myDate.getMonth() ;
+								else var shichang_refer = 12 + parseInt( month_refer - myDate.getMonth() ) ;
+
+								var baifenbi_tmp =  ( (sale1_chajia_refer) / etfvalue) * (12 / shichang_refer) * 100;
+								baifenbi_tmp=baifenbi_tmp.toFixed(2) ;	
+								if(sale1_chajia_refer < 0 ) baifenbi_tmp = "-" + baifenbi_tmp;	
+									
+
+								//更新卖一价
+								$("#td_div_sale" + idvalue_refer[y] ).text(sale_refer);
+								$("#td_div_name" + idvalue_refer[y] ).text(name_refer);
+								$("#td_div_code" + idvalue_refer[y] ).text(codevalue_refer[y]);
+                                $("#td_div_sale1_value" + idvalue_refer[y] ).text(sale1_value_refer + "("+  sale1_chajia_refer +", " + baifenbi_tmp +  "%)");	
+
+								//开始分析
+								// 步骤 3. 分析认购情况：估值1.获取标的的期价（转化）+ 买价 ， 估值2.获取对比物期价（转化）+ 卖价+双向手续费
+								//         如果估值2 < 估值1 ， 则出现市场漏洞。
+							
+								if(type_refer == 1  ) {  //如果此对比物为认购类型
+
+										
+										qijia_zhunhua_refer = parseInt(sale1_value_refer)  + 14  ;
+										
+										console.log(qijia,buy_exist , qijia_zhunhua);
+										console.log(qijia_refer,sale_refer , qijia_zhunhua_refer);
+
+										if(parseInt(qijia_zhunhua_refer) <  parseInt(qijia_zhunhua) ) {
+                                            console.log('出现市场漏洞');
+											$("#infoshow").text("出现市场漏洞");
+                                            cc++;
+											//qijia_zhunhua=qijia_zhunhua.toFixed(0);
+											//qijia_zhunhua_refer=qijia_zhunhua_refer.toFixed(0);
+
+											var loudong_value = parseInt(qijia_zhunhua)  -  parseInt(qijia_zhunhua_refer)  ;
+
+											//var loudongInfo = " 标的："+ name_exist+" (买价：" + buy_exist+ ", 估值：" + qijia_zhunhua +") ==换为==》 对比物：" + name_refer +"(卖价：" + sale_refer +", 估值：" + qijia_zhunhua_refer + ") , 有实际价值差价：" + qijia_zhunhua +" - " + qijia_zhunhua_refer + " = " + loudong_value +" ";
+
+										    var loudongtmp = " <tr class='success' > " +" <td colspan='7'>" + cc + ".  标的："+ name_exist+" (买价：" + buy_exist+ ", 估值：" + qijia_zhunhua +") ==换为==》 对比物：" + name_refer +"(卖价：" + sale_refer +", 估值：" + qijia_zhunhua_refer + ") , 有实际价值差价：" + qijia_zhunhua +" - " + qijia_zhunhua_refer + " = " + loudong_value +" </td> </tr>  ";
+                                           
+										    $("table#loudong").append(loudongtmp);
+
+											emailInfo = emailInfo + "<P>" + cc + ".  标的："+ name_exist+" (买价：" + buy_exist+ ", 估值：" + qijia_zhunhua +") ==换为==》 对比物：" + name_refer +"(卖价：" + sale_refer +", 估值：" + qijia_zhunhua_refer + ") , 有实际价值差价：" + qijia_zhunhua +" - " + qijia_zhunhua_refer + " = " + loudong_value +" ";
+											
+
+									   } //if end
+									
+								}
+
+							}  //for end   
+                                 
+
+
+				   }  //if end
+
 
 	           }  //for end    
          	 
-			   for (y in codevalue_refer) {	 //制作新浪请求的参数		
-				   
-					//获取对比物期权价格
-					var  hq_str_CON_OP =  eval('hq_str_CON_OP_' + codevalue_refer[y]);
-					var  ele =hq_str_CON_OP.split(',');
-					console.log('对比物期权',ele[37], '买入价:',ele[1], '买入数量：',ele[0]);
+ 
+			emailInfo=JSON.stringify(emailInfo);
+			console.log(emailInfo);
+			if(emailInfo) sendEmail(emailInfo);
 
-	           }  //for end    
-
-
-			   for(x in codevalue)
-			   { 
-
-
-					//获取期权价格
-					var  hq_str_CON_SO =  eval('hq_str_CON_OP_' + codevalue[x]);
-					var  ele =hq_str_CON_SO.split(',');
-
-					//获取页面持仓，现价，市值，交割和实际盈亏
-					var td_count = $("#td_div_count" + idvalue[x] ).text();
-					var td_price = $("#td_div_price" + idvalue[x] ).text();
-					var td_shizhi = $("#td_shizhi" + idvalue[x] ).text();
-					var td_jiaoge = $("#jiaoge" + idvalue[x] ).text();	
-					var td_shiji = $("#shiji" + idvalue[x] ).text();	
-
-					console.log(td_count,td_price,td_shizhi , td_jiaoge , td_shiji   );								
-					
-					//console.log(arr_CON_SO);
-					var hq_name = ele[0];
-					var hq_price = ele[14];
-					console.log('名称：',hq_name,'价格：',hq_price);
-
-					var qiquanType= "", qiquanFlagVal='';
-    				if(hq_name.indexOf('购')!=-1)  { qiquanType= "认购"; qiquanFlagVal=1;  }
-    				if(hq_name.indexOf('沽')!=-1)  {qiquanType= "认沽";   qiquanFlagVal=2;  }                  
-					//更新价格...信息
-                    if(parseFloat(td_price) != parseFloat(hq_price) ) {  //如果价格发生变化
-                       var new_prece = parseFloat(hq_price);
-					   var new_shizhi = parseFloat(new_prece *  td_count * 10000);
-					   new_shizhi =  new_shizhi.toFixed(1);
-                       
-					   var chajiatmp =  parseFloat(new_shizhi - td_shizhi);
-
-					   var new_shiji = parseFloat(td_shiji) + parseFloat(chajiatmp)  ;
-					   new_shiji = new_shiji.toFixed(1);
-
-					   //总市值，总实际盈利
-                       shiji_yingli_total = parseFloat(shiji_yingli_total) + parseFloat(new_shiji) ;
-					   
-					   shizhi_total = parseFloat(shizhi_total)  +  parseFloat(new_shizhi) ;
-
-					   shiji_yingli_total = shiji_yingli_total.toFixed(1);
-					   shizhi_total = shizhi_total.toFixed(1);
-					   
-					   //$('#td_div_name'+idvalue[x]).text(hq_name);
-					   $('#td_div_price'+idvalue[x]).text(hq_price);
-					   $("#td_shizhi" + idvalue[x] ).text(new_shizhi);
-					   $("#shiji" + idvalue[x] ).text(new_shiji);
-					   $("#total_val").text(shizhi_total);
-					   $("#shiji_total_yingli").text(shiji_yingli_total); 
-					}
-
-
-					//更新股票数据库
-					var sqlstring="UPDATE `qiquan` SET `flag`='" + qiquanFlagVal + "', `name`='" + hq_name + "' , `price`= '"+ hq_price +"' WHERE  `qq_id` ='"+idvalue[x] + "'";
-					updateSQLstring(sqlstring);
-
-
-			   }
 
 
 			} //success end
 
+	   });  //$.ajax   end
 
 
-	  });
-
-
-
-
-  } //if end
-
+    } //if end
 
 
 }
@@ -265,7 +311,23 @@ function showprice_qiquan_autoDecision() {
 
 
 
+function sendEmail(Info) {
+		 $.ajax({
+			 url:'/AjaxSendEmail',
+			 data:{ 'info':Info   },
+			 type:'Post',
+			 datatype:'json',
+			 
+			 success: function(data) {
+				 
+				 //alert(data.des); alert(data.gp_id)
+				 if(data.status=='200')  console.log('邮件发送成功' );
+				 if(data.status=='404')  console.log('邮件发送失败:' + data.err);
+			 }
+			 
+		 });  //ajax end
 
+}
 
 
 
@@ -666,10 +728,8 @@ function AjaxAddqiquan_auto()
 					                      "</td>" ;
 						trtmp = trtmp +  "<td  > <div id='td_div_flag"+data.id+"' ></div>" +
 								"  </td>" ;
-						trtmp = trtmp +  "<td  ondblclick=\"showInput('td_input_code"+data.id+"','td_div_code"+data.id+"')\">  <div id='td_div_code"+data.id+"' >" + code + "</div><input  id='td_input_code"+data.id+"'  type='text'  value='" + code + "'  style='display: none; width:100px;'   onblur=\"updateSQL(  'qiquan' , 'code' ,  'qq_id' , "+data.id+" ,'td_input_code"+data.id+"','td_div_code"+data.id+"', 1)\"   /></td>" ;
-						
-						trtmp = trtmp +	"<td  >   <div id='td_div_price"+data.id+"' ></div></td>";
-						
+						trtmp = trtmp +  "<td >  <div id='td_div_code"+data.id+"' >" + code + "</div></td>" ;
+						trtmp = trtmp +	"<td  >   <div id='td_div_sale"+data.id+"' ></div></td>";
 						trtmp= trtmp +  "<td> <a onclick=\'AjaxCancelQiquan_auto("+data.id+")\'>注销</a></td> ";
 						trtmp= trtmp +  "</tr>";
 						//alert(trtmp);

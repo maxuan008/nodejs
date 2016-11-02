@@ -694,11 +694,9 @@ function showprice()
 		  //if(i==0) listid='list=';
 		  			
 		   sst = codevalue[i];
-	       codetype = sst[0]  ;
-			
+	       codetype = sst[0]  ;	
 		  var tmpcode='';
-
-		  
+	  
 		  //判断股票属于哪个交易所，如：上海交易所，深圳交易所，香港交易所...
 		  if(codevalue[i].length == 6  && codevalue[i] != 'null')  {
 				if(sh_txt.indexOf(codetype) != -1  ) tmpcode= "sh" + codevalue[i]; 
@@ -738,8 +736,7 @@ function showprice()
 					
 					var hk_exchange =  hk_hlarr[1];
 					//console.log('港币汇率:' ,  hk_exchange);
-					var 
-					
+
 				    sst = codevalue[x];
 				    codetype = sst[0]  ;
  

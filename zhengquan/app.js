@@ -46,7 +46,7 @@ var AjaxBuyQiquan=require('./routes/AjaxBuyQiquan');
 
 var AjaxMingxi=require('./routes/AjaxMingxi');
 var AjaxUpdateSQLstring=require('./routes/AjaxUpdateSQLstring');
-
+var AjaxSendEmail=require('./routes/AjaxSendEmail');
 
 
 var app = express();
@@ -134,6 +134,8 @@ app.use('/AjaxBuy', AjaxBuy);
 app.use('/AjaxBuyQiquan', AjaxBuyQiquan);
 app.use('/AjaxMingxi', AjaxMingxi);
 app.use('/AjaxUpdateSQLstring', AjaxUpdateSQLstring);
+app.use('/AjaxSendEmail', AjaxSendEmail);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

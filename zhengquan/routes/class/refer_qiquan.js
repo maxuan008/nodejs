@@ -130,13 +130,15 @@ refer_qiquan.getReferList = function getReferList(userid,callback) {
 		 else {
             var reu = '';
             async.eachSeries(docs,function(value,callback){
-				
+				 if(value.flag == 1)       var fangxiangtmp = "认购";
+				 else if(value.flag == 2)  var fangxiangtmp = "认沽";
                 reu = reu + 
                       "<tr id='tr_qiquan"+value.rq_id+"' class='success'> " + 
-						    "<td  > <div id='td_div_name"+value.rq_id+"' ></div> </td>" +
-						    "<td  > <div id='td_div_flag"+value.rq_id+"' ></div> </td>" +
-						    "<td  >  <div id='td_div_code"+value.rq_id+"' >" + value.code + "</div></td>" +
-						    "<td  >   <div id='td_div_price"+value.rq_id+"' ></div></td>"+
+						    "<td  > <div id='td_div_name"+value.rq_id+"' >" + value.name + "</div> </td>" +
+						    "<td  > <div id='td_div_flag"+value.rq_id+"' >" + fangxiangtmp + "</div> </td>" +
+							"<td  > <div id='td_div_sale1_value"+value.rq_id+"' > </div> </td>" +
+						    "<td  > <div id='td_div_code"+value.rq_id+"' >" + value.code + "</div></td>" +
+						    "<td  > <div id='td_div_sale"+value.rq_id+"' >" + value.sale_1 + "</div></td>"+
 						    "<td> <a  onclick=\'AjaxCancelQiquan_auto("+value.rq_id+")\'>注销</a></td> ";
 					  "</tr>";
 

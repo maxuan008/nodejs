@@ -677,16 +677,18 @@ Zhengquan.GetQiquanSheetList_for_auto= function GetQiquanSheetList_for_auto(user
 
 						var yingli = ying + count * value.price*10000;
 						var tr_tmp='tr_Sheet' +value.qq_id;
+						var sale1_valtmp = "sale1_val"+ value.qq_id;
+						var buy1_valtmp = "buy1_val"+ value.qq_id;
 
 						reu=reu + " <tr id=\'" + tr_tmp +  "\'  class='success'> ";
 						reu=reu + "<td>"+ nametmp + " </td>";
+						reu=reu + "<td> 卖一估值：<div id='"+sale1_valtmp+"' ></div> 买一估值：<label id='"+buy1_valtmp+"' ></label> </td>";
 						reu=reu + "<td><div id='" + counttmp + "'>" + count + "</div></td>";
 						reu=reu + "<td ><div id='" + td_div_pricetmp +"' >" + value.price +"</div></td>";
 						reu=reu + "<td ><div id='" + shizhitmp +"' >" + shizhi +"</div></td>";	
-										
+
 						reu=reu + "<td><div id='"+jiaogetmp+"'  >" + jiaoge + "</div><label id='"+shijitmp+"' >"+ shiji_yingli + "</label><label>(元)</label>"  + "</td>";	
-						reu=reu + "<td><a id='"+mingxitmp+"'   onclick='addmingxi_qiquan("+value.qq_id+")' >明细</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <a id='"+jiaoyitmp+"'   onclick=\"addQiquanJiaoyi("+value.qq_id+", '"+namestr+"')\" >交易</a>" ;
-						reu=reu +	"<input type='hidden' id='"+jiaoyitmp+"' value='0' ><input type='hidden' id='"+mingxitmp+"'  value='0' ></td>";
+
 						reu=reu + "</tr>";
 						callback();	
 					} //if end
@@ -734,7 +736,7 @@ Zhengquan.GetQiquanSheetList_for_auto= function GetQiquanSheetList_for_auto(user
 	 console.log(sqlstr);
 	 MySql.query(sqlstr, function(err, doc) {
 		  callback(err, doc);  
-		  console.log(doc);
+		 // console.log(doc);
 	 });
 	 
 	 //console.log(sqlstr); 

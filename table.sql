@@ -6,6 +6,8 @@ CREATE TABLE `zhengquan`.`refer_qiquan` (
   `flag` TINYINT(1) NULL,
   `cancelDate` DATE NULL,
   `buy_1` VARCHAR(45) NULL,
+  `sale_1` VARCHAR(45) NULL, 
   `userid` VARCHAR(45) NULL,
+  `price` VARCHAR(45) NULL,  
   PRIMARY KEY (`rq_id`))
 COMMENT = '智能期权的对比物';
