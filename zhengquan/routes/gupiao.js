@@ -269,7 +269,7 @@ Zhengquan.GetGupiaoList= function GetGupiaoList(userid,callback) {
 		    	//reu=reu + "<input type=\'hidden\' id=\'"+hid_gupiaotmp+"\'  value=\'"+value.gp_id+"\'   >";
 		    	reu=reu + "<td  ondblclick=\"showInput('"+td_input_nametmp+"','"+ td_div_nametmp+"')\" ><div id='" + td_div_nametmp +"' >" + value.name +"</div> <input id='"+td_input_nametmp +"'  type='text'  value='"+value.name+"' style='display: none; width:100px;'  onblur=\"updateKey('gupiao' , 'name', "+value.gp_id+", '"+td_input_nametmp+"','"+ td_div_nametmp+"')\"  />    </td>";
 		    	reu=reu + "<td  ondblclick=\"showInput('"+td_input_codetmp+"','"+ td_div_codetmp+"')\" ><div id='" + td_div_codetmp +"' >" + value.code +"</div>  <input  id='"+td_input_codetmp +"'  type='text'  value='"+value.code+"'  style='display: none; width:100px;'  onblur=\"updateKey('gupiao' , 'code', "+value.gp_id+", '"+td_input_codetmp+"','"+ td_div_codetmp+"')\"   />  </td>";
-		    	reu=reu + "<td  ondblclick=\"showInput('"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\" ><div id='" + td_div_pricetmp +"' >" + value.price +"</div>  <input  id='"+td_input_pricetmp +"'  type='text'  value='"+value.price+"'  style='display: none; width:100px;'  onblur= \"updateKey('gupiao' , 'price', "+value.gp_id+", '"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\"  /></td>";
+		    	reu=reu + "<td  ondblclick=\"showInput('"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\" > <label id='jiantou" + value.gp_id + "' style='float: left;'   ></label>    <div style='float:left' id='" + td_div_pricetmp +"' >   " + value.price +"</div>  <input  id='"+td_input_pricetmp +"'  type='text'  value='"+value.price+"'  style='display: none; width:100px;'  onblur= \"updateKey('gupiao' , 'price', "+value.gp_id+", '"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\"  /></td>";
 		    	reu=reu + "<td><a onclick='AjaxCancelGupiao("+value.gp_id + ")'>注销</a></td>";
 		    	reu=reu + " </tr>";
 				
@@ -282,8 +282,7 @@ Zhengquan.GetGupiaoList= function GetGupiaoList(userid,callback) {
 		    	//MySql.end();
 				var allcode=idtmp + "|" + codetmp ;
 		    	return callback(err,reu , allcode);
-		    
-		   
+
 		    });  // async  end
 		    
 		 	
@@ -319,7 +318,7 @@ Zhengquan.GetQiquanList = function GetQiquanList(userid,callback){
 			    	reu=reu +	"<select id='"+td_input_flagtmp +"' style='display: none;'  onblur=\"updateSQL(  'qiquan' , 'flag' ,  'qq_id'  , "+value.qq_id+"   , '"+td_input_flagtmp+"','"+ td_div_flagtmp+"', 2)\"    >  <option  value='1'>认购&nbsp;&nbsp;&nbsp;&nbsp;</option>  <option  value='2'>认沽 &nbsp;&nbsp;&nbsp;&nbsp;</option>   </select>  </td>";
 			    	
 			    	reu=reu + "<td  ondblclick=\"showInput('"+td_input_codetmp+"','"+ td_div_codetmp+"')\" ><div id='" + td_div_codetmp +"' >" + value.code +"</div>  <input  id='"+td_input_codetmp +"'  type='text'  value='"+value.code+"'  style='display: none; width:100px;'  onblur=\"updateSQL(  'qiquan' , 'code'  ,  'qq_id' , "+value.qq_id+"  , '"+td_input_codetmp+"','"+ td_div_codetmp+"', 1)\"   />  </td>";
-			    	reu=reu + "<td  ondblclick=\"showInput('"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\" ><div id='" + td_div_pricetmp +"' >" + value.price +"</div>  <input  id='"+td_input_pricetmp +"'  type='text'  value='"+value.price+"'  style='display: none; width:100px;'  onblur= \"updateSQL(  'qiquan' , 'price'  ,  'qq_id' , "+value.qq_id+"   , '"+td_input_pricetmp+"','"+ td_div_pricetmp+"',1)\"  /></td>";
+			    	reu=reu + "<td  ondblclick=\"showInput('"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\" > <label id='jiantou" + value.qq_id + "' style='float: left;'   ></label>   <div id='" + td_div_pricetmp +"' >    " + value.price +"</div>  <input  id='"+td_input_pricetmp +"'  type='text'  value='"+value.price+"'  style='display: none; width:100px;'  onblur= \"updateSQL(  'qiquan' , 'price'  ,  'qq_id' , "+value.qq_id+"   , '"+td_input_pricetmp+"','"+ td_div_pricetmp+"',1)\"  /></td>";
 			    	reu=reu + "<td><a onclick='AjaxCancelQiquan("+value.qq_id + ")'>注销</a></td>";
 			    	reu=reu + " </tr>";
 			    	callback();
@@ -330,10 +329,11 @@ Zhengquan.GetQiquanList = function GetQiquanList(userid,callback){
 			    	reu=reu + "<td  ondblclick=\"showInput('"+td_input_nametmp+"','"+ td_div_nametmp+"')\" ><div id='" + td_div_nametmp +"' >" + value.name +"</div> <input id='"+td_input_nametmp +"'  type='text'  value='"+value.name+"' style='display: none; width:100px;'  onblur=\"updateSQL(  'qiquan' , 'name' ,  'qq_id' , "+value.qq_id+" , '"+td_input_nametmp+"','"+ td_div_nametmp+"', 1)\"  />    </td>";
   
 			    	reu=reu + "<td  ondblclick=\"showInput_V2('"+td_input_flagtmp+"','"+ td_div_flagtmp+"')\" ><div id='" + td_div_flagtmp +"' >认沽</div> " ;	
-			    	reu=reu +	"<select id='"+td_input_flagtmp +"' style='display: none;'  onblur=\"updateSQL(  'qiquan' , 'flag' ,  'qq_id'  , "+value.qq_id+"   , '"+td_input_flagtmp+"','"+ td_div_flagtmp+"', 2)\"    >  <option  value='1'>认购&nbsp;&nbsp;&nbsp;&nbsp;</option>  <option  value='2'>认沽 &nbsp;&nbsp;&nbsp;&nbsp;</option>   </select>  </td>";
+					reu=reu +	"<select id='"+td_input_flagtmp +"' style='display: none;'  onblur=\"updateSQL(  'qiquan' , 'flag' ,  'qq_id'  , "+value.qq_id+"   , '"+td_input_flagtmp+"','"+ td_div_flagtmp+"', 2)\"    >  <option  value='1'>认购&nbsp;&nbsp;&nbsp;&nbsp;</option>  <option  value='2'>认沽 &nbsp;&nbsp;&nbsp;&nbsp;</option>   </select>  </td>";
 			    	
 			    	reu=reu + "<td  ondblclick=\"showInput('"+td_input_codetmp+"','"+ td_div_codetmp+"')\" ><div id='" + td_div_codetmp +"' >" + value.code +"</div>  <input  id='"+td_input_codetmp +"'  type='text'  value='"+value.code+"'  style='display: none; width:100px;'  onblur=\"updateSQL(  'qiquan' , 'code'  ,  'qq_id' , "+value.qq_id+"  , '"+td_input_codetmp+"','"+ td_div_codetmp+"', 1)\"   />  </td>";
-			    	reu=reu + "<td  ondblclick=\"showInput('"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\" ><div id='" + td_div_pricetmp +"' >" + value.price +"</div>  <input  id='"+td_input_pricetmp +"'  type='text'  value='"+value.price+"'  style='display: none; width:100px;'  onblur= \"updateSQL(  'qiquan' , 'price'  ,  'qq_id' , "+value.qq_id+"   , '"+td_input_pricetmp+"','"+ td_div_pricetmp+"',1)\"  /></td>";
+			    	
+					reu=reu + "<td  ondblclick=\"showInput('"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\" > <label id='jiantou" + value.qq_id + "' style='float: left;'   ></label>  <div id='" + td_div_pricetmp +"' >" + value.price +"</div>  <input  id='"+td_input_pricetmp +"'  type='text'  value='"+value.price+"'  style='display: none; width:100px;'  onblur= \"updateSQL(  'qiquan' , 'price'  ,  'qq_id' , "+value.qq_id+"   , '"+td_input_pricetmp+"','"+ td_div_pricetmp+"',1)\"  /></td>";
 			    	reu=reu + "<td><a onclick='AjaxCancelQiquan("+value.qq_id + ")'>注销</a></td>";
 			    	reu=reu + " </tr>";
 			    	callback();
@@ -475,7 +475,7 @@ Zhengquan.GetGupiaoSheetList= function GetGupiaoSheetList(userid, callback)
 					 
 		    		 reu=reu + "<td> " + days + "(天) </td>";		
 					 			 
-		    		 reu=reu + "<td  ondblclick=\"showInput('"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\" ><div id='" + td_div_pricetmp +"' >" + value.price +"</div>  <input  id='"+td_input_pricetmp +"'  type='text'  value='"+value.price+"'  style='display: none; width:100px;'  onblur= \"updateKey('gupiao' , 'price', "+value.gp_id+", '"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\"  /> </div></td>";
+		    		 reu=reu + "<td  ondblclick=\"showInput('"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\" > <label id='jiantou" + value.gp_id + "' style='float: left;'   ></label>    <div id='" + td_div_pricetmp +"' >" + value.price +"</div>  <input  id='"+td_input_pricetmp +"'  type='text'  value='"+value.price+"'  style='display: none; width:100px;'  onblur= \"updateKey('gupiao' , 'price', "+value.gp_id+", '"+td_input_pricetmp+"','"+ td_div_pricetmp+"')\"  /> </div></td>";
 		    		
 					 reu=reu + "<td><div id='"+yinglitmp+"'>" + yingli_TMP  + "</div></td>";
 
@@ -589,7 +589,7 @@ Zhengquan.GetQiquanSheetList= function GetQiquanSheetList(userid, callback) {
 			    		reu=reu + " <tr id=\'" + tr_tmp +  "\'  class='success'> ";
 			    		reu=reu + "<td>"+ nametmp + " </td>";
 			    		reu=reu + "<td><div id='" + counttmp + "'>" + count + "</div></td>";
-			    		reu=reu + "<td ><div id='" + td_div_pricetmp +"' >" + value.price +"</div></td>";
+			    		reu=reu + "<td > <label id='jiantou" + value.qq_id + "' style='float: left;'   ></label>  <div id='" + td_div_pricetmp +"' >" + value.price +"</div></td>";
 			    		reu=reu + "<td ><div id='" + shizhitmp +"' >" + shizhi +"</div></td>";	
 								    	 
 			    		reu=reu + "<td><div id='"+jiaogetmp+"'  >" + jiaoge + "</div><label id='"+shijitmp+"' >"+ shiji_yingli + "</label><label>(元)</label>"  + "</td>";	
@@ -682,11 +682,10 @@ Zhengquan.GetQiquanSheetList_for_auto= function GetQiquanSheetList_for_auto(user
 
 						reu=reu + " <tr id=\'" + tr_tmp +  "\'  class='success'> ";
 						reu=reu + "<td>"+ nametmp + " </td>";
-						reu=reu + "<td> 卖一估值：<div id='"+sale1_valtmp+"' ></div> 买一估值：<label id='"+buy1_valtmp+"' ></label> </td>";
+						reu=reu + "<td> 卖一估值：<label id='jiantou_guzhi_sale" + value.qq_id + "' style='float: left;'   ></label> <div id='"+sale1_valtmp+"' ></div> 买一估值：<label id='jiantou_guzhi_buy" + value.qq_id + "' style='float: left;'   ></label><label id='"+buy1_valtmp+"' ></label> </td>";
 						reu=reu + "<td><div id='" + counttmp + "'>" + count + "</div></td>";
-						reu=reu + "<td ><div id='" + td_div_pricetmp +"' >" + value.price +"</div></td>";
+						reu=reu + "<td >  <label id='jiantou_price" + value.qq_id + "' style='float: left;'   ></label>   <div id='" + td_div_pricetmp +"' >" + value.price +"</div></td>";
 						reu=reu + "<td ><div id='" + shizhitmp +"' >" + shizhi +"</div></td>";	
-
 						reu=reu + "<td><div id='"+jiaogetmp+"'  >" + jiaoge + "</div><label id='"+shijitmp+"' >"+ shiji_yingli + "</label><label>(元)</label>"  + "</td>";	
 
 						reu=reu + "</tr>";

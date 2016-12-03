@@ -54,7 +54,7 @@ function  AjaxAddGupiao()
 						var  trtmp= "<tr id='tr_gupiao"+data.gp_id+"' class='success'> ";
 						trtmp = trtmp +  "<td  ondblclick=\"showInput('td_input_name"+data.gp_id+"','td_div_name"+data.gp_id+"')\"> <div id='td_div_name"+data.gp_id+"' >" + gupiaoname + "</div><input id='td_input_name"+data.gp_id+"'  type='text'  value='" + gupiaoname + "' style='display: none; width:100px;'  onblur=\"updateKey('gupiao' , 'name', "+data.gp_id+", 'td_input_name"+data.gp_id+"','td_div_name"+data.gp_id+"')\"  /></td>" ;
 						trtmp = trtmp +  "<td  ondblclick=\"showInput('td_input_code"+data.gp_id+"','td_div_code"+data.gp_id+"')\">  <div id='td_div_code"+data.gp_id+"' >" + gupiaocode + "</div><input  id='td_input_code"+data.gp_id+"'  type='text'  value='" + gupiaocode + "'  style='display: none; width:100px;'  onblur=\"updateKey('gupiao' , 'code', "+data.gp_id+", 'td_input_code"+data.gp_id+"','td_div_code"+data.gp_id+"')\"   /></td>" ;
-						trtmp = trtmp +	"<td  ondblclick=\"showInput('td_input_price"+data.gp_id+"','td_div_price"+data.gp_id+"')\">   <div id='td_div_price"+data.gp_id+"' >"+ gupiaoprice +"</div><input  id='td_input_price"+data.gp_id+"'  type='text'  value='" + gupiaoprice + "'  style='display: none; width:100px;'  onblur=\"updateKey('gupiao' , 'price', "+data.gp_id+", 'td_input_price"+data.gp_id+"','td_div_price"+data.gp_id+"')\"   /></td>";
+						trtmp = trtmp +	"<td  ondblclick=\"showInput('td_input_price"+data.gp_id+"','td_div_price"+data.gp_id+"')\"> <label id='jiantou"+data.gp_id+"' style='float: left; color: red;'></label>  <div id='td_div_price"+data.gp_id+"' >"+ gupiaoprice +"</div><input  id='td_input_price"+data.gp_id+"'  type='text'  value='" + gupiaoprice + "'  style='display: none; width:100px;'  onblur=\"updateKey('gupiao' , 'price', "+data.gp_id+", 'td_input_price"+data.gp_id+"','td_div_price"+data.gp_id+"')\"   /></td>";
 						trtmp= trtmp +  "<td> <a onclick=\'AjaxCancelGupiao("+data.gp_id+")\'>注销</a></td> ";
 						trtmp= trtmp +  "</tr>";
 						//alert(trtmp);
@@ -667,7 +667,7 @@ function getPrice()
  
  console.log(time1, nowtimeStamp, time2 );
  
- if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice()",15000);	
+ if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice()",3000);	
 
 }
 
@@ -759,7 +759,7 @@ function showprice()
 					//console.log(codevalue[x], tmp); 
 					var ele=tmp.split(",");
 					
-					var prictmp=0,nametmp='' , gupiao_value=0, new_shiji_yingli=0;
+					var prictmp=0,nametmp='' , gupiao_value=0, new_shiji_yingli=0 , yesterdayPrice=0 ,yingli_bili = 0 ,zhangdie=0;
 					var count =$('#td_div_count'+idvalue[x]).text();
 					var jiaoge_yingli =  $('#jiaoge'+idvalue[x]).text()  ;
 					
@@ -772,6 +772,12 @@ function showprice()
 							 gupiao_value = prictmp * count ; //股票市值
 							 rmb_shizhi_total =parseFloat( rmb_shizhi_total) + parseFloat(gupiao_value);
 
+							 //昨天报收
+							  yesterdayPrice = ele[2];
+							  zhangdie =    prictmp - yesterdayPrice;  zhangdie =zhangdie.toFixed(3);
+
+                              yingli_bili =  parseFloat(zhangdie) * 100 / yesterdayPrice ;
+							  yingli_bili = yingli_bili.toFixed(2);
 							 					
 					}
 					
@@ -779,7 +785,13 @@ function showprice()
 							 prictmp=ele[3];
 							 nametmp=ele[0];	
 							 gupiao_value = prictmp * count ;
-							 rmb_shizhi_total = parseFloat( rmb_shizhi_total )+  parseFloat(gupiao_value);
+							 rmb_shizhi_total = parseFloat( rmb_shizhi_total ) +  parseFloat(gupiao_value);
+							 //昨天报收
+							  yesterdayPrice = ele[2]; 
+							  zhangdie =    prictmp - yesterdayPrice;  zhangdie =zhangdie.toFixed(3);
+                              yingli_bili =  parseFloat(zhangdie) * 100 / yesterdayPrice ;
+							  yingli_bili = yingli_bili.toFixed(2);
+
 			
 					}
 					
@@ -788,6 +800,12 @@ function showprice()
 							 nametmp="HK" + ele[1];		
 							 gupiao_value = prictmp * count * hk_exchange;
 							 hk_shizhi_total =  parseFloat( hk_shizhi_total) +  parseFloat( gupiao_value);
+
+							 //昨天报收
+							 yesterdayPrice = ele[3];
+							 zhangdie =  ele[7];
+							 yingli_bili = ele[8];
+
 	 			
 					}		
 					
@@ -799,19 +817,34 @@ function showprice()
 					//console.log('交割：',jiaoge_yingli);				
 					//console.log(codevalue[x],prictmp, count,'实际盈利：',new_shiji_yingli);			
 
-					
+					console.log('昨收：',yesterdayPrice, "股价：" ,prictmp ,"涨跌：",zhangdie, "盈亏百分比:",yingli_bili ) ;
+
+
 					 //更新实际盈利
 					 $('#shiji'+idvalue[x]).text(new_shiji_yingli);
 					 //alert(ele[0]);
 					var divValuetmp=$('div#td_div_price'+idvalue[x]).text();
 					
 					
-					if(divValuetmp != '' )  //如果股价发生变化
+					if(divValuetmp != '' )  //如果股价发生变化  ↑   ↓
 					  {
 					    
 					     //$('div#td_div_price'+idvalue[x]).addClass("FireBrick"); 
 					     $('input#td_input_price'+idvalue[x]).val(prictmp);
-						 $('div#td_div_price'+idvalue[x]).text(prictmp);
+
+						 $('div#td_div_price'+idvalue[x]).html( prictmp + " , " + " " + yingli_bili + "%" );
+ 
+						 //"<b> ↑</b> " 
+ 						//$('#jiantou'+idvalue[x]).text("↑" );   document.getElementById('jiantou'+idvalue[x]).style.color = "red"; 
+                        // $('#jiantou'+idvalue[x]).text("↓" );   document.getElementById('jiantou'+idvalue[x]).style.color = "green"; 
+						 if( parseFloat(prictmp) >  parseFloat(divValuetmp)  ) { $('#jiantou'+idvalue[x]).text("↑" );   document.getElementById('jiantou'+idvalue[x]).style.color = "red"; }
+						 if( parseFloat(prictmp) <  parseFloat(divValuetmp)  ) { $('#jiantou'+idvalue[x]).text("↓" );   document.getElementById('jiantou'+idvalue[x]).style.color = "green"; }
+
+
+						 if(yingli_bili > 0) document.getElementById('td_div_price'+idvalue[x]).style.color = "red";
+						 if(yingli_bili < 0) document.getElementById('td_div_price'+idvalue[x]).style.color = "green";
+
+
 						 $('div#td_div_name'+idvalue[x]).text(nametmp);
 					     
 						 //更新盈利
@@ -824,8 +857,7 @@ function showprice()
 						  var yinglitmp = parseFloat(yinglitmp) + (parseFloat(prictmp)-parseFloat(divValuetmp) ) * parseFloat(count);
 						  
 						  var yinglitmp =yinglitmp.toFixed(1);
-						  
-
+						
 						  
 						  var zhangmianTmp = yinglitmp;
 						  if(typeflag == 'hk') {  //如果为港股

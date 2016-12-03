@@ -62,7 +62,7 @@ function getPrice_qiquan_autoDecision()
  
  console.log(time1, nowtimeStamp, time2 );
  
- if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice_qiquan_autoDecision()",2000);	
+ if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice_qiquan_autoDecision()",3000);	
 
 }
 
@@ -113,7 +113,7 @@ function showprice_qiquan_autoDecision() {
   }); 
   //console.log(idvalue,codevalue); 
 
-var cc=0;
+  var cc=0;
 //从新浪财经处获取期权交易信息
   var listid='list=sh510050';
 
@@ -168,6 +168,9 @@ var cc=0;
 					// 步骤 3. 分析认购情况：估值1.获取标的的期价（转化）+ 买价 ， 估值2.获取对比物期价（转化）+ 卖价+双向手续费
 					//         如果估值2 < 估值1 ， 则出现市场漏洞。
                     var name_exist = ele[37], buyPrice_exist = ele[1], price_exist = ele[2] ;
+					//去除50etf分后出现的A
+					if(name_exist.indexOf('A') != -1) name_exist =name_exist.substring(0,name_exist.indexOf('A'));
+
 					if(name_exist.length == 13  ) { var qijia= name_exist.substring(9); var month_exist =  name_exist[6] + name_exist[7]; } 
 					if(name_exist.length == 12  ) { var qijia= name_exist.substring(8); var month_exist =  name_exist[6]; }
 
@@ -176,7 +179,7 @@ var cc=0;
 
 					var buy_exist =  ele[1], buy_count = ele[0] , code_exist= codevalue[z];
 
-					console.log('标的物代码',code_exist,'期价:',qijia,'月份:',month_exist,'方向',type_exist, '买入价:',buy_exist, '买入数量：',buy_count);
+					console.log('标的物代码',name_exist,'代码：',code_exist,'期价:',qijia,'月份:',month_exist,'方向',type_exist, '买入价:',buy_exist, '买入数量：',buy_count);
                     
 					//var timestamp = Date.parse(new Date());
 					var myDate = new Date();
@@ -202,9 +205,39 @@ var cc=0;
 
                     //更新标的实时价格
 					$("#td_div_price" + idvalue[z] ).text(price_exist);
-					$("#sale1_val" + idvalue[z] ).text(sale1_exist_value + "("+  sale1_chajia + ", " + sale1_baifenbi + "% )");			
-					$("#buy1_val" + idvalue[z] ).text(buy1_exist_value + "("+ buy1_chajia + ", " + buy1_baifenbi + "% )");		
                     
+					var td_price_tmp = $("#td_div_price" + idvalue[z] ).text();
+					//$('#jiantou_price'+idvalue[z]).text("↑" );   document.getElementById('jiantou_price'+idvalue[z]).style.color = "red"; 
+					if(  parseFloat( price_exist)  >  parseFloat(td_price_tmp)  ) { $('#jiantou_price'+idvalue[z]).text("↑" );   document.getElementById('jiantou_price'+idvalue[z]).style.color = "red"; }
+                    if(  parseFloat( price_exist)  <  parseFloat(td_price_tmp)  ) { $('#jiantou_price'+idvalue[z]).text("↓" );   document.getElementById('jiantou_price'+idvalue[z]).style.color = "green"; }
+
+
+					$("#sale1_val" + idvalue[z] ).text(sale1_exist_value + "("+  sale1_chajia.toFixed(0) + ", " + sale1_baifenbi + "% )");	
+
+					var td_sale1_str = 	$("#sale1_val" + idvalue[z] ).text();
+					var indexof_tmp = td_sale1_str.indexOf("(");
+					if(indexof_tmp != -1 ) {
+						td_sale1_tmp =td_sale1_str.substr(0,indexof_tmp);  
+						//$('#jiantou_guzhi_sale'+idvalue[z]).text("↑" );   document.getElementById('jiantou_guzhi_sale'+idvalue[z]).style.color = "red"; 
+						if(  parseFloat( sale1_exist_value)  >  parseFloat(td_sale1_tmp)  ) { $('#jiantou_guzhi_sale'+idvalue[z]).text("↑" );   document.getElementById('jiantou_guzhi_sale'+idvalue[z]).style.color = "red"; }
+						if(  parseFloat( sale1_exist_value)  <  parseFloat(td_sale1_tmp)  ) { $('#jiantou_guzhi_sale'+idvalue[z]).text("↓" );   document.getElementById('jiantou_guzhi_sale'+idvalue[z]).style.color = "green"; }
+
+					}
+
+				
+					$("#buy1_val" + idvalue[z] ).text(buy1_exist_value + "("+ buy1_chajia.toFixed(0) + ", " + buy1_baifenbi + "% )");		
+
+					var td_buy1_str = 	$("#buy1_val" + idvalue[z] ).text();
+					var indexof_tmp = td_buy1_str.indexOf("(");
+					if(indexof_tmp != -1 ) {
+						td_buy1_tmp =td_buy1_str.substr(0,indexof_tmp);  
+						//$('#jiantou_guzhi_buy'+idvalue[z]).text("↑" );   document.getElementById('jiantou_guzhi_buy'+idvalue[z]).style.color = "red"; 
+						if(  parseFloat( buy1_exist_value)  >  parseFloat(td_buy1_tmp)  ) { $('#jiantou_guzhi_buy'+idvalue[z]).text("↑" );   document.getElementById('jiantou_guzhi_buy'+idvalue[z]).style.color = "red"; }
+						if(  parseFloat( buy1_exist_value)  <  parseFloat(td_buy1_tmp)  ) { $('#jiantou_guzhi_buy'+idvalue[z]).text("↓" );   document.getElementById('jiantou_guzhi_buy'+idvalue[z]).style.color = "green"; }
+
+					}
+
+
                    if(type_exist == 1 ) {  //如果已有的此期权为认购类型
                             
 							for (y in codevalue_refer) {	 //制作新浪请求的参数		
@@ -212,6 +245,10 @@ var cc=0;
 								var  hq_str_CON_OP_refer =  eval('hq_str_CON_OP_' + codevalue_refer[y]);
 								var  ele_refer =hq_str_CON_OP_refer.split(',');
 								var name_refer = ele_refer[37], salePrice_refer = ele_refer[3];
+
+					           //去除50etf分后出现的A
+					           if(name_refer.indexOf('A') != -1) name_refer =name_refer.substring(0,name_refer.indexOf('A'));
+
 								
 								if(name_refer.length == 13  ) { var qijia_refer = name_refer.substring(9); var month_refer =  name_refer[6] + name_refer[7]; } 
 								if(name_refer.length == 12  ) { var qijia_refer = name_refer.substring(8); var month_refer =  name_refer[6]; }
@@ -246,7 +283,7 @@ var cc=0;
 								$("#td_div_sale" + idvalue_refer[y] ).text(sale_refer);
 								$("#td_div_name" + idvalue_refer[y] ).text(name_refer);
 								$("#td_div_code" + idvalue_refer[y] ).text(codevalue_refer[y]);
-                                $("#td_div_sale1_value" + idvalue_refer[y] ).text(sale1_value_refer + "("+  sale1_chajia_refer +", " + baifenbi_tmp +  "%)");	
+                                $("#td_div_sale1_value" + idvalue_refer[y] ).text(sale1_value_refer + "("+  sale1_chajia_refer.toFixed(0) +", " + baifenbi_tmp +  "%)");	
 
 								//开始分析
 								// 步骤 3. 分析认购情况：估值1.获取标的的期价（转化）+ 买价 ， 估值2.获取对比物期价（转化）+ 卖价+双向手续费
@@ -294,7 +331,7 @@ var cc=0;
  
 			emailInfo=JSON.stringify(emailInfo);
 			console.log(emailInfo);
-			if(emailInfo) sendEmail(emailInfo);
+			//if(emailInfo) sendEmail(emailInfo);
 
 
 
@@ -418,7 +455,17 @@ function showprice_qiquan() {
 					   shizhi_total = shizhi_total.toFixed(1);
 					   
 					   //$('#td_div_name'+idvalue[x]).text(hq_name);
+                       //$('#jiantou'+idvalue[x]).text("↑" );   document.getElementById('jiantou'+idvalue[x]).style.color = "red"; 
+					   
+					   if(  parseFloat( hq_price)  >  parseFloat(td_price)  ) { $('#jiantou'+idvalue[x]).text("↑" );   document.getElementById('jiantou'+idvalue[x]).style.color = "red"; }
+                       if(  parseFloat( hq_price)  <  parseFloat(td_price)  ) { $('#jiantou'+idvalue[x]).text("↓" );   document.getElementById('jiantou'+idvalue[x]).style.color = "green"; }
+
 					   $('#td_div_price'+idvalue[x]).text(hq_price);
+   
+
+					   //if( parseFloat(hq_price) > parseFloat(td_price)    ) document.getElementById('jiantou'+idvalue[x]).style.color = "red";
+					   //else  document.getElementById("color").style.color = "green";
+
 					   $("#td_shizhi" + idvalue[x] ).text(new_shizhi);
 					   $("#shiji" + idvalue[x] ).text(new_shiji);
 					   $("#total_val").text(shizhi_total);
@@ -484,7 +531,7 @@ function getPrice()
  
  console.log(time1, nowtimeStamp, time2 );
  
- if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice()",15000);	
+ if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice()",3000);	
 
 }
 
@@ -565,7 +612,16 @@ function showprice()
     				if(hq_name.indexOf('沽')!=-1)  {qiquanType= "认沽";   qiquanFlagVal=2;  }                  
 					//更新name...信息
 					$('#td_div_name'+idvalue[x]).text(hq_name);
+
+                    var price_tmp = $('#td_div_price'+idvalue[x]).text();
+                    
+			//$('#jiantou'+idvalue[x]).text("↑" );   document.getElementById('jiantou'+idvalue[x]).style.color = "red"; 
+			//$('#jiantou'+idvalue[x]).text("↓" );   document.getElementById('jiantou'+idvalue[x]).style.color = "green"; 
+					if(  parseFloat( hq_price)  >  parseFloat(price_tmp)  ) { $('#jiantou'+idvalue[x]).text("↑" );   document.getElementById('jiantou'+idvalue[x]).style.color = "red"; }
+                    if(  parseFloat( hq_price)  <  parseFloat(price_tmp)  ) { $('#jiantou'+idvalue[x]).text("↓" );   document.getElementById('jiantou'+idvalue[x]).style.color = "green"; }
 					$('#td_div_price'+idvalue[x]).text(hq_price);
+
+
 					$('#td_div_flag'+idvalue[x]).text(qiquanType);
 					//$('input#td_input_price'+idvalue[x]).val(prictmp);
 
@@ -613,7 +669,7 @@ function  AjaxAddGupiao()
 		   
 		  // if(!reg_price.test(greg_price)){
           //   alert("请输入浮点数字!");
-		//	 return ;
+		  //	 return ;
           //  } 
 		  
 		   //var reg = new RegExp("/\d{6}/");
@@ -728,8 +784,11 @@ function AjaxAddqiquan_auto()
 					                      "</td>" ;
 						trtmp = trtmp +  "<td  > <div id='td_div_flag"+data.id+"' ></div>" +
 								"  </td>" ;
+                        trtmp = trtmp +  "<td  >  <label id='jiantou_refer_sale"+data.id+"' style='float: left;'></label>  <div id='td_div_sale1_value"+data.id+"'></div>" +
+								"  </td>" ;
+
 						trtmp = trtmp +  "<td >  <div id='td_div_code"+data.id+"' >" + code + "</div></td>" ;
-						trtmp = trtmp +	"<td  >   <div id='td_div_sale"+data.id+"' ></div></td>";
+						trtmp = trtmp +	"<td  >  <label id='jiantou_refer_price"+data.id+"' style='float: left;'></label> <div id='td_div_sale"+data.id+"' ></div></td>";
 						trtmp= trtmp +  "<td> <a onclick=\'AjaxCancelQiquan_auto("+data.id+")\'>注销</a></td> ";
 						trtmp= trtmp +  "</tr>";
 						//alert(trtmp);
@@ -809,7 +868,7 @@ function AjaxAddqiquan()
 						trtmp = trtmp +  "<td  ondblclick=\"showInput_V2('td_input_flag"+data.id+"','td_div_flag"+data.id+"')\"> <div id='td_div_flag"+data.id+"' >" + flagname + "</div>" +
 								"<select id= 'td_input_flag"+data.id+"'   style='display: none;'  onblur=\"updateSQL(  'qiquan' , 'flag' ,  'qq_id' , "+data.id+" ,'td_input_flag"+data.id+"','td_div_flag"+data.id+"', 2)\"   >  <option  value='1'>认购&nbsp;&nbsp;&nbsp;&nbsp;</option>  <option  value='2'>认沽 &nbsp;&nbsp;&nbsp;&nbsp;</option>   </select>  </td>" ;
 						trtmp = trtmp +  "<td  ondblclick=\"showInput('td_input_code"+data.id+"','td_div_code"+data.id+"')\">  <div id='td_div_code"+data.id+"' >" + code + "</div><input  id='td_input_code"+data.id+"'  type='text'  value='" + code + "'  style='display: none; width:100px;'   onblur=\"updateSQL(  'qiquan' , 'code' ,  'qq_id' , "+data.id+" ,'td_input_code"+data.id+"','td_div_code"+data.id+"', 1)\"   /></td>" ;
-						trtmp = trtmp +	"<td  ondblclick=\"showInput('td_input_price"+data.id+"','td_div_price"+data.id+"')\">   <div id='td_div_price"+data.id+"' >"+ price +"</div><input  id='td_input_price"+data.id+"'  type='text'  value='" + price + "'  style='display: none; width:100px;'  onblur=\"updateSQL(  'qiquan' , 'price' ,  'qq_id' , "+data.id+" ,'td_input_price"+data.id+"','td_div_price"+data.id+"', 1)\"   /></td>";
+						trtmp = trtmp +	"<td  ondblclick=\"showInput('td_input_price"+data.id+"','td_div_price"+data.id+"')\"> <label id='jiantou"+data.id+"' style='float: left; color: red;'></label>  <div id='td_div_price"+data.id+"' >"+ price +"</div><input  id='td_input_price"+data.id+"'  type='text'  value='" + price + "'  style='display: none; width:100px;'  onblur=\"updateSQL(  'qiquan' , 'price' ,  'qq_id' , "+data.id+" ,'td_input_price"+data.id+"','td_div_price"+data.id+"', 1)\"   /></td>";
 						trtmp= trtmp +  "<td> <a onclick=\'AjaxCancelQiquan("+data.id+")\'>注销</a></td> ";
 						trtmp= trtmp +  "</tr>";
 						//alert(trtmp);
@@ -841,7 +900,7 @@ function AjaxCancelQiquan_auto(id) {
 
 			 if(data.status== '200') {var trtmp='tr#tr_qiquan' + id;  $(trtmp).remove();}
 			 if(data.status== '404' ) alert('warn:' + data.err);
-			 qiquanRefer[id] = '';
+			 delete qiquanRefer[id];
 		   }      
 			
 		})   //ajax  end
