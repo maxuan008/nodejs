@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>多项目管理-MX</title>
+    <title>首页-MX</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -26,7 +26,7 @@
 
 
 
-<!--  导航开始 --->       
+<!--  导航开始 -->       
     <nav class="navbar-default navbar-static-side" role="navigation">
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
@@ -35,20 +35,41 @@
                             <img alt="image" class="img-circle" src="img/profile_small.jpg" />
                              </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
-                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">用户姓名</strong>
+                             </span> <span class="text-muted text-xs block">下拉功能菜单<b class="caret"></b></span> </span> </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="profile.html">Profile</a></li>
-                            <li><a href="contacts.html">Contacts</a></li>
-                            <li><a href="mailbox.html">Mailbox</a></li>
+                            <li><a href="profile.html">下拉功能1</a></li>
+                            <li><a href="contacts.html">下拉功能2</a></li>
+                            <li><a href="mailbox.html">下拉功能3</a></li>
                             <li class="divider"></li>
-                            <li><a href="login.html">Logout</a></li>
+                            <li><a href="login.html">退出</a></li>
                         </ul>
                     </div>
                     <div class="logo-element">
                         IN+
                     </div>
                 </li>
+
+                <li class="active">
+                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">首页</span> </a>
+                </li>
+
+                <li class="special_link">
+                    <a href="package.html"><i class="fa fa-database"></i> <span class="nav-label">项目管理</span></a>
+                </li>
+
+                <li>
+                    <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label"> 证券投资 </span><span class="fa arrow"></span></a>
+                </li>
+
+
+                <li>
+                    <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label"> 信用卡管理 </span><span class="fa arrow"></span></a>
+                </li>
+
+
+
+<!--
                 <li class="active">
                     <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -59,6 +80,7 @@
                         <li><a href="dashboard_5.html">Dashboard v.5 <span class="label label-primary pull-right">NEW</span></a></li>
                     </ul>
                 </li>
+
                 <li>
                     <a href="layouts.html"><i class="fa fa-diamond"></i> <span class="nav-label">Layouts</span></a>
                 </li>
@@ -243,6 +265,13 @@
                 </li>
             </ul>
 
+-->
+
+
+
+
+
+
         </div>
     </nav>
 
@@ -281,7 +310,7 @@
        <!-- 右header: 说明，邮件，消息，logout， 下拉 -->
             <ul class="nav navbar-top-links navbar-right">
                 <li>
-                    <span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+                    <span class="m-r-sm text-muted welcome-message">一个简单的多项目管理器</span>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -382,7 +411,7 @@
 
                 <li>
                     <a href="login.html">
-                        <i class="fa fa-sign-out"></i> Log out
+                        <i class="fa fa-sign-out"></i> 退出
                     </a>
                 </li>
                 <li>
@@ -393,8 +422,6 @@
             </ul>
 
 <!-- 右header: 说明，邮件，消息，logout， 下拉 ，  结束-->
-
-
 
         </nav>
 
@@ -419,17 +446,22 @@
 
         <div class="row">
 
-
                     <div class="col-lg-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <span class="label label-success pull-right">Monthly</span>
-                                <h5>Income</h5>
+                                <span class="label label-success pull-right">>>进入</span>
+                                
+                                <h5>证券投资</h5>
+                                
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">40 886,200</h1>
-                                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                                <small>Total income</small>
+                                <h1 class="no-margins">简介</h1>
+                                <div class="stat-percent font-bold text-success">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> <i class="fa fa-wrench"></i> </a> 
+                                    <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a>
+                                    <a class="close-link"> <i class="fa fa-times"> </i> </a> 
+                                </div>
+                                <small>MX</small>
                             </div>
                         </div>
                     </div>
@@ -439,13 +471,53 @@
                     <div class="col-lg-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <span class="label label-info pull-right">Annual</span>
-                                <h5>Orders</h5>
+                                <span class="label label-info pull-right">>>进入</span>
+                                <h5>信用卡管理</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">275,800</h1>
-                                <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                                <small>New orders</small>
+                                <h1 class="no-margins">简介</h1>
+                                <div class="stat-percent font-bold text-info">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> <i class="fa fa-wrench"></i> </a> 
+                                    <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a>
+                                    <a class="close-link"> <i class="fa fa-times"> </i> </a> 
+                                </div>
+                                <small>MX</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <span class="label label-info pull-right">>>进入</span>
+                                <h5>项目名称1</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins">简介</h1>
+                                <div class="stat-percent font-bold text-info">
+                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> <i class="fa fa-wrench"></i> </a> 
+                                    <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a>
+                                    <a class="close-link"> <i class="fa fa-times"> </i> </a> 
+                                </div>
+                                <small>MX</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <span class="label label-info pull-right">>>进入</span>
+                                <h5>项目名称2</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins">简介</h1>
+                                <div class="stat-percent font-bold text-info">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> <i class="fa fa-wrench"></i> </a> 
+                                    <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a>
+                                    <a class="close-link"> <i class="fa fa-times"> </i> </a> 
+                                </div>
+                                <small>MX</small>
                             </div>
                         </div>
                     </div>
@@ -459,36 +531,11 @@
                             </div>
                             <div class="ibox-content">
                                 <h1 class="no-margins">106,120</h1>
-                                <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
-                                <small>New visits</small>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-lg-3">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <span class="label label-primary pull-right">Today</span>
-                                <h5>Vistits</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">106,120</h1>
-                                <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
-                                <small>New visits</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <span class="label label-primary pull-right">Today</span>
-                                <h5>Vistits</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">106,120</h1>
-                                <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
+                                <div class="stat-percent font-bold text-navy">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> <i class="fa fa-wrench"></i> </a> 
+                                    <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a>
+                                    <a class="close-link"> <i class="fa fa-times"> </i> </a> 
+                                </div>
                                 <small>New visits</small>
                             </div>
                         </div>
