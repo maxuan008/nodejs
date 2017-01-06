@@ -1,0 +1,55 @@
+{
+  "production" :{
+      "cookiesecret":"mgsession",
+
+      "mgport": "1155",
+
+      "mysql":{
+
+      },
+
+      "mongodb": {
+		"db": "mx",
+		"host":"127.0.0.1",
+		"port": 27017
+      } , 
+
+      "redis": {
+
+
+      }
+
+
+   } ,
+
+  "development" :{
+      "cookiesecret":"mgsession",
+      "mgport": "1155",
+
+      "mysql":{
+
+      },
+
+      "mongodb": {
+		"db": "mx",
+		"host":"127.0.0.1",
+		"port": 27017
+      } , 
+
+      "redis": {
+
+
+      }
+
+
+   } ,
+
+  "other" :{
+
+
+
+   } 
+
+
+
+}

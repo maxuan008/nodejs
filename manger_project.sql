@@ -185,7 +185,25 @@ CREATE TABLE `mg_user_fun` (
 
 
 
-
+DROP TABLE IF EXISTS `mg_designer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mg_designer` (
+  `did` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户主键ID',
+  `username` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '用户名',
+  `password` varchar(80) COLLATE utf8_bin DEFAULT NULL COMMENT '密码', 
+  `fullname` varchar(35) COLLATE utf8_bin DEFAULT NULL COMMENT '全名', 
+  `email` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '邮件',   
+  `tel` varchar(30) COLLATE utf8_bin DEFAULT NULL COMMENT '电话',   
+  
+  `isvalid` varchar(1) COLLATE utf8_bin DEFAULT '1' COMMENT '是否有效: 0无效, 1有效',
+  `remark` varchar(300) COLLATE utf8_bin DEFAULT NULL,
+  `updater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `update_time` datetime(6) DEFAULT NULL,
+  `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`did`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='设计者';
 
 
 
