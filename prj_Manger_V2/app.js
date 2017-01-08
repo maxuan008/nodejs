@@ -77,6 +77,7 @@ console.log("----mongodb 信息, ip: %s , 端口: %s , 数据库: %s" , config[m
 
 var mg_login = require('./routes/mg/controller/login');
 var mg_index = require('./routes/mg/controller/index');
+var mg_manger = require('./routes/mg/controller/manger');
 
 
 //var index = require('./routes/mg/controller/index');
@@ -87,6 +88,13 @@ var mg_index = require('./routes/mg/controller/index');
 //var setSession= require('./routes/mg/controller/setSession');
 var mg_logincheck = require('./routes/mg/controller/ajax/logincheck');
 var mg_getAllProjects = require('./routes/mg/controller/ajax/getAllProjects');
+var mg_addproject = require('./routes/mg/controller/ajax/addproject');
+var mg_addfun = require('./routes/mg/controller/ajax/addfun');
+var mg_delfun = require('./routes/mg/controller/ajax/delfun');
+
+var mg_addrole = require('./routes/mg/controller/ajax/addrole');
+
+
 
 //*******中间件：可以用于sesssion验证, 可信任站点，log访问日志的等等*********//
 
@@ -98,12 +106,12 @@ var permitPath =['', '/','/index' , '/login' , '/mg/login' , '/mg/logincheck'   
 var designerSessionUrl = [ 'mg' ];
 
 app.use( function(req, res, next) {
-    console.log("baseUrl:",req.baseUrl,"path:" , req.path , "originalUrl:" , req.originalUrl);
+    //console.log("baseUrl:",req.baseUrl,"path:" , req.path , "originalUrl:" , req.originalUrl);
     //console.log(req);
     var reqpath = req.path;
     var originalUrl = req.originalUrl;
     var urlarry = reqpath.split('/');  //console.log(urlarry);
-    var baseUrl = urlarry[1];  console.log("baseur:" , baseUrl ,"arr:" , urlarry);
+    var baseUrl = urlarry[1];  //console.log("baseur:" , baseUrl ,"arr:" , urlarry);
 
     if( permitPath.indexOf(originalUrl) > -1 )  { //通过可信任路径
       next();
@@ -148,11 +156,17 @@ app.use( function(req, res, next) {
 //app.use('/setSession', setSession);
 app.use('/mg/login',mg_login);
 app.use('/mg/index',mg_index);
+app.use('/mg/manger',mg_manger);
+
+
 
 app.use('/mg/logincheck',mg_logincheck);
 app.use('/mg/getAllProjects',mg_getAllProjects);
+app.use('/mg/addproject',mg_addproject);
+app.use('/mg/addfun',mg_addfun);
+app.use('/mg/delfun',mg_delfun);
 
-
+app.use('/mg/addrole',mg_addrole);
 
 
 

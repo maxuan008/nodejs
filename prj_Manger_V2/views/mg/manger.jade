@@ -45,10 +45,10 @@
 |                        </div>
 |                    </li><!-- class="nav-header" end -->
 |      
-|                    <li class="special_link">
+|                    <li>
 |                        <a id='index' href="/mg/index"><i class="fa fa-th-large"></i> <span class="nav-label">首页</span> </a>
 |                    </li>
-|                    <li  >
+|                    <li  class="special_link">
 |                        <a id='manager' href="/mg/manger"><i class="fa fa-database"></i> <span class="nav-label">项目管理</span></a>
 |                    </li>
 |  
@@ -126,355 +126,245 @@ include newsContent.html
 |                    <h2>多项目管理控制台</h2>
 |                    <ol class="breadcrumb">
 |                        <li><a href="index.html">Home</a></li>                              
-|                        <li class="active"><strong>#{position}</strong></li>
+|                        <li class="active"><strong>#{position}</strong> </li>
 |                    </ol>
 |                </div>
 |                <div class="col-lg-2">
 |                </div>
 | 
 |            </div>
-| 
-| 
+|    
 | 
 | 
 |            <!-- 主体内容展示区域  -->
 |            <div id='projectmanger' class="wrapper wrapper-content animated fadeInRight">
-
-
-
-|<div class='col-lg-12'>  
-|	<div class='ibox float-e-margins'>  
-|		<div class='ibox-title'>  
-|			<h5>项目名2</h5>  
-|			<div class='ibox-tools'>  
-|				<a class='collapse-link'><i class='fa fa-chevron-up'></i></a>  
-|				<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-wrench'></i></a>  
-|				<ul class='dropdown-menu dropdown-user'>  
-|					<li><a href='#'>Config option 1</a></li>  
-|					<li><a href='#'>Config option 2</a></li>  
-|				</ul>  
-|				<a class='close-link'><i class='fa fa-times'></i></a>  
-|			</div>  
-|		</div>  
-|			<div class='ibox-content'>  
-|			<table class='table table-bordered'>  
-|				<thead><tr><th>模块</th><th colspan='3'>功能</th><th>操作</th></tr></thead>  
-|				<tbody>  
-|					<tr>  
-|						<td>管理账户</td>  
-|						<td colspan='3'>  
-|							<div class='row'>  
-|									<div class='col-xs-5 col-sm-8'>  代码:25,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|								</div>  
-|						</td>  
-|						<td>@mdo</td>  
-|					</tr>  
-|					<tr>  
-|						<td>用户</td><td colspan='3'></td><td>@fat</td>  
-|					</tr>  
-|					<tr>  
-|						<td>功能模块</td><td colspan='3'>Larry</td><td>@twitter</td>  
-|					</tr>  
-|					<tr>  
-|						<td>描述</td><td colspan='4'></td>  
-|					</tr>  
-|				</tbody>  
-|			</table>  
-|		</div>  
-|	</div>  
-|</div>
-
-|<div class='col-lg-12'>  
-|	<div class='ibox float-e-margins'>  
-|		<div class='ibox-title'>  
-|			<h5>项目名2</h5>  
-|			<div class='ibox-tools'>  
-|				<a class='collapse-link'><i class='fa fa-chevron-up'></i></a>  
-|				<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-wrench'></i></a>  
-|				<ul class='dropdown-menu dropdown-user'>  
-|					<li><a href='#'>Config option 1</a></li>  
-|					<li><a href='#'>Config option 2</a></li>  
-|				</ul>  
-|				<a class='close-link'><i class='fa fa-times'></i></a>  
-|			</div>  
-|		</div>  
-|			<div class='ibox-content'>  
-|			<table class='table table-bordered'>  
-|				<thead><tr><th>模块</th><th colspan='3'>功能</th><th>操作</th></tr></thead>  
-|				<tbody>  
-|					<tr>  
-|						<td>管理账户</td>  
-|						<td colspan='3'>  
-|							<div class='row'>  
-|									<div class='col-xs-5 col-sm-8'>  代码:25,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|								</div>  
-|						</td>  
-|						<td>@mdo</td>  
-|					</tr>  
-|					<tr>  
-|						<td>用户</td><td colspan='3'></td><td>@fat</td>  
-|					</tr>  
-|					<tr>  
-|						<td>功能模块</td><td colspan='3'>Larry</td><td>@twitter</td>  
-|					</tr>  
-|					<tr>  
-|						<td>描述</td><td colspan='4'></td>  
-|					</tr>  
-|				</tbody>  
-|			</table>  
-|		</div>  
-|	</div>  
-|</div>
-
-
-
-
-
-
-|<div class='col-lg-12'>  
-|	<div class='ibox float-e-margins'>  
-|		<div class='ibox-title'>  
-|			<h5>项目名2</h5>  
-|			<div class='ibox-tools'>  
-|				<a class='collapse-link'><i class='fa fa-chevron-up'></i></a>  
-|				<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-wrench'></i></a>  
-|				<ul class='dropdown-menu dropdown-user'>  
-|					<li><a href='#'>Config option 1</a></li>  
-|					<li><a href='#'>Config option 2</a></li>  
-|				</ul>  
-|				<a class='close-link'><i class='fa fa-times'></i></a>  
-|			</div>  
-|		</div>  
-|			<div class='ibox-content'>  
-|			<table class='table table-bordered'>  
-|				<thead><tr><th>模块</th><th colspan='3'>功能</th><th>操作</th></tr></thead>  
-|				<tbody>  
-|					<tr>  
-|						<td>管理账户</td>  
-|						<td colspan='3'>  
-|							<div class='row'>  
-|									<div class='col-xs-5 col-sm-8'>  代码:25,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|								</div>  
-|						</td>  
-|						<td>@mdo</td>  
-|					</tr>  
-|					<tr>  
-|						<td>用户</td><td colspan='3'></td><td>@fat</td>  
-|					</tr>  
-|					<tr>  
-|						<td>功能模块</td><td colspan='3'>Larry</td><td>@twitter</td>  
-|					</tr>  
-|					<tr>  
-|						<td>描述</td><td colspan='4'></td>  
-|					</tr>  
-|				</tbody>  
-|			</table>  
-|		</div>  
-|	</div>  
-|</div>
-
-|<div class='col-lg-12'>  
-|	<div class='ibox float-e-margins'>  
-|		<div class='ibox-title'>  
-|			<h5>项目名2</h5>  
-|			<div class='ibox-tools'>  
-|				<a class='collapse-link'><i class='fa fa-chevron-up'></i></a>  
-|				<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-wrench'></i></a>  
-|				<ul class='dropdown-menu dropdown-user'>  
-|					<li><a href='#'>Config option 1</a></li>  
-|					<li><a href='#'>Config option 2</a></li>  
-|				</ul>  
-|				<a class='close-link'><i class='fa fa-times'></i></a>  
-|			</div>  
-|		</div>  
-|			<div class='ibox-content'>  
-|			<table class='table table-bordered'>  
-|				<thead><tr><th>模块</th><th colspan='3'>功能</th><th>操作</th></tr></thead>  
-|				<tbody>  
-|					<tr>  
-|						<td>管理账户</td>  
-|						<td colspan='3'>  
-|							<div class='row'>  
-|									<div class='col-xs-5 col-sm-8'>  代码:25,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|								</div>  
-|						</td>  
-|						<td>@mdo</td>  
-|					</tr>  
-|					<tr>  
-|						<td>用户</td><td colspan='3'></td><td>@fat</td>  
-|					</tr>  
-|					<tr>  
-|						<td>功能模块</td><td colspan='3'>Larry</td><td>@twitter</td>  
-|					</tr>  
-|					<tr>  
-|						<td>描述</td><td colspan='4'></td>  
-|					</tr>  
-|				</tbody>  
-|			</table>  
-|		</div>  
-|	</div>  
-|</div>
-
-
-
-
-
-
-
-|<div class='col-lg-12'>  
-|	<div class='ibox float-e-margins'>  
-|		<div class='ibox-title'>  
-|			<h5>项目名2</h5>  
-|			<div class='ibox-tools'>  
-|				<a class='collapse-link'><i class='fa fa-chevron-up'></i></a>  
-|				<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-wrench'></i></a>  
-|				<ul class='dropdown-menu dropdown-user'>  
-|					<li><a href='#'>Config option 1</a></li>  
-|					<li><a href='#'>Config option 2</a></li>  
-|				</ul>  
-|				<a class='close-link'><i class='fa fa-times'></i></a>  
-|			</div>  
-|		</div>  
-|			<div class='ibox-content'>  
-|			<table class='table table-bordered'>  
-|				<thead><tr><th>模块</th><th colspan='3'>功能</th><th>操作</th></tr></thead>  
-|				<tbody>  
-|					<tr>  
-|						<td>管理账户</td>  
-|						<td colspan='3'>  
-|							<div class='row'>  
-|									<div class='col-xs-5 col-sm-8'>  代码:25,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|								</div>  
-|						</td>  
-|						<td>@mdo</td>  
-|					</tr>  
-|					<tr>  
-|						<td>用户</td><td colspan='3'></td><td>@fat</td>  
-|					</tr>  
-|					<tr>  
-|						<td>功能模块</td><td colspan='3'>Larry</td><td>@twitter</td>  
-|					</tr>  
-|					<tr>  
-|						<td>描述</td><td colspan='4'></td>  
-|					</tr>  
-|				</tbody>  
-|			</table>  
-|		</div>  
-|	</div>  
-|</div>
-
-|<div class='col-lg-12'>  
-|	<div class='ibox float-e-margins'>  
-|		<div class='ibox-title'>  
-|			<h5>项目名2</h5>  
-|			<div class='ibox-tools'>  
-|				<a class='collapse-link'><i class='fa fa-chevron-up'></i></a>  
-|				<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-wrench'></i></a>  
-|				<ul class='dropdown-menu dropdown-user'>  
-|					<li><a href='#'>Config option 1</a></li>  
-|					<li><a href='#'>Config option 2</a></li>  
-|				</ul>  
-|				<a class='close-link'><i class='fa fa-times'></i></a>  
-|			</div>  
-|		</div>  
-|			<div class='ibox-content'>  
-|			<table class='table table-bordered'>  
-|				<thead><tr><th>模块</th><th colspan='3'>功能</th><th>操作</th></tr></thead>  
-|				<tbody>  
-|					<tr>  
-|						<td>管理账户</td>  
-|						<td colspan='3'>  
-|							<div class='row'>  
-|									<div class='col-xs-5 col-sm-8'>  代码:25,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|								</div>  
-|						</td>  
-|						<td>@mdo</td>  
-|					</tr>  
-|					<tr>  
-|						<td>用户</td><td colspan='3'></td><td>@fat</td>  
-|					</tr>  
-|					<tr>  
-|						<td>功能模块</td><td colspan='3'>Larry</td><td>@twitter</td>  
-|					</tr>  
-|					<tr>  
-|						<td>描述</td><td colspan='4'></td>  
-|					</tr>  
-|				</tbody>  
-|			</table>  
-|		</div>  
-|	</div>  
-|</div>
-
-
-
-
-|                    <!-- 简介展示区域  -->
-|                    <div class="row"  id='brief'>
 | 
-|                            <div class="col-lg-3">
-|                                <div class="ibox float-e-margins">
-|                                    <div class="ibox-title">
-|                                        <span class="label label-info pull-right">>>进入</span>
-|                                        <h5>证券投资</h5>
-|                                    </div>
-|                                    <div class="ibox-content">
-|                                        <h1 class="no-margins">简介</h1>
-|                                        <div class="stat-percent font-bold text-success">
-|                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> <i class="fa fa-wrench"></i> </a> 
-|                                            <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a>
-|                                            <a class="close-link"> <i class="fa fa-times"> </i> </a> 
-|                                        </div>
-|                                        <small>MX</small>
-|                                    </div>
-|                                </div>
-|                            </div>
 | 
-|                            <div class="col-lg-3">
-|                                <div class="ibox float-e-margins">
-|                                    <div class="ibox-title">
-|                                        <span class="label label-info pull-right">>>进入</span>
-|                                        <h5>信用卡管理</h5>
-|                                    </div>
-|                                    <div class="ibox-content">
-|                                        <h1 class="no-margins">简介</h1>
-|                                        <div class="stat-percent font-bold text-info">
-|                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> <i class="fa fa-wrench"></i> </a> 
-|                                            <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a>
-|                                            <a class="close-link"> <i class="fa fa-times"> </i> </a> 
-|                                        </div>
-|                                        <small>MX</small>
-|                                    </div>
-|                                </div>
+|                <div class="col-lg-12">
+|                    <div class="ibox float-e-margins">
+| 
+|                        <div class="ibox-title">
+|                            <h5> 项目创建 <i class="fa fa-plus-square"></i></h5> 
+|                            <h5  id='warninfo' style='color:red;margin-left:25px;'>  </h5> 
+|                            <div class="ibox-tools">
+|                                <a class="collapse-link">
+|                                    <i class="fa fa-chevron-up"></i>
+|                                </a>
+|                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+|                                    <i class="fa fa-wrench"></i>
+|                                </a>
+|                                <ul class="dropdown-menu dropdown-user">
+|                                    <li><a href="#">Config option 1</a>
+|                                    </li>
+|                                    <li><a href="#">Config option 2</a>
+|                                    </li>
+|                                </ul>
+|                                <a class="close-link">
+|                                    <i class="fa fa-times"></i>
+|                                </a>
 |                            </div>
+|                        </div>
+|                        <div class="ibox-content">
+|                            <form role="form" class="form-inline">
+|                                <div class="form-group">
+|                                    <label for="exampleInputEmail2" class="sr-only">项目名</label>
+|                                    <input id="prj_name" type="text" placeholder="项目名"  class="form-control">
+|                                </div>
+|                                <div class="form-group">
+|                                    <label for="exampleInputPassword2" class="sr-only">端口</label>
+|                                    <input id="port" type="text" placeholder="端口"  class="form-control">
+|                                </div>
+|                                <div class="form-group">
+|                                    <label for="exampleInputPassword2" class="sr-only">Url</label>
+|                                    <input id="domain_url" type="text" placeholder="Url, 例: http://abc.com"  class="form-control">
+|                                </div>
+|                                <div class="checkbox m-r-xs">
+|                                </div>
+|                                <button id='addproject' class="btn btn-white" type="button">添加</button>
+|                            </form>
+|                        </div>
+|  
 |                    </div>
-|                    <!-- 简介展示区域 结束  -->
-|                      
-|                    <!-- 其它内容展示区域  -->
-|                <div id='other' class="row">
-include otherContent.html
-|                </div><!-- class="row" end -->
-|                    <!-- 其它内容展示区域 结束 -->  
+|                </div>
+
+
+
+|<div class='col-lg-12'>  
+|	<div class='ibox float-e-margins'>  
+|		<div class='ibox-title'>  
+|			<h5>项目名1</h5>  
+|			<div class='ibox-tools'>  
+|				<a class='collapse-link'><i class='fa fa-chevron-up'></i></a>  
+|				<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-wrench'></i></a>  
+|				<ul class='dropdown-menu dropdown-user'>  
+|					<li><a href='#'>Config option 1</a></li>  
+|					<li><a href='#'>Config option 2</a></li>  
+|				</ul>  
+|				<a class='close-link'><i class='fa fa-times'></i></a>  
+|			</div>  
+|		</div>  
+|			<div class='ibox-content'>  
+|			<table class='table table-bordered'>  
+|				<thead><tr><th colspan='3'>
+|                            <form role="form" class="form-inline">
+|                                <div class="form-group"> 添加一个角色: </div>
+|                                <div class="form-group"><input id="role_name_1" type="text" placeholder="角色名"  class="form-control"></div>
+|                                <div class="checkbox m-r-xs"><button prjid='1' onclick='addrole(this)' class="btn btn-white" type="button">添加</button></div>         
+|                            </form>
+|                       </th></tr>
+|               </thead>  
+|				<thead><tr><th>角色</th><th >功能</th><th  >用户名单</th></tr></thead> 
+|				<tbody id='tbody_1' >  
+|					<tr>  
+|						<td>管理账户</td>  
+|						<td >  
+|							<div id='role_fun_list_prjid_roidid'  class='row'>  
+|									<div class='col-xs-5 col-sm-8'> 代码:25,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
+|								</div>  
+|						</td>  
+|						<td >  
+|							<div id='role_user_list_prjid_roidid' class='row'>  
+|									<div class='col-xs-5 col-sm-8'> user1 dsjhfkjdhfsjfdhkjkjdsafk</div>  
+|									<div class='col-xs-5 col-sm-8'> user2 </div>  
+|									<div class='col-xs-5 col-sm-8'> user2 </div>  
+|									<div class='col-xs-5 col-sm-8'> user3 </div>  
+|								</div>  
+|						</td>  
+|					</tr>  
+|					<tr>  
+|						<td>用户</td><td colspan='2'></td>  
+|					</tr>  
+|					<tr>  
+|						<td>功能模块</td><td colspan='2'>
+|							<div id='funlist_1' class='row'>  
+|									<div class='col-xs-5 col-sm-8'><i class='fa fa-times'></i> 代码:25,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'><i class='fa fa-times'></i> 代码:26,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'><i class='fa fa-times'></i> 代码:26,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8' id='fundivdel_'><a fid='' onclick='delfun(this)'><i class='fa fa-times'></i></a> 代码:26,智能决策--autoDecision  </div> 
+|							</div>  
+|                        </td> 
+|					</tr>  
+|					<tr>  
+|						<td class='col-xs-1 col-sm-2'>添加功能模块</td>
+|                       <td colspan='2'>
+|                            <form role="form" class="form-inline">
+|                                <div class="form-group">
+|                                    <label for="exampleInputEmail2" class="sr-only">功能名</label>
+|                                    <input id="fun_name_1" type="text" placeholder="功能名"  class="form-control">
+|                                </div>
+|                                <div class="form-group">
+|                                    <label for="exampleInputPassword2" class="sr-only">链接url</label>
+|                                    <input id="fun_url_1" type="text" placeholder="链接url"  class="form-control">
+|                                </div>
+|                                <div class="form-group">
+|                                    <label for="exampleInputPassword2" class="sr-only">程序文件名</label>
+|                                    <input id="fun_docname_1" type="text" placeholder="程序文件名"  class="form-control">
+|                                </div>
+|                                <div class="checkbox m-r-xs"><input type="checkbox" id="fun_havedomai_1">
+|                                    <label for="checkbox1">链接含主域名?</label>
+|                                   <button prjid='1' onclick='addfun(this)' class="btn btn-white" type="button">添加</button>
+|                                </div>
+|                               
+|                            </form>
+|                       </td>  
+|					</tr>  
+|				</tbody>  
+|			</table>  
+|		</div>  
+|	</div>  
+|</div>
 | 
-|   
-|                <div id='footer' class="footer">
+| 
+| 
+|<div class='col-lg-12'>  
+|	<div class='ibox float-e-margins'>  
+|		<div class='ibox-title'>  
+|			<h5>项目名2</h5>  
+|			<div class='ibox-tools'>  
+|				<a class='collapse-link'><i class='fa fa-chevron-up'></i></a>  
+|				<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-wrench'></i></a>  
+|				<ul class='dropdown-menu dropdown-user'>  
+|					<li><a href='#'>Config option 1</a></li>  
+|					<li><a href='#'>Config option 2</a></li>  
+|				</ul>  
+|				<a class='close-link'><i class='fa fa-times'></i></a>  
+|			</div>  
+|		</div>  
+|			<div class='ibox-content'>  
+|			<table class='table table-bordered'>  
+|				<thead><tr><th>模块</th><th >功能</th><th  >用户名单</th></tr></thead>  
+|				<tbody>  
+|					<tr>  
+|						<td>管理账户</td>  
+|						<td >  
+|							<div class='row'>  
+|									<div class='col-xs-5 col-sm-8'> 代码:25,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
+|								</div>  
+|						</td>  
+|						<td >  
+|							<div class='row'>  
+|									<div class='col-xs-5 col-sm-8'> user1 dsjhfkjdhfsjfdhkjkjdsafk</div>  
+|									<div class='col-xs-5 col-sm-8'> user2 </div>  
+|									<div class='col-xs-5 col-sm-8'> user2 </div>  
+|									<div class='col-xs-5 col-sm-8'> user3 </div>  
+|								</div>  
+|						</td>  
+|					</tr>  
+|					<tr>  
+|						<td>用户</td><td colspan='2'></td>  
+|					</tr>  
+|					<tr>  
+|						<td>功能模块</td><td colspan='2'>
+|							<div class='row'>  
+|									<div class='col-xs-5 col-sm-8'> 代码:25,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
+|								</div>  
+|                        </td> 
+|					</tr>  
+|					<tr>  
+|						<td class='col-xs-1 col-sm-2'>添加功能模块</td>
+|                       <td colspan='2'>
+|                            <form role="form" class="form-inline">
+|                                <div class="form-group">
+|                                    <label for="exampleInputEmail2" class="sr-only">功能名</label>
+|                                    <input id="prj_name" type="text" placeholder="功能名"  class="form-control">
+|                                </div>
+|                                <div class="form-group">
+|                                    <label for="exampleInputPassword2" class="sr-only">链接url</label>
+|                                    <input id="port" type="text" placeholder="链接url"  class="form-control">
+|                                </div>
+|                                <div class="form-group">
+|                                    <label for="exampleInputPassword2" class="sr-only">程序文件名</label>
+|                                    <input id="domain_url" type="text" placeholder="程序文件名"  class="form-control">
+|                                </div>
+|                                <div class="checkbox m-r-xs"><input type="checkbox" id="checkbox1">
+|                                    <label for="checkbox1">链接含主域名?</label>
+|                                   <button prjid='' onclick='addfun(this)' class="btn btn-white" type="button">添加</button>
+|                                </div>
+|                               
+|                            </form>
+|                       </td>  
+|					</tr>  
+|				</tbody>  
+|			</table>  
+|		</div>  
+|	</div>  
+|</div>
+|  
+|  
+|                <div id='other' class="row">
+| 
+|                </div><!-- class="row" end -->
+|    
+|                <div class="footer">
 |                            <div class="pull-right"> 1 of <strong>250GB</strong> Free.</div>
 |                            <div> <strong>Copyright</strong> MX &copy; 2016-2017</div>
 |                </div><!-- class="footer" end -->
@@ -532,8 +422,6 @@ include topRightDropdown.html
 |   <script src="/mg/js/demo/sparkline-demo.js"></script>
 |   
 |    <!-- mg self    -->
-|    <script src="/mg/self/mgitself.js"></script>
-|    <script src="/mg/self/mgindex.js"></script>
-|  
+|    <script src="/mg/self/manger.js"></script>
 |</body>
 |</html>

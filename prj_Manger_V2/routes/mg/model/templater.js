@@ -93,7 +93,7 @@ module.exports = templater;
 
     //向数据表中查询条件为wherejson的数据数组， 返回数据为数组, selectstr : `a`,`b`,`c`
     templater.get = function (table, wherejson,selectstr, callback){
-        var wherestr = "  where isvalid = '1'  ";
+        var wherestr = " WHERE 1 ";
 
         if(selectstr) var str = " SELECT" +  selectstr + " FROM  `" + table + "`  ";
         else var str = " SELECT * FROM  `" + table + "`  ";
@@ -109,7 +109,7 @@ module.exports = templater;
             if(err) console.log(err);
             str = str + wherestr;
             
-            if(k == 0)  return callback("template函数'",table,"' 中查询条件数据为空数据");
+            if(k == 0)  return callback("template函数'" + table +"' 中查询条件数据为空数据");
             else {
                 console.log(str);
                 Mysql.query(str,  function(err,docs){
@@ -132,12 +132,14 @@ module.exports = templater;
 
     //向数据表中删除条件为wherejson的数据数组，
     templater.delete = function (table, wherejson,callback){
-        var wherestr = "  where isvalid = '1'  ";
+        var wherestr = "  where   ";
         var str = " DELETE FROM  `" + table + "`  ";
         var k=0;
         async.forEachOf(wherejson, function (value, key, callback) {
             k++;
-            wherestr =  wherestr + " AND  `" + key + "` = '" + value + "' "  ;
+            if(k<=1)  wherestr =  wherestr + "  `" + key + "` = '" + value + "' "  ;
+            else wherestr =  wherestr + " AND  `" + key + "` = '" + value + "' "  ;
+
             callback();
       
         } ,function(err) {
@@ -163,6 +165,54 @@ module.exports = templater;
 
 
 //*****删除 END***************//
+
+
+
+
+
+//*****查询表中的某个字段的值是否已经存在******************//
+
+    //向数据表中查询条件为wherejson的数据数组， 返回数据为数组, selectstr : `a`,`b`,`c`
+    templater.isExist = function (table, wherejson, callback){
+        var wherestr = " WHERE 1 ";
+
+         var str = " SELECT * FROM  `" + table + "`  ";
+
+        var k=0;
+        async.forEachOf(wherejson, function (value, key, callback) {
+            k++;
+            wherestr =  wherestr + " AND  `" + key + "` = '" + value + "' "  ;
+            callback();
+      
+        } ,function(err) {
+
+            if(err) console.log(err);
+            str = str + wherestr;
+            
+            if(k == 0)  return callback("template函数'" + table +"' 中查询条件数据为空数据");
+            else {
+                console.log(str);
+                Mysql.query(str,  function(err,docs){
+                    if(err) console.log(err);
+                    else {
+                        if(docs.length <=0 ) return callback(err,false);  //不存在
+                        else return callback(err,true);  //存在
+
+                    }
+                    
+                });
+            } //if end
+
+        });   //async.forEachOf end
+
+     }
+
+
+
+//*****查询 END***************//
+
+
+
 
 
 

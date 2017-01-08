@@ -9,7 +9,7 @@ $("#login").click(function(){
 	if(username == '') {$("#info").text('用户名不能为空'); return;  } 
 	if(password == '') {$("#info").text('密码不能为空'); return;  } 
 
-	console.log(username ,  password);
+	//console.log(username ,  password);
 
 	$.ajax({
 		url:'/mg/logincheck',
