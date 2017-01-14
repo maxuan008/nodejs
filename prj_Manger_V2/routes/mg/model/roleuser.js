@@ -28,8 +28,9 @@ function roleuser(data) {
 
 //添加数组里的用户
  roleuser.add_Arry = function (datas, callback) {
+    
      var roleuserTable =  mgconfig[global.mgENV].mysql.header + "_role_user";
-
+        console.log('DDDDDD' , roleuserTable );
      templater.add_Arry(roleuserTable,datas , function(err){
         return callback(err);
      });

@@ -25,6 +25,7 @@ module.exports = templater;
     //向数据库中插入一条数据data, data为json数据类型
     templater.add = function (table,data,callback){
         var str = "INSERT INTO `" + table + "` SET ?";
+        console.log(str,data);
         Mysql.query(str, data , function(err,doc){
             if(err) console.log(err);
             return callback(err,doc);
@@ -35,8 +36,9 @@ module.exports = templater;
 
     //向数据库中插入多个数据data, data为数组数据类型
     templater.add_Arry = function (table,datas,callback){
-        var me = require("./template");
-
+        console.log('EEEEEEE' , table ,datas  );
+        var me = require("./templater");
+        
         async.eachSeries(datas, function(data, callback) { 
             me.add(table, data ,function(err,doc){
                 if(err) console.log(err);
