@@ -8,6 +8,17 @@ function templater(data) {
 
 module.exports = templater;
 
+//----SQL语句查询--
+
+    templater.SQL = function (str,callback){
+        console.log('SQL:',str);
+        Mysql.query(str, function(err,doc){
+            if(err) console.log(err);
+            return callback(err,doc);
+        });
+
+     }
+
 
 //*****插入******************//
 

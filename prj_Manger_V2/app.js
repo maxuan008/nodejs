@@ -74,7 +74,6 @@ app.use(session({
 
 console.log("----mongodb 信息, ip: %s , 端口: %s , 数据库: %s" , config[mgenv].mongodb.host ,  config[mgenv].mongodb.port , config[mgenv].mongodb.db );
 
-
 var mg_login = require('./routes/mg/controller/login');
 var mg_index = require('./routes/mg/controller/index');
 var mg_manger = require('./routes/mg/controller/manger');
@@ -93,7 +92,11 @@ var mg_addfun = require('./routes/mg/controller/ajax/addfun');
 var mg_delfun = require('./routes/mg/controller/ajax/delfun');
 
 var mg_addrole = require('./routes/mg/controller/ajax/addrole');
+var mg_setRoleFun= require('./routes/mg/controller/ajax/setRoleFun');
+var mg_delRoleUser= require('./routes/mg/controller/ajax/delRoleUser');
+var mg_modalAddUser= require('./routes/mg/controller/ajax/modalAddUser');
 
+var mg_getUnRoleUsers= require('./routes/mg/controller/ajax/getUnRoleUsers');
 
 
 //*******中间件：可以用于sesssion验证, 可信任站点，log访问日志的等等*********//
@@ -167,6 +170,12 @@ app.use('/mg/addfun',mg_addfun);
 app.use('/mg/delfun',mg_delfun);
 
 app.use('/mg/addrole',mg_addrole);
+
+app.use('/mg/setRoleFun',mg_setRoleFun);
+app.use('/mg/delRoleUser',mg_delRoleUser);
+app.use('/mg/modalAddUser',mg_modalAddUser);
+
+app.use('/mg/getUnRoleUsers',mg_getUnRoleUsers);
 
 
 

@@ -70,7 +70,7 @@ CREATE TABLE `mg_fun` (
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`fid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='功能模块';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='功能模块';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,6 +79,7 @@ CREATE TABLE `mg_fun` (
 
 LOCK TABLES `mg_fun` WRITE;
 /*!40000 ALTER TABLE `mg_fun` DISABLE KEYS */;
+INSERT INTO `mg_fun` VALUES (1,1,'aaa','ccc','bbb','1','1',NULL,NULL,NULL,'1',NULL),(2,1,'111','333','222','0','1',NULL,NULL,NULL,'1',NULL),(3,1,'a','c','b','1','1',NULL,NULL,NULL,'1',NULL),(4,1,'aaaew','c','bbbes','1','1',NULL,NULL,NULL,'1',NULL),(5,1,'adfsd','dsfsdf','dsfdsf','1','1',NULL,NULL,NULL,'1',NULL),(6,1,'fsdsfsd','fdsffds','dsfds','1','1',NULL,NULL,NULL,'1',NULL),(7,1,'sadfae','dsfdsf','dsfasd','1','1',NULL,NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `mg_fun` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -101,7 +102,7 @@ CREATE TABLE `mg_project` (
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='项目表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='项目表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,7 +111,7 @@ CREATE TABLE `mg_project` (
 
 LOCK TABLES `mg_project` WRITE;
 /*!40000 ALTER TABLE `mg_project` DISABLE KEYS */;
-INSERT INTO `mg_project` VALUES (1,'证券投资','1166','localhost:1166','1',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `mg_project` VALUES (1,'test1','df','dfd','1',NULL,NULL,NULL,'1',NULL),(2,'test','sd','sdf','1',NULL,NULL,NULL,'1',NULL),(3,'teste','sdd','sdfd','1',NULL,NULL,NULL,'1',NULL),(4,'testedf','sddfd','sdfddf','1',NULL,NULL,NULL,'1',NULL),(5,'testedfdsf','sddfddsf','sdfddfdf','1',NULL,NULL,NULL,'1',NULL),(6,'edfsdaf','dsafds','dsfsadf','1',NULL,NULL,NULL,'1',NULL),(7,'testd','111','abc','1',NULL,NULL,NULL,'1',NULL),(8,'testds','111e','abct','1',NULL,NULL,NULL,'1',NULL),(9,'dsfes','dsf','edsf','1',NULL,NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `mg_project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +133,7 @@ CREATE TABLE `mg_role` (
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`rid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,6 +142,7 @@ CREATE TABLE `mg_role` (
 
 LOCK TABLES `mg_role` WRITE;
 /*!40000 ALTER TABLE `mg_role` DISABLE KEYS */;
+INSERT INTO `mg_role` VALUES (1,1,'test','1',NULL,NULL,NULL,'1',NULL),(2,1,'test1','1',NULL,NULL,NULL,'1',NULL),(3,1,'TEST','1',NULL,NULL,NULL,'1',NULL),(4,1,'test2','1',NULL,NULL,NULL,'1',NULL),(5,1,'test3','1',NULL,NULL,NULL,'1',NULL),(6,1,'test5','1',NULL,NULL,NULL,'1',NULL),(7,1,'tesesf','1',NULL,NULL,NULL,'1',NULL),(8,1,'aaa','1',NULL,NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `mg_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,8 +164,9 @@ CREATE TABLE `mg_role_fun` (
   `update_time` datetime(6) DEFAULT NULL,
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
+  `status` varchar(1) COLLATE utf8_bin DEFAULT '0' COMMENT '''0:未启用 , 1:启用''',
   PRIMARY KEY (`rolefunid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色功能关系';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色功能关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,6 +175,7 @@ CREATE TABLE `mg_role_fun` (
 
 LOCK TABLES `mg_role_fun` WRITE;
 /*!40000 ALTER TABLE `mg_role_fun` DISABLE KEYS */;
+INSERT INTO `mg_role_fun` VALUES (1,1,1,1,'1',NULL,NULL,NULL,NULL,NULL,'1');
 /*!40000 ALTER TABLE `mg_role_fun` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,7 +198,7 @@ CREATE TABLE `mg_role_user` (
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`roleuserid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色用户关系';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色用户关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -203,6 +207,7 @@ CREATE TABLE `mg_role_user` (
 
 LOCK TABLES `mg_role_user` WRITE;
 /*!40000 ALTER TABLE `mg_role_user` DISABLE KEYS */;
+INSERT INTO `mg_role_user` VALUES (1,1,1,1,'1',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `mg_role_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,7 +232,7 @@ CREATE TABLE `mg_user` (
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='用户';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,6 +241,7 @@ CREATE TABLE `mg_user` (
 
 LOCK TABLES `mg_user` WRITE;
 /*!40000 ALTER TABLE `mg_user` DISABLE KEYS */;
+INSERT INTO `mg_user` VALUES (1,'aaa','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(2,'bbb','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(3,'ccc','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(4,'ddd','xMpCOKC5I4INzFCab3WEmw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(8,'ggg','xMpCOKC5I4INzFCab3WEmw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(9,'efsf','xMpCOKC5I4INzFCab3WEmw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(10,'rr','NpEwjypML2mD8ogNMuKchA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(11,'erew','IsJ2oFqnyQVmriF1vMKpsA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(12,'sdf','1LJ1jaAgXB4KqVEs0YgAKg==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(13,'ffds','gDVQc0gFlKmUcNyszNjPLA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(14,'wefd','A2qcXIw8R2zUmcEr41K6XA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `mg_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -279,4 +285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-06 18:24:32
+-- Dump completed on 2017-01-14 17:11:57

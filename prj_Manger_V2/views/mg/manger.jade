@@ -8,6 +8,14 @@
 |    <link href="/mg/font-awesome/css/font-awesome.css" rel="stylesheet">
 |    <link href="/mg/css/animate.css" rel="stylesheet">
 |    <link href="/mg/css/style.css" rel="stylesheet">
+|  <!--  kendo -->   
+|    <link href="/kedoui/content/styles/examples-offline.css" rel="stylesheet">
+|    <link href="/kedoui/styles/kendo.common.min.css" rel="stylesheet">
+|    <link href="/kedoui/styles/kendo.rtl.min.css" rel="stylesheet">
+|    <link href="/kedoui/styles/kendo.default.min.css" rel="stylesheet">
+|    <link href="/kedoui/styles/kendo.dataviz.min.css" rel="stylesheet">
+|    <link href="/kedoui/styles/kendo.dataviz.default.min.css" rel="stylesheet">
+|  
 |</head>
 |<body>
 |   
@@ -219,19 +227,27 @@ include newsContent.html
 |						<td>管理账户</td>  
 |						<td >  
 |							<div id='role_fun_list_prjid_roidid'  class='row'>  
-|									<div class='col-xs-5 col-sm-8'> 代码:25,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'> 代码:26,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'> 
+|                                      <div class="col-xs-1 col-sm-2"><input onclick='updateRoleFun(this)' type="checkbox" rfid='1' id="rolefun_1"></div>
+|                                      代码:25,智能决策--autoDecision 
+|                                   </div>  
+|									<div class='col-xs-5 col-sm-8'> 
+|                                      <div class="col-xs-1 col-sm-2"><input type="checkbox" id="fun_havedomai_1"></div>
+|                                      代码:25,智能决策--autoDecision 
+|                                   </div>  
+|									<div class='col-xs-5 col-sm-8'> 
+|                                      <div class="col-xs-1 col-sm-2"><input type="checkbox" id="fun_havedomai_1"></div>
+|                                      代码:25,智能决策--autoDecision 
+|                                   </div>  
 |								</div>  
 |						</td>  
-|						<td >  
+|						<td >   
 |							<div id='role_user_list_prjid_roidid' class='row'>  
-|									<div class='col-xs-5 col-sm-8'> user1 dsjhfkjdhfsjfdhkjkjdsafk</div>  
-|									<div class='col-xs-5 col-sm-8'> user2 </div>  
-|									<div class='col-xs-5 col-sm-8'> user2 </div>  
-|									<div class='col-xs-5 col-sm-8'> user3 </div>  
-|								</div>  
+|									<div class='col-xs-5 col-sm-8'  style="text-align:right;"><a onclick='adduser(this)' rid='1' pid='1' prjname='项目名1' rolename='角色名' > + 添加用户  </a></div>  
+|									<div class='col-xs-5 col-sm-8'   id='roleuser_1'>
+|                                        <i onclick='delRoleUser(this)' ruid='1'  class='fa fa-times'></i>user1
+|                                   </div>  
+|							</div>  
 |						</td>  
 |					</tr>  
 |					<tr>  
@@ -240,7 +256,7 @@ include newsContent.html
 |					<tr>  
 |						<td>功能模块</td><td colspan='2'>
 |							<div id='funlist_1' class='row'>  
-|									<div class='col-xs-5 col-sm-8'><i class='fa fa-times'></i> 代码:25,智能决策--autoDecision </div>  
+|									<div class='col-xs-5 col-sm-8'><i class='fa fa-times '></i> 代码:25,智能决策--autoDecision </div>  
 |									<div class='col-xs-5 col-sm-8'><i class='fa fa-times'></i> 代码:26,智能决策--autoDecision </div>  
 |									<div class='col-xs-5 col-sm-8'><i class='fa fa-times'></i> 代码:26,智能决策--autoDecision </div>  
 |									<div class='col-xs-5 col-sm-8' id='fundivdel_'><a fid='' onclick='delfun(this)'><i class='fa fa-times'></i></a> 代码:26,智能决策--autoDecision  </div> 
@@ -381,7 +397,12 @@ include topRightDropdown.html
 |        </div> <!-- class="page-wrapper" end -->
 |      
 |    </div>  <!-- class="wrapper" end -->
-|  
+| 
+| 
+|<!-- 模态框（Modal） -->
+include Modal.html
+|<!-- 模态框（Modal） end-->
+|   
 |    <!-- Mainly scripts -->
 |    <script src="/mg/js/jquery-2.1.1.js"></script>
 |    <script src="/mg/js/bootstrap.min.js"></script>
@@ -420,8 +441,13 @@ include topRightDropdown.html
 |  
 |    <!-- Sparkline demo data  -->
 |   <script src="/mg/js/demo/sparkline-demo.js"></script>
-|   
+|    
+|    <script src="/kedoui/js/kendo.all.min.js"></script>
+|    <script src="/kedoui/contentd/js/console.js"></script>
+|    <script src="/kedoui/js/messages/kendo.messages.zh-CN.min.js"></script>
+| 
 |    <!-- mg self    -->
 |    <script src="/mg/self/manger.js"></script>
+| 
 |</body>
 |</html>
