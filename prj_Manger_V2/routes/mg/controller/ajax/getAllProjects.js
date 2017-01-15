@@ -23,12 +23,12 @@ router.post('/', function(req,res,next)  {
 	//**					roles:[
 	//**				 		   {
  	//**							 role:{rid:'', role_name:''},
-	//**							 funs: [{rfid:'',fid:''},  {rfid:'',fid:''}   ],
+	//**							 funs: [{rfid:'',fid:'' , status :''},  {rfid:'',fid:'', status :''}   ],
 	//**							 users: [{ruid:'', uid:'',username:'',fullname:''}, {ruid:'', uid:'',username:'',fullname:''}  ]
 	//**						    },
 	//**				 		   {
  	//**							 role:{rid:'', role_name:''},
-	//**							 funs: [{rfid:'',fid:''},  {rfid:'',fid:''}   ],
+	//**							 funs: [{rfid:'',fid:'' , status :''},  {rfid:'',fid:'', status :''}   ],
 	//**							 users: [{ruid:'', uid:'',username:'',fullname:''}, {ruid:'', uid:'',username:'',fullname:''}  ]
 	//**						    }
 	//**					      ]  
@@ -43,12 +43,12 @@ router.post('/', function(req,res,next)  {
 	//**					roles:[
 	//**				 		   {
  	//**							 role:{rid:'', role_name:''},
-	//**							 funs: [{rfid:'',fid:''},  {rfid:'',fid:''}   ],
+	//**							 funs: [{rfid:'',fid:'' , status :''},  {rfid:'',fid:'', status :''}   ],
 	//**							 users: [{ruid:'', uid:'',username:'',fullname:''}, {ruid:'', uid:'',username:'',fullname:''}  ]
 	//**						    },
 	//**				 		   {
  	//**							 role:{rid:'', role_name:''},
-	//**							 funs: [{rfid:'',fid:''},  {rfid:'',fid:''}   ],
+	//**							 funs: [{rfid:'',fid:'' , status :''},  {rfid:'',fid:'', status :''}   ],
 	//**							 users: [{ruid:'', uid:'',username:'',fullname:''}, {ruid:'', uid:'',username:'',fullname:''}  ]
 	//**						    }
 	//**					      ]  

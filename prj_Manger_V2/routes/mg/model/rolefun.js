@@ -47,7 +47,7 @@ function rolefun(data) {
     
     var table =  mgconfig[global.mgENV].mysql.header + "_role_fun";
     var wherejson = {rid:rid};
-    var selectstr = " `rolefunid` as `rfid` ,  `fid` ";
+    var selectstr = " `rolefunid` as `rfid` ,  `fid` , `status` ";
 
     templater.get(table, wherejson,selectstr ,function(err, docs){
          console.log(docs);

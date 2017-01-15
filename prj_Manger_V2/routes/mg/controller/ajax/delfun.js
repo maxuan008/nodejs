@@ -5,9 +5,12 @@ var router = express.Router();
 
 var fun = require("../../model/fun");
 var mgconfig = require("../../config/mgconfig.json");
+var rolefun = require("../../model/rolefun");
+
+var EventProxy =   require('eventproxy');
 
 router.post('/', function(req,res,next)  {
-
+	var ep =new EventProxy();
 	var mgenv = global.mgENV;
 	
 	//console.log('aaaaa:',req.body.id);
@@ -16,9 +19,19 @@ router.post('/', function(req,res,next)  {
 
 	var data = {fid :　req.body.id};   
 	console.log('aaaaa:',data);
+
+	ep.all('delRoleFun',function(){
+		rolefun.delete(data, function(err,doc){
+			if(err)	 return  res.send({code:204 , err:err});
+			else return  res.send({ code:201 , datas:data });
+
+		}); //rolefun.delete  end
+	});
+
+
 	fun.delete( data, function(err,doc){
 		if(err)	 return  res.send({code:204 , err:err});
-		else return  res.send({ code:201 , datas:data });
+		else return  ep.emit("delRoleFun");
 
 	}); //templater.get  end					
 

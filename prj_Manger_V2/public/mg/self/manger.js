@@ -22,7 +22,90 @@ function getAllProjects() {
 
 		success: function(backdata){
 			console.log(backdata);
+			var code = backdata.code;
+			if(code == '204')  {console.log('项目加载失败：',backdata.err);  }  
+			if(code == '201') {
+				//显示新建的项目到页面中
+				var datas = backdata.datas;
+				//循环生成项目
+				for(var i=0; i<datas.length; i++) {
+					var prjinfo = datas[i].prjinfo;
+					var funs = datas[i].funs;
+					var roles = datas[i].roles;
 
+					var htmlstr="" +
+							"<div class='col-lg-12'>  " + 
+							"	<div class='ibox float-e-margins'>    " + 
+							"		<div class='ibox-title'>    " + 
+							"			<h5 class='btn btn-warning'> " + prjinfo.prjname + " </h5>    " + 
+							"			<div class='ibox-tools'>    " + 
+							"				<a class='collapse-link'><i class='fa fa-chevron-up'></i></a>    " + 
+							"				<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-wrench'></i></a>    " + 
+							"				<ul class='dropdown-menu dropdown-user'>    " + 
+							"					<li><a href='#'>扩展功能 1</a></li>    " + 
+							"					<li><a href='#'>扩展功能 2</a></li>    " + 
+							"				</ul>    " + 
+							"				<a class='close-link'><i class='fa fa-times'></i></a>    " + 
+							"			</div>    " + 
+							"		</div>    " + 
+							"			<div class='ibox-content'>    " + 
+							"			<table class='table table-bordered'>    " + 
+							"				<thead><tr><th colspan='3'>  " + 
+							"							<form role= 'form' class= 'form-inline'>  " + 
+							"								<div class= 'form-group'> 添加一个角色: </div>  " + 
+							"								<div class= 'form-group'><input id= 'role_name_" + prjinfo.pid + "' type= 'text' placeholder= '角色名'  class= 'form-control'></div>  " + 
+							"								<div class= 'checkbox m-r-xs'><button prjid='" + prjinfo.pid + "'  prjname= '" + prjinfo.prjname + "'  onclick='addrole(this)' class= 'btn btn-white' type= 'button'>添加</button></div>   " +         
+							"							</form>  " + 
+							"						</th></tr>  " + 
+							"				</thead>    " + 
+							"				<thead><tr><th>角色</th><th >功能</th><th  >用户名单</th></tr></thead>   " + 
+							"				<tbody id='tbody_" + prjinfo.pid + "' >    " + 
+							"					<tr id='prjmodel_" + prjinfo.pid + "'>    " + 
+							"						<td>功能模块</td><td colspan='2'>  " + 
+							"							<div id='funlist_" + prjinfo.pid + "' class='row'> <!--  funlist_1_roleid -->    " + 
+
+							"							</div>    " + 
+							"						</td>   " + 
+							"					</tr>    " + 
+							"					<tr>    " + 
+							"						<td class='col-xs-1 col-sm-2'>添加功能模块</td>  " + 
+							"						<td colspan='2'>  " + 
+							"							<form role= 'form' class= 'form-inline'>  " + 
+							"								<div class= 'form-group'>  " + 
+							"									<label for= 'exampleInputEmail2' class= 'sr-only'>功能名</label>  " + 
+							"									<input id= 'fun_name_" + prjinfo.pid + "' type= 'text' placeholder= '功能名'  class= 'form-control'>  " + 
+							"								</div>  " + 
+							"								<div class= 'form-group'>  " + 
+							"									<label for= 'exampleInputPassword2' class= 'sr-only'>链接url</label>  " + 
+							"									<input id= 'fun_url_" + prjinfo.pid + "' type= 'text ' placeholder= '链接url'  class= 'form-control'>  " + 
+							"								</div>  " + 
+							"								<div class= 'form-group'>  " + 
+							"									<label for= 'exampleInputPassword2' class= 'sr-only'>程序文件名</label>  " + 
+							"									<input id= 'fun_docname_" + prjinfo.pid + "' type= 'text' placeholder= '程序文件名'  class= 'form-control'>  " + 
+							"								</div>  " + 
+							"								<div class= 'checkbox m-r-xs'><input type= 'checkbox' id= 'fun_havedomai_" + prjinfo.pid + "'>  " + 
+							"									<label for= 'checkbox1'>链接含主域名?</label>  " + 
+							"									<button prjid='" + prjinfo.pid + "' onclick='addfun(this)' class= 'btn btn-white' type= 'button'>添加</button>  " + 
+							"								</div>  " + 		
+							"							</form>  " + 
+							"						</td>   " +  
+							"					</tr>    " + 
+							"				</tbody>   " +  
+							"			</table>    " + 
+							"		</div>    " + 
+							"	</div>    " + 
+							"</div>  ";
+
+
+ 						$("#other").before(htmlstr);
+						//***循环添加项目的功能，角色 */
+						addFunsHtml(prjinfo.pid , funs);
+						addRolesHtml(prjinfo.pid , roles  , prjinfo.prjname , funs);
+
+
+				} //for end
+
+			}   //if(code == '201') end
 
 			
 		}
@@ -31,6 +114,114 @@ function getAllProjects() {
 
  }  //function getAllProjects end
 
+
+
+//***循环添加项目的功能 */
+function addFunsHtml(pid , funs) {
+	var htmlstr='';
+	//console.log('funs:',pid,'', funs);
+	for(var i=0; i<funs.length ; i++) {
+		var fun=funs[i];
+		htmlstr = htmlstr + 
+		  "<div class='col-xs-5 col-sm-8' id='fundivdel_" + fun.fid + "'><a fid='" + fun.fid + "' onclick='delfun(this)'><i class='fa fa-times'></i></a> 代码:" + fun.fid + "," + fun.fun_name + "--" + fun.docname +"</div> "; 
+	}
+
+	$('#funlist_'+pid).html(htmlstr);
+}
+
+
+
+//***循环添加项目的角色 */
+function addRolesHtml(pid,roles, prjname , funs) {
+	var htmlstr='';
+	//console.log('roles:',pid,'', roles, prjname);
+	for(var i=0; i<roles.length ; i++) {
+		var role=roles[i];
+		//console.log('role:',role);
+		var rid = role.role.rid;
+		var rolename = role.role.role_name;
+
+		htmlstr = '' + 
+					"	<tr id='role_"+ rid + "'>    " + 
+					"		<td  >" + rolename + "</td>   " +  
+					"		<td >    " + 
+					"		   <div id='role_fun_list_" + pid + "_" + rid + "'  class='row'>    " + 
+					"		   </div>    " + 
+					"		</td>    " + 
+					"		<td >     " + 
+					"			<div  class='row'>   <!--  role_user_list_prjid_roidid -->   " + 
+					"			<div  class='col-xs-5 col-sm-8'  style= 'text-align:right;'><a onclick='adduser(this)' rid='" + rid + "' pid='" + pid + "' prjname='" + prjname + "' rolename='" + rolename + "' > + 添加用户  </a></div>   " + 
+					"		    </div>   " +  
+					"			<div  id='role_user_list_" + pid + "_" + rid + "' >   </div>" +
+
+					"		</td>    " + 
+					"	</tr>    " ;
+
+
+		$('#prjmodel_'+pid).before(htmlstr);	 
+
+		//添加角色的功能和用户
+		var rolefuns = role.funs;
+		var roleusers =  role.users;
+		addRoleFun(pid, rid, rolefuns , funs);
+		addRoleUser(pid, rid,roleusers);
+
+	} //for end
+
+}
+
+
+//在指定的角色中加入功能信息
+function addRoleFun(pid, rid, rolefuns , funs) {
+	var htmlstr = '';
+	for(var i=0;i<rolefuns.length;i++) {
+		var rolefun = rolefuns[i];
+		var fun_name = getFunName(rolefun.fid , funs );
+		var status = rolefun.status;
+		var checkedstr = ''; 
+		if(status == '1') checkedstr = 'checked'; 
+
+		htmlstr = htmlstr +
+					"	<div class='col-xs-5 col-sm-8'>   " + 
+					"		<div class= 'col-xs-1 col-sm-2'><input onclick='updateRoleFun(this)' type= 'checkbox' " + checkedstr + " rfid='" + rolefun.rfid +"' id= 'rolefun_" + rolefun.rfid +"'></div>  " + 
+					"		 代码:" + rolefun.fid +"," + fun_name  + 
+					"	</div>    " ;
+	} //for end
+
+	$("#role_fun_list_" + pid + "_" + rid).html(htmlstr);
+
+}
+
+//获取数组中fid的功能名
+
+function  getFunName(fid,funs ) {
+	var result = '';
+	for(var i=0; i< funs.length; i++) {
+		if(funs[i].fid == fid) result = funs[i].fun_name;
+	}
+	return result;
+}
+
+
+//在指定的角色中加入用户信息
+function addRoleUser(pid, rid,roleusers) {
+
+	var htmlstr = '';
+	for(var i=0;i<roleusers.length;i++) {
+		var ruid = roleusers[i].ruid;
+		var username =  roleusers[i].username;
+
+		var fullname ='';
+		if(roleusers[i].fullname)  fullname = roleusers[i].fullname;
+		htmlstr = htmlstr +
+					"	<div class='col-xs-5 col-sm-8'   id='roleuser_" + ruid + "'>    " + 
+					"			<i onclick='delRoleUser(this)' ruid='" + ruid + "'  class='fa fa-times'></i>" + username + "  " + fullname + "  " + 
+					"	</div>    " ;
+	}
+
+	$("#role_user_list_" + pid + "_" + rid).html(htmlstr);
+
+}
 
 
 
@@ -103,6 +294,9 @@ function addfun(ele) {
  
 				$("#funlist_"+ prjid ).append(funhtml);
 
+				//清空功能名
+				$("#fun_name_" + prjid  ).val("");
+
 				//触发此项目的角色，重新获取所有角色的功能
 				var roledatas = backdata.datas.roles;
 				var fid = backdata.datas.id;
@@ -171,6 +365,7 @@ function delfun(ele) {
 //项目的“添加角色”被点击
 function addrole(ele) {
 	var prjid = ele.getAttribute('prjid'); 
+	var prjname = ele.getAttribute('prjname'); 
 	var data ={}; 
 	data.name = $("#role_name_" + prjid  ).val();
 
@@ -191,20 +386,28 @@ function addrole(ele) {
 			if(code == '204')  {alert('创建失败:' + backData.err);console.log(backData.err);  }  
 			if(code == '201') {
 				//显示新建的角色到页面中
+
+				var rid = backData.datas.id;
+				var pid = prjid;
+				var rolename = backData.datas.role_name ;
+
 				var rolehtml= " " +
-				    "<tr id='role_"+ backData.datas.id + "'>  "+
-					"	<td>"+ backData.datas.role_name + "</td>    "+
+				    "<tr id='role_"+ rid + "'>  "+
+					"	<td>"+ rolename + "</td>    "+
 					"	<td >    "+
-					"		<div id='role_fun_list_"+ prjid + "_"+ backData.datas.id+ "' class='row'>    "+
+					"		<div id='role_fun_list_"+ pid + "_"+ rid + "' class='row'>    "+
 					"		</div>    "+
 					"	</td>    "+
 					"	<td >    "+
-					"		<div id='role_user_list_"+ prjid + "_"+ backData.datas.id + "' class='row'>    "+
+					"		<div  class='row'>   <!--  role_user_list_prjid_roidid -->   " + 
+					"			   <div  class='col-xs-5 col-sm-8'  style= 'text-align:right;'><a onclick='adduser(this)' rid='" + rid + "' pid='" + pid + "' prjname='" + prjname + "' rolename='" + rolename + "' > + 添加用户  </a></div>   " + 
+					"		</div>   " +
+					"		<div id='role_user_list_"+ pid + "_"+ rid + "' > </div>   "+
 					"		</div>    "+
 					"	</td>    "+
 					"</tr>   ";
- 
-				$("#tbody_"+ prjid ).prepend(rolehtml);
+
+				$('#prjmodel_'+pid).before(rolehtml);
 
 			}   
 		}
@@ -444,7 +647,7 @@ $("#modalAddUser").click(function(){
 				
 				//***添加用户到列表中去
 				var userlist = backdata.datas;
-				addRoleUserList(roleID_addUser ,roleID_addUser,userlist);
+				addRoleUserList(prjID_addUser ,roleID_addUser,userlist);
 
 				//清空全局变量
 				roleID_addUser='';
