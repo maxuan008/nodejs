@@ -226,7 +226,7 @@ include newsContent.html
 |					<tr>  
 |						<td>管理账户</td>  
 |						<td >  
-|							<div id='role_fun_list_prjid_roidid'  class='row'>  
+|							<div id='role_fun_list_prjid_roleid'  class='row'>  
 |									<div class='col-xs-5 col-sm-8'> 
 |                                      <div class="col-xs-1 col-sm-2"><input onclick='updateRoleFun(this)' type="checkbox" rfid='1' id="rolefun_1"></div>
 |                                      代码:25,智能决策--autoDecision 
@@ -242,7 +242,7 @@ include newsContent.html
 |								</div>  
 |						</td>  
 |						<td >   
-|							<div id='role_user_list_prjid_roidid' class='row'>  
+|							<div id='role_user_list_1_1' class='row'>   <!--  role_user_list_prjid_roidid --> 
 |									<div class='col-xs-5 col-sm-8'  style="text-align:right;"><a onclick='adduser(this)' rid='1' pid='1' prjname='项目名1' rolename='角色名' > + 添加用户  </a></div>  
 |									<div class='col-xs-5 col-sm-8'   id='roleuser_1'>
 |                                        <i onclick='delRoleUser(this)' ruid='1'  class='fa fa-times'></i>user1
@@ -255,11 +255,9 @@ include newsContent.html
 |					</tr>  
 |					<tr>  
 |						<td>功能模块</td><td colspan='2'>
-|							<div id='funlist_1' class='row'>  
-|									<div class='col-xs-5 col-sm-8'><i class='fa fa-times '></i> 代码:25,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'><i class='fa fa-times'></i> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8'><i class='fa fa-times'></i> 代码:26,智能决策--autoDecision </div>  
-|									<div class='col-xs-5 col-sm-8' id='fundivdel_'><a fid='' onclick='delfun(this)'><i class='fa fa-times'></i></a> 代码:26,智能决策--autoDecision  </div> 
+|							<div id='funlist_1' class='row'> <!--  funlist_1_roleid -->  
+|									<div class='col-xs-5 col-sm-8'><i class='fa fa-times '></i> 代码:25,智能决策--autoDecision </div>   
+|									<div class='col-xs-5 col-sm-8' id='fundivdel_fid'><a fid='' onclick='delfun(this)'><i class='fa fa-times'></i></a> 代码:26,智能决策--autoDecision  </div> 
 |							</div>  
 |                        </td> 
 |					</tr>  

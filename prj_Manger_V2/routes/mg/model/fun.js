@@ -11,7 +11,6 @@ function fun(data) {
 
 
 //在fun表中删除一条数据，删除条件为数组数据wherejson
-
  fun.delete = function (wherejson,callback){
      console.log('cog:',global.mgENV,mgconfig);
     
@@ -23,6 +22,14 @@ function fun(data) {
     });
 
  }
+
+
+
+
+
+
+
+
 
 module.exports = fun;
 

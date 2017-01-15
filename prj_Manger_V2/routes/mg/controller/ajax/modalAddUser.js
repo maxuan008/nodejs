@@ -34,13 +34,13 @@ router.post('/', function(req,res,next)  {
 
 	var ep =new EventProxy();
 
-	console.log(uerlist , data );
+	//console.log(uerlist , data );
 
-
+	var flag = 0;
 
 	//添加单个用户
-    ep.all('AddUser' , function(data){
-		console.log('BBBBB');
+    ep.all('AddUser' , function(){
+		//console.log('BBBBB');
 		templater.isExist(table , namewhere ,function(err,nameflag){  //检测用户名是否存在
 			if(err)	 return  res.send({code:204 , err:err});
 			if(nameflag == true) return  res.send({code:204 , err:"用户名已经存在"});
@@ -51,12 +51,13 @@ router.post('/', function(req,res,next)  {
 					else {
 						//console.log(docs);
 						//data.id = doc.insertId;
+						flag = 1;
 						delete  data.creater;
 
 						uerlist[uerlist.length] = {pid:pid ,rid: rid , uid:doc.insertId  };
 						//获取新建用户的pid,加入用户组, 将用户组添加到角色中
 						
-						ep.emit('AddUserList','');
+						ep.emit('AddUserList');
 						//return  res.send({ code:201 , datas:data });
 					} 
 				}); //templater.add  end					
@@ -67,21 +68,24 @@ router.post('/', function(req,res,next)  {
 
 
   //添加用户列表
-   ep.all('AddUserList',function(nul){ 
-	   console.log('CCCCC',uerlist);
+   ep.all('AddUserList',function(){ 
 		roleuser.add_Arry(uerlist,function(err){
 			if(err)	 return  res.send({code:204 , err:err});
-			else return res.send({code:201 });
+			else {
+			   if(flag == 1)  uerlist[uerlist.length-1].username = req.body.name;
+			   return res.send({code:201 ,datas: uerlist });
+			 }
+
 		});
 
    });
 
 
+    console.log('ep触发前......');
 
-
-
-	if(data.username =='' || data.username ==undefined) {console.log('AAAAAAA'); ep.emit('AddUserList',data);} 
-	else  ep.emit('AddUser','');
+    //ep的第一次触发代码尽量放着后面，解决异步问题
+	if(data.username =='' || data.username ==undefined) {console.log('AAAAAAA'); ep.emit('AddUserList');} 
+	else  ep.emit('AddUser');
 
 
 

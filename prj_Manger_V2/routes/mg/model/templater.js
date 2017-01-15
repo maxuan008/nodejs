@@ -25,7 +25,6 @@ module.exports = templater;
     //向数据库中插入一条数据data, data为json数据类型
     templater.add = function (table,data,callback){
         var str = "INSERT INTO `" + table + "` SET ?";
-        console.log(str,data);
         Mysql.query(str, data , function(err,doc){
             if(err) console.log(err);
             return callback(err,doc);

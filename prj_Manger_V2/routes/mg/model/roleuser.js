@@ -30,7 +30,7 @@ function roleuser(data) {
  roleuser.add_Arry = function (datas, callback) {
     
      var roleuserTable =  mgconfig[global.mgENV].mysql.header + "_role_user";
-        console.log('DDDDDD' , roleuserTable );
+       // console.log('DDDDDD' , roleuserTable );
      templater.add_Arry(roleuserTable,datas , function(err){
         return callback(err);
      });
@@ -80,9 +80,9 @@ function roleuser(data) {
 
     var sqlstr = "select `uid` as userid , `username` , `fullname` from " + userTable + " where  `isvalid` ='1'  " +
                    " and `uid` NOT IN ( select `uid` from " + roleuserTable + " where `isvalid` ='1'  and  rid = '"+ruid+"')  ";
-
+    //console.log(sqlstr);
     templater.SQL(sqlstr,function(err, docs){
-         console.log(docs);
+         //console.log(docs);
          if(err) console.log(err);
          return callback(err,docs);
     });
@@ -91,7 +91,23 @@ function roleuser(data) {
 
 
 
+//获取角色下的所有功能
+ roleuser.getroleusers = function (rid, callback){
+     //console.log('cog:',global.mgENV,mgconfig);
+    
+    var roleuserTable =  mgconfig[global.mgENV].mysql.header + "_role_user";
+    var userTabel = mgconfig[global.mgENV].mysql.header + "_user";
 
+    var sqlstr = " select b.roleuserid as ruid , b.uid , a.username , a.fullname from " + userTabel + " as a,  " + roleuserTable + " as b where a.isvalid='1'  and b.isvalid='1' and   a.uid = b.uid " + 
+                 "  and b.rid = " + rid + " ";
+
+    templater.SQL( sqlstr ,function(err, docs){
+         //console.log(docs);
+         if(err) console.log(err);
+         return callback(err,docs);
+    });
+
+ }
 
 
 

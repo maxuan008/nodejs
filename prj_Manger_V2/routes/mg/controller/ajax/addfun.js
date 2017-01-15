@@ -4,6 +4,8 @@ var crypto = require('crypto');
 var templater = require("../../model/templater");
 var mgconfig = require("../../config/mgconfig.json");
 
+var project = require("../../model/project");
+
 router.post('/', function(req,res,next)  {
 
 	var mgenv = global.mgENV;
@@ -40,9 +42,18 @@ router.post('/', function(req,res,next)  {
 						if(err)	 return  res.send({code:204 , err:err});
 						else {
 							//console.log(docs);
-							data.id = doc.insertId;
-							delete  data.creater;
-							return  res.send({ code:201 , datas:data });
+
+
+							project.getUnRoles_ID(req.body.id,function(err,roledocs){
+								data.roles = roledocs;
+								data.id = doc.insertId;
+								delete  data.creater;
+								return  res.send({ code:201 , datas:data  });
+							}); 
+
+
+
+
 						} 
 
 					}); //templater.get  end					

@@ -20,8 +20,11 @@ function getAllProjects() {
 		type:'POST',
 		dataType:'json',   
 
-		success: function(data){
-			console.log(data);
+		success: function(backdata){
+			console.log(backdata);
+
+
+			
 		}
 
  	}); //ajax end
@@ -51,12 +54,12 @@ $("#addproject").click(function(){
 		type:'POST',
 		dataType:'json',   
 
-		success: function(data){
-			console.log(data);
-			var code = data.code;
-			if(code == '204')  {$("#warninfo").text('创建失败:' + data.err); console.log(data.err);  }  
+		success: function(backdata){
+			console.log(backdata);
+			var code = backdata.code;
+			if(code == '204')  {$("#warninfo").text('创建失败:' + backdata.err); console.log(backdata.err);  }  
 			if(code == '201') {
-				$("#warninfo").text('项目创建成功:' + data.datas.prj_name);
+				$("#warninfo").text('项目创建成功:' + backdata.datas.prj_name);
 				//显示新建的项目到页面中
 
 			}   
@@ -90,15 +93,20 @@ function addfun(ele) {
 		type:'POST',
 		dataType:'json',   
 
-		success: function(data){
-			console.log(data);
-			var code = data.code;
-			if(code == '204')  {$("#warninfo").text('创建失败:' + data.err); console.log(data.err);  }  
+		success: function(backdata){
+			console.log(backdata);
+			var code = backdata.code;
+			if(code == '204')  {$("#warninfo").text('创建失败:' + backdata.err); console.log(backdata.err);  }  
 			if(code == '201') {
 				//显示新建的功能模块到页面中
-				var funhtml= "<div class='col-xs-5 col-sm-8' id='fundivdel_" + data.datas.id + "'> <a fid='" + data.datas.id + "' onclick='delfun(this)'><i class='fa fa-times'></i> </a> 代码:" + data.datas.id + ", " + data.datas.fun_name + " </div> " ;
+				var funhtml= "<div class='col-xs-5 col-sm-8' id='fundivdel_" + backdata.datas.id + "'> <a fid='" + backdata.datas.id + "' onclick='delfun(this)'><i class='fa fa-times'></i> </a> 代码:" + backdata.datas.id + ", " + backdata.datas.fun_name + " </div> " ;
  
 				$("#funlist_"+ prjid ).append(funhtml);
+
+				//触发此项目的角色，重新获取所有角色的功能
+				var roledatas = backdata.datas.roles;
+				var fid = backdata.datas.id;
+				//getAllRoleFun(prjid,fid,roledatas);
 
 			}   
 		}
@@ -107,6 +115,24 @@ function addfun(ele) {
 
 	
 }
+
+
+//在角色的后面添加新建的功能
+function getAllRoleFun(prjid,fid,roledatas) {
+	if(roledatas.length >0 ) {
+		var htmlstr = '';
+		for(var i=0; i<roledatas.length; i++) {
+
+
+		} //for end
+
+	}//if end
+
+
+}
+
+
+
 
 
 //删除具体的功能模块
@@ -330,7 +356,7 @@ function listUserGrid(datas) {
                         columns: 
                         [
 							{
-								template: "<div align='center'><input class='userbox' name='modalBoxList' type='checkbox' id='ubox_#=userid#' uid='#=userid#' value='#=userid#'  > </div>",
+								template: "<div align='center'><input class='userbox' name='modalBoxList' type='checkbox' id='ubox_#=userid#' uid='#=userid#' value='#=userid#'  > </div><input hidden id='userinfo_#=userid#' value='#=username#' >",
 								width: '10%',
 								title: "<div align='center'> <input onclick='selectAllBox(this)' id='allbox' type='checkbox'   > </div>"
 							},
@@ -414,18 +440,57 @@ $("#modalAddUser").click(function(){
 			if(code == '204')  {alert('用户添加失败:' + backdata.err); console.log(backdata.err);  }  
 			if(code == '201') {
 				console.log('用户添加成功');
+
+				
+				//***添加用户到列表中去
+				var userlist = backdata.datas;
+				addRoleUserList(roleID_addUser ,roleID_addUser,userlist);
+
 				//清空全局变量
 				roleID_addUser='';
 				prjID_addUser = '';
 
+				//关闭模态框
+				$("#modalUserName").val("");
+				$("#modalPassword").val("");
+				$('#myModal').modal('hide');
 
 			}   
-			}
+		}
 
-		}); //ajax end	
-
+	}); //ajax end	
 
 });
+
+
+//在角色后面加入新增用户列表
+function addRoleUserList(pid, rid,userlist) {
+
+	if(userlist.length >0 ) {
+		var htmlstr = '';
+
+		for(var i=0;i<userlist.length;i++){
+			if(userlist[i].username) var name = userlist[i].username;
+			else var name = $('#userinfo_'+ userlist[i].uid ).val(); 
+			
+			
+			htmlstr = htmlstr + 
+					" <div class='col-xs-5 col-sm-8'   id='roleuser_" + rid + "'> " + 
+					"	<i onclick='delRoleUser(this)' ruid='" + rid + "'  class='fa fa-times'></i>" + name   +
+					"</div> " ;
+		} //for end
+
+		$("#role_user_list_" + pid + "_" + rid).append(htmlstr);
+		
+	} //if end
+
+
+
+
+
+}
+
+
 
 
 
