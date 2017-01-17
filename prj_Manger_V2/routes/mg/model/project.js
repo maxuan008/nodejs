@@ -62,7 +62,6 @@ function project(data) {
  }
 
 
-
 //获取不在此ruid角色中的用户列表数据
  project.getUnRoles_ID = function (pid,callback){
      //console.log('cog:',global.mgENV,mgconfig);
@@ -76,7 +75,7 @@ function project(data) {
     console.log(sqlstr);
 
     templater.SQL(sqlstr,function(err, docs){
-         console.log(docs);
+         //console.log(docs);
          if(err) console.log(err);
          return callback(err,docs);
     });
@@ -92,22 +91,24 @@ project.getRole_FunUsers = function (pid,callback) {
 
      this.getRoles_ID(pid,function(err,roledocs){
          if(err) console.log(err);
-
+         //console.log(1111111111);
          async.eachSeries(roledocs, function(role,callback){
              var role = {rid: role.rid , role_name: role.role_name };
-             rolefun.getrolefuns(role.rid, function(err,fundocs){
-                 if(err)  console.log(err);
-                 var funs = fundocs;
 
-                 roleuser.getroleusers(role.rid, function(err,userdocs){
-                     if(err) console.log(err);
-                     var users = userdocs;
-                      result[result.length] = {role: role, funs :funs , users: users    };
-                    
-                      callback();
-                 }); //roleuser.getroleusers end
+                    rolefun.getrolefuns(role.rid, function(err,fundocs){
+                        if(err)  console.log(err);
+                        var funs = fundocs;
 
-             });  // rolefun.getrolefuns end
+                        roleuser.getroleusers(role.rid, function(err,userdocs){
+                            if(err) console.log(err);
+                            var users = userdocs;
+                            result[result.length] = {role: role, funs :funs , users: users };
+                            
+                            callback();
+                        }); //roleuser.getroleusers end
+
+                    });  //rolefun.getrolefuns end
+
 
          },function(err) {
              if(err)  console.log(err);
@@ -116,18 +117,10 @@ project.getRole_FunUsers = function (pid,callback) {
 
          }); //async.eachSeries end
 
-
      }); // this.getRoles_ID end
 
 
-
 }
-
-
-
-
-
-
 
 
  

@@ -79,7 +79,7 @@ CREATE TABLE `mg_fun` (
 
 LOCK TABLES `mg_fun` WRITE;
 /*!40000 ALTER TABLE `mg_fun` DISABLE KEYS */;
-INSERT INTO `mg_fun` VALUES (1,1,'aaa','ccc','bbb','1','1',NULL,NULL,NULL,'1',NULL),(2,1,'111','333','222','0','1',NULL,NULL,NULL,'1',NULL),(3,1,'a','c','b','1','1',NULL,NULL,NULL,'1',NULL),(4,1,'aaaew','c','bbbes','1','1',NULL,NULL,NULL,'1',NULL),(5,1,'adfsd','dsfsdf','dsfdsf','1','1',NULL,NULL,NULL,'1',NULL),(6,1,'fsdsfsd','fdsffds','dsfds','1','1',NULL,NULL,NULL,'1',NULL),(7,1,'sadfae','dsfdsf','dsfasd','1','1',NULL,NULL,NULL,'1',NULL);
+INSERT INTO `mg_fun` VALUES (2,1,'111','333','222','0','1',NULL,NULL,NULL,'1',NULL),(3,1,'a','c','b','1','1',NULL,NULL,NULL,'1',NULL),(4,1,'aaaew','c','bbbes','1','1',NULL,NULL,NULL,'1',NULL),(5,1,'adfsd','dsfsdf','dsfdsf','1','1',NULL,NULL,NULL,'1',NULL),(6,1,'fsdsfsd','fdsffds','dsfds','1','1',NULL,NULL,NULL,'1',NULL),(7,1,'sadfae','dsfdsf','dsfasd','1','1',NULL,NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `mg_fun` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +142,7 @@ CREATE TABLE `mg_role` (
 
 LOCK TABLES `mg_role` WRITE;
 /*!40000 ALTER TABLE `mg_role` DISABLE KEYS */;
-INSERT INTO `mg_role` VALUES (1,1,'test','1',NULL,NULL,NULL,'1',NULL),(2,1,'test1','1',NULL,NULL,NULL,'1',NULL),(3,1,'TEST','1',NULL,NULL,NULL,'1',NULL),(4,1,'test2','1',NULL,NULL,NULL,'1',NULL),(5,1,'test3','1',NULL,NULL,NULL,'1',NULL),(6,1,'test5','1',NULL,NULL,NULL,'1',NULL),(7,1,'tesesf','1',NULL,NULL,NULL,'1',NULL),(8,1,'aaa','1',NULL,NULL,NULL,'1',NULL);
+INSERT INTO `mg_role` VALUES (1,1,'test','1',NULL,NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `mg_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,7 +166,7 @@ CREATE TABLE `mg_role_fun` (
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   `status` varchar(1) COLLATE utf8_bin DEFAULT '0' COMMENT '''0:未启用 , 1:启用''',
   PRIMARY KEY (`rolefunid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色功能关系';
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色功能关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,7 +175,7 @@ CREATE TABLE `mg_role_fun` (
 
 LOCK TABLES `mg_role_fun` WRITE;
 /*!40000 ALTER TABLE `mg_role_fun` DISABLE KEYS */;
-INSERT INTO `mg_role_fun` VALUES (1,1,1,1,'1',NULL,NULL,NULL,NULL,NULL,'1');
+INSERT INTO `mg_role_fun` VALUES (19,1,1,2,'1',NULL,NULL,NULL,NULL,NULL,'0'),(20,1,1,3,'1',NULL,NULL,NULL,NULL,NULL,'0'),(21,1,1,4,'1',NULL,NULL,NULL,NULL,NULL,'0'),(22,1,1,5,'1',NULL,NULL,NULL,NULL,NULL,'0'),(23,1,1,6,'1',NULL,NULL,NULL,NULL,NULL,'0'),(24,1,1,7,'1',NULL,NULL,NULL,NULL,NULL,'0'),(25,1,1,2,'1',NULL,NULL,NULL,NULL,NULL,'0'),(26,1,1,3,'1',NULL,NULL,NULL,NULL,NULL,'0'),(27,1,1,4,'1',NULL,NULL,NULL,NULL,NULL,'0'),(28,1,1,5,'1',NULL,NULL,NULL,NULL,NULL,'0'),(29,1,1,6,'1',NULL,NULL,NULL,NULL,NULL,'0'),(30,1,1,7,'1',NULL,NULL,NULL,NULL,NULL,'0'),(31,1,1,2,'1',NULL,NULL,NULL,NULL,NULL,'0'),(32,1,1,3,'1',NULL,NULL,NULL,NULL,NULL,'0'),(33,1,1,4,'1',NULL,NULL,NULL,NULL,NULL,'0'),(34,1,1,5,'1',NULL,NULL,NULL,NULL,NULL,'0'),(35,1,1,6,'1',NULL,NULL,NULL,NULL,NULL,'0'),(36,1,1,7,'1',NULL,NULL,NULL,NULL,NULL,'0');
 /*!40000 ALTER TABLE `mg_role_fun` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,7 +198,7 @@ CREATE TABLE `mg_role_user` (
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`roleuserid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色用户关系';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色用户关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +207,7 @@ CREATE TABLE `mg_role_user` (
 
 LOCK TABLES `mg_role_user` WRITE;
 /*!40000 ALTER TABLE `mg_role_user` DISABLE KEYS */;
-INSERT INTO `mg_role_user` VALUES (1,1,1,1,'1',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `mg_role_user` VALUES (1,1,1,1,'1',NULL,NULL,NULL,NULL,NULL),(2,1,1,2,'1',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `mg_role_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,4 +285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-14 17:30:00
+-- Dump completed on 2017-01-17 17:30:00

@@ -59,14 +59,16 @@ router.post('/', function(req,res,next)  {
 
 	//*****遍历所有项目，并生成相应的数据结构
 	ep.all('projectAllDatas',function(docs){
-
+		//console.log('AAAAAAA');
 		async.eachSeries(docs, function(doc, callback) {   // 循环遍历项目
-			var prjinfo={pid:doc.pid , prjname:doc.prj_name  , port: doc.port  ,  domain_url: doc.domain_url     };
+			var prjinfo={pid:doc.pid , prjname:doc.prj_name  , port: doc.port  ,  domain_url: doc.domain_url };
+			//console.log('BBBBBB');
 			//获取此项目下的说有功能模块
 			project.getfuns_ID(doc.pid , function(err,fundocs){
 				var funs = fundocs;
-
+				//console.log('CCCCCCC');
 				project.getRole_FunUsers(doc.pid , function(err,roles){
+					//console.log('DDDDDDDD');
 					var roles = roles;
 					projectDatas[projectDatas.length] = {prjinfo: prjinfo, funs: funs, roles: roles };
 
@@ -78,7 +80,6 @@ router.post('/', function(req,res,next)  {
 			if(err) console.log(err);
             return  res.send({ code:201 , datas:projectDatas });
         }); //async.eachSeries end 
-
 		
 	});
 
