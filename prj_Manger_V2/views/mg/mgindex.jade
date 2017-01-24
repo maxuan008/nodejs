@@ -51,15 +51,7 @@
 |                    <li  >
 |                        <a id='manager' href="/mg/manger"><i class="fa fa-database"></i> <span class="nav-label">项目管理</span></a>
 |                    </li>
-|  
-|                    #{projectList}
-|      
-|                    <li>
-|                        <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label"> 证券投资 </span><span class="fa arrow"></span></a>
-|                    </li>
-|                    <li>
-|                        <a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label"> 信用卡管理 </span><span class="fa arrow"></span></a>
-|                    </li>
+
 |                    <li id='navmark'></li>
 |  
 |                </ul>   <!-- class="nav metismenu" end -->
@@ -89,21 +81,19 @@
 |                            <span class="m-r-sm text-muted welcome-message">一个简单的多项目管理器</span>
 |                        </li>
 |    
-|                        <!--   邮件内容  -->
+|                        <!--   ***邮件内容***  -->
 include emailContent.html
-|                        <!--   邮件内容  结束  -->|
+|                        <!--   ***邮件内容  结束***  -->|
 | 
-|                        <!--   消息内容  -->
+|                        <!--   ***消息内容***  -->
 include newsContent.html
-|                        <!--   消息内容结束  -->
-|        
-|                        <!--   退出内容   -->
-|                        <li>
-|                            <a href="./loginout">
-|                                <i class="fa fa-sign-out"></i> 退出
-|                            </a>
-|                        </li>
-|                        <!--   退出内容  结束   -->
+|                         <!--   ***消息内容结束***  -->
+|         
+| 
+| 
+|                         <!--   ***退出内容***   -->
+include loginout.html
+|                        <!--   ***退出内容  结束***   -->
 |          
 |                        <!--   右上角下拉标签   -->
 |                        <li>

@@ -2,11 +2,10 @@
 roleID_addUser='';
 prjID_addUser = '';
 
-
-
 $(document).ready(function() {
 	//alert('OK');
 	getAllProjects();
+	
 
 });
 
@@ -27,14 +26,23 @@ function getAllProjects() {
 			if(code == '201') {
 				//显示新建的项目到页面中
 				var datas = backdata.datas;
+				var htmlstr="";
 				//循环生成项目
 				for(var i=0; i<datas.length; i++) {
 					var prjinfo = datas[i].prjinfo;
 					var funs = datas[i].funs;
 					var roles = datas[i].roles;
 
-					var htmlstr="" +
-							"<div class='col-lg-12'>  " + 
+					//生成功能导航列表
+					var pid = prjinfo.pid;
+					var navPrjHtML = " <li> " +
+                                 "   <a href='#' id = 'navPrj_" + pid + "'  ><i class='fa fa-sitemap'></i> <span class='nav-label'>" + prjinfo.prjname + "</span><span class='fa arrow'></span></a> " +
+                                 " </li>";
+					$('#navmark').before(navPrjHtML);			 
+
+
+					htmlstr="" +
+							"<div id='DIVprj_" + prjinfo.pid + "' class='col-lg-12'>  " + 
 							"	<div class='ibox float-e-margins'>    " + 
 							"		<div class='ibox-title'>    " + 
 							"			<h5 class='btn btn-warning'> " + prjinfo.prjname + " </h5>    " + 
@@ -45,7 +53,7 @@ function getAllProjects() {
 							"					<li><a href='#'>扩展功能 1</a></li>    " + 
 							"					<li><a href='#'>扩展功能 2</a></li>    " + 
 							"				</ul>    " + 
-							"				<a class='close-link'><i class='fa fa-times'></i></a>    " + 
+							"				<a class='close-link' onclick='delProject(this)' pid='" + prjinfo.pid + "' prjname ='" + prjinfo.prjname + "'   ><i class='fa fa-times'></i></a>    " + 
 							"			</div>    " + 
 							"		</div>    " + 
 							"			<div class='ibox-content'>    " + 
@@ -62,8 +70,7 @@ function getAllProjects() {
 							"				<tbody id='tbody_" + prjinfo.pid + "' >    " + 
 							"					<tr id='prjmodel_" + prjinfo.pid + "'>    " + 
 							"						<td>功能模块</td><td colspan='2'>  " + 
-							"							<div id='funlist_" + prjinfo.pid + "' class='row'> <!--  funlist_1_roleid -->    " + 
-
+							"							<div id='funlist_" + prjinfo.pid + "' class='row'> <!--  funlist_pid  -->    " + 
 							"							</div>    " + 
 							"						</td>   " + 
 							"					</tr>    " + 
@@ -96,7 +103,7 @@ function getAllProjects() {
 							"	</div>    " + 
 							"</div>  ";
 
-
+						console.log("添加功能模块:");
  						$("#other").before(htmlstr);
 						//***循环添加项目的功能，角色 */
 						addFunsHtml(prjinfo.pid , funs);
@@ -116,6 +123,50 @@ function getAllProjects() {
 
 
 
+
+
+//删除项目
+function delProject(ele) {
+	var prjname = ele.getAttribute('prjname');
+	var pid = ele.getAttribute('pid');
+
+ 	var flag = confirm("您确认要删除'"  + prjname + "'?");
+    if(flag == false) return;
+
+	var data={pid:pid}
+
+	$.ajax({
+		url:'/mg/delproject',
+		data:data,
+		type:'POST',
+		dataType:'json',   
+
+		success: function(backdata){
+			//console.log(backdata);
+			var code = backdata.code;
+			if(code == '204')  {alert('创建失败:' + backdata.err); console.log(backdata.err);  }  
+			if(code == '201') {
+				//删除页面中的项目
+				$("#DIVprj_" + pid).remove();
+			}   
+		}
+
+	}); //ajax end
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 //***循环添加项目的功能 */
 function addFunsHtml(pid , funs) {
 	var htmlstr='';
@@ -123,7 +174,7 @@ function addFunsHtml(pid , funs) {
 	for(var i=0; i<funs.length ; i++) {
 		var fun=funs[i];
 		htmlstr = htmlstr + 
-		  "<div class='col-xs-5 col-sm-8' id='fundivdel_" + fun.fid + "'><a fid='" + fun.fid + "' onclick='delfun(this)'><i class='fa fa-times'></i></a> 代码:" + fun.fid + "," + fun.fun_name + "--" + fun.docname +"</div> "; 
+		  "<div class='col-xs-5 col-sm-8' id='fundivdel_" + fun.fid + "'><a fid='" + fun.fid + "'  pid='" + pid + "'   onclick='delfun(this)'><i class='fa fa-times'></i></a> 代码:" + fun.fid + "," + fun.fun_name + "--" + fun.docname +"</div> "; 
 	}
 
 	$('#funlist_'+pid).html(htmlstr);
@@ -143,7 +194,7 @@ function addRolesHtml(pid,roles, prjname , funs) {
 
 		htmlstr = '' + 
 					"	<tr id='role_"+ rid + "'>    " + 
-					"		<td  >" + rolename + "</td>   " +  
+					"		<td  ><button onclick='delRole(this)' rid='" + rid + "' class='btn btn-danger btn-xs' >删除角色</button>  " + rolename + "</td>   " +  
 					"		<td >    " + 
 					"		   <div id='role_fun_list_" + pid + "_" + rid + "'  class='row'>    " + 
 					"		   </div>    " + 
@@ -192,8 +243,40 @@ function addRoleFun(pid, rid, rolefuns , funs) {
 
 }
 
-//获取数组中fid的功能名
+//删除角色
+function delRole(ele){
+	var rid=ele.getAttribute('rid'); 
+	if(rid == '') {alert('删除失败，ID获取失败');return;  } 
 
+	var flag = confirm("您确认要删除此角色?");
+    if(flag == false) return;
+
+	var data ={}; 
+	data.id = rid;
+
+    $.ajax({
+		url:'/mg/delRole',
+		data:data,
+		type:'POST',
+		dataType:'json',   
+
+		success: function(backdata){
+			console.log(backdata);
+			var code = backdata.code;
+			if(code == '204')  {alert('操作失败:' + backdata.err); console.log(backdata.err);  }  
+			if(code == '201') {
+				$("#role_" + rid).remove();
+
+		    } //if end
+
+		}
+
+	}); //ajax end
+
+}
+
+
+//获取数组中fid的功能名
 function  getFunName(fid,funs ) {
 	var result = '';
 	for(var i=0; i< funs.length; i++) {
@@ -201,6 +284,7 @@ function  getFunName(fid,funs ) {
 	}
 	return result;
 }
+
 
 
 //在指定的角色中加入用户信息
@@ -251,14 +335,105 @@ $("#addproject").click(function(){
 			if(code == '204')  {$("#warninfo").text('创建失败:' + backdata.err); console.log(backdata.err);  }  
 			if(code == '201') {
 				$("#warninfo").text('项目创建成功:' + backdata.datas.prj_name);
+				$("#prj_name").val("");
 				//显示新建的项目到页面中
+				var prjinfo = backdata.datas;
 
+				add_newProject(prjinfo);
 			}   
 		}
 
 	}); //ajax end
 
 });
+
+
+    //添加一个新的项目框架HTML到页面中
+	function add_newProject(prjinfo) {
+		var pid = prjinfo.id;
+		var prjname = prjinfo.prj_name;
+		var port = prjinfo.port;
+		var domain_url = prjinfo.domain_url;
+
+		htmlstr="" +
+				"<div id='DIVprj_" + pid + "' class='col-lg-12'>  " + 
+				"	<div class='ibox float-e-margins'>    " + 
+				"		<div class='ibox-title'>    " + 
+				"			<h5 class='btn btn-warning'> " + prjname + " </h5>    " + 
+				"			<div class='ibox-tools'>    " + 
+				"				<a class='collapse-link'><i class='fa fa-chevron-up'></i></a>    " + 
+				"				<a class='dropdown-toggle' data-toggle='dropdown' href='#'><i class='fa fa-wrench'></i></a>    " + 
+				"				<ul class='dropdown-menu dropdown-user'>    " + 
+				"					<li><a href='#'>扩展功能 1</a></li>    " + 
+				"					<li><a href='#'>扩展功能 2</a></li>    " + 
+				"				</ul>    " + 
+				"				<a class='close-link' onclick='delProject(this)' pid='" + pid + "' prjname ='" + prjname + "'   ><i class='fa fa-times'></i></a>    " + 
+				"			</div>    " + 
+				"		</div>    " + 
+				"			<div class='ibox-content'>    " + 
+				"			<table class='table table-bordered'>    " + 
+				"				<thead><tr><th colspan='3'>  " + 
+				"							<form role= 'form' class= 'form-inline'>  " + 
+				"								<div class= 'form-group'> 添加一个角色: </div>  " + 
+				"								<div class= 'form-group'><input id= 'role_name_" + pid + "' type= 'text' placeholder= '角色名'  class= 'form-control'></div>  " + 
+				"								<div class= 'checkbox m-r-xs'><button prjid='" + pid + "'  prjname= '" + prjname + "'  onclick='addrole(this)' class= 'btn btn-white' type= 'button'>添加</button></div>   " +         
+				"							</form>  " + 
+				"						</th></tr>  " + 
+				"				</thead>    " + 
+				"				<thead><tr><th>角色</th><th >功能</th><th  >用户名单</th></tr></thead>   " + 
+				"				<tbody id='tbody_" + pid + "' >    " + 
+				"					<tr id='prjmodel_" + pid + "'>    " + 
+				"						<td>功能模块</td><td colspan='2'>  " + 
+				"							<div id='funlist_" + pid + "' class='row'>  <!--  funlist_pid  -->    " + 
+				"							</div>    " + 
+				"						</td>   " + 
+				"					</tr>    " + 
+				"					<tr>    " + 
+				"						<td class='col-xs-1 col-sm-2'>添加功能模块</td>  " + 
+				"						<td colspan='2'>  " + 
+				"							<form role= 'form' class= 'form-inline'>  " + 
+				"								<div class= 'form-group'>  " + 
+				"									<label for= 'exampleInputEmail2' class= 'sr-only'>功能名</label>  " + 
+				"									<input id= 'fun_name_" + pid + "' type= 'text' placeholder= '功能名'  class= 'form-control'>  " + 
+				"								</div>  " + 
+				"								<div class= 'form-group'>  " + 
+				"									<label for= 'exampleInputPassword2' class= 'sr-only'>链接url</label>  " + 
+				"									<input id= 'fun_url_" + pid + "' type= 'text ' placeholder= '链接url'  class= 'form-control'>  " + 
+				"								</div>  " + 
+				"								<div class= 'form-group'>  " + 
+				"									<label for= 'exampleInputPassword2' class= 'sr-only'>程序文件名</label>  " + 
+				"									<input id= 'fun_docname_" + pid + "' type= 'text' placeholder= '程序文件名'  class= 'form-control'>  " + 
+				"								</div>  " + 
+				"								<div class= 'checkbox m-r-xs'><input type= 'checkbox' id= 'fun_havedomai_" + pid + "'>  " + 
+				"									<label for= 'checkbox1'>链接含主域名?</label>  " + 
+				"									<button prjid='" + pid + "' onclick='addfun(this)' class= 'btn btn-white' type= 'button'>添加</button>  " + 
+				"								</div>  " + 		
+				"							</form>  " + 
+				"						</td>   " +  
+				"					</tr>    " + 
+				"				</tbody>   " +  
+				"			</table>    " + 
+				"		</div>    " + 
+				"	</div>    " + 
+				"</div>  ";
+
+			console.log("添加功能模块:");
+			$("#other").before(htmlstr);
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -278,6 +453,7 @@ function addfun(ele) {
 	if(data.fun_name == '') {alert('模块功能的名称不能为空'); $("#fun_name_" + prjid , this.el).focus();  return;  } 
 	if(data.fun_url == '') {alert('功能链接不能为空'); $("#fun_url_"+ prjid, this.el).focus();  return;  } 
 
+	var pid = prjid;
     $.ajax({
 		url:'/mg/addfun',
 		data:data,
@@ -290,19 +466,32 @@ function addfun(ele) {
 			if(code == '204')  {$("#warninfo").text('创建失败:' + backdata.err); console.log(backdata.err);  }  
 			if(code == '201') {
 				//显示新建的功能模块到页面中
-				var funhtml= "<div class='col-xs-5 col-sm-8' id='fundivdel_" + backdata.datas.id + "'> <a fid='" + backdata.datas.id + "' onclick='delfun(this)'><i class='fa fa-times'></i> </a> 代码:" + backdata.datas.id + ", " + backdata.datas.fun_name + " </div> " ;
+				var funhtml= "<div class='col-xs-5 col-sm-8' id='fundivdel_" + backdata.datas.id + "'> <a fid='" + backdata.datas.id + "'  pid='" + pid + "'  onclick='delfun(this)'><i class='fa fa-times'></i> </a> 代码:" + backdata.datas.id + ", " + backdata.datas.fun_name + " </div> " ;
  
 				$("#funlist_"+ prjid ).append(funhtml);
 
 				//清空功能名
 				$("#fun_name_" + prjid  ).val("");
 
-				//触发此项目的角色，重新获取所有角色的功能
-				var roledatas = backdata.datas.roles;
-				var fid = backdata.datas.id;
-				//getAllRoleFun(prjid,fid,roledatas);
+				var roles = backdata.datas.roles;
+				var funs =  backdata.datas.funs;
 
-			}   
+				//刷新角色的功能信息html
+				for(var i=0; i<roles.length ; i++) {
+					var role=roles[i];
+					var rid = role.role.rid;
+					var rolename = role.role.role_name;
+
+					//添加角色的功能和用户
+					var rolefuns = role.funs;
+					var roleusers =  role.users;
+					addRoleFun(pid, rid, rolefuns , funs);
+					//addRoleUser(pid, rid,roleusers);
+
+				} //for end
+
+		    } //if end
+
 		}
 
 	}); //ajax end
@@ -327,35 +516,48 @@ function getAllRoleFun(prjid,fid,roledatas) {
 
 
 
-
-
 //删除具体的功能模块
 function delfun(ele) {
 	var fid = ele.getAttribute('fid'); 
+	var pid = ele.getAttribute('pid'); 
 	var flag = confirm("您确认要删除此功能模块?");
     if(flag == false) return;
     
 	if(fid=='' || fid==undefined) {alert('ID数据不正确！');   return;  } 
-	var data = {id:fid};
+	var data = {fid:fid, pid:pid };
 	$.ajax({
 		url:'/mg/delfun',
 		data:data,
 		type:'POST',
 		dataType:'json',   
 
-		success: function(data){
-			console.log(data);
-			var code = data.code;
-			if(code == '204')  {alert('创建失败:' + data.err); console.log(data.err);  }  
+		success: function(backdata){
+			console.log(backdata);
+			var code = backdata.code;
+			var roles = backdata.datas.roles;
+			var funs =  backdata.datas.funs;
+			if(code == '204')  {alert('创建失败:' + backdata.err); console.log(backdata.err);  }  
 			if(code == '201') {
-				//删除页面的具体的功能模块
-				$("#fundivdel_" + fid).remove(); 
+			//删除页面的具体的功能模块
+			$("#fundivdel_" + fid).remove(); 
 
+				//刷新角色的功能信息html
+				for(var i=0; i<roles.length ; i++) {
+					var role=roles[i];
+					var rid = role.role.rid;
+					var rolename = role.role.role_name;
+
+					//添加角色的功能和用户
+					var rolefuns = role.funs;
+					var roleusers =  role.users;
+					addRoleFun(pid, rid, rolefuns , funs);
+					//addRoleUser(pid, rid,roleusers);
+
+				} //for end
 			}   
 		}
 
 	}); //ajax end
-
 
 }
 
@@ -386,14 +588,13 @@ function addrole(ele) {
 			if(code == '204')  {alert('创建失败:' + backData.err);console.log(backData.err);  }  
 			if(code == '201') {
 				//显示新建的角色到页面中
-
 				var rid = backData.datas.id;
 				var pid = prjid;
 				var rolename = backData.datas.role_name ;
 
 				var rolehtml= " " +
 				    "<tr id='role_"+ rid + "'>  "+
-					"	<td>"+ rolename + "</td>    "+
+					"	<td> <button onclick='delRole(this)' rid='" + rid + "' class='btn btn-danger btn-xs'>删除角色</button>"+ rolename + "</td>    "+
 					"	<td >    "+
 					"		<div id='role_fun_list_"+ pid + "_"+ rid + "' class='row'>    "+
 					"		</div>    "+
@@ -409,12 +610,64 @@ function addrole(ele) {
 
 				$('#prjmodel_'+pid).before(rolehtml);
 
+				//刷新新增的角色
+				refreshRole(pid,rid);
+
+				//addRoleFun(pid, rid, rolefuns , funs);
+
 			}   
 		}
 
 	}); //ajax end
 
 }
+
+
+
+
+
+
+
+//刷新角色HTML
+function refreshRole(pid,rid) {
+
+	if(pid == ''|| rid == '') {alert('ID数据不能为空');  return;  } 
+
+	var data ={pid:pid, rid:rid }; 
+
+    $.ajax({
+		url:'/mg/refreshRole',
+		data:data,
+		type:'POST',
+		dataType:'json',   
+
+		success: function(backdata){
+			//console.log(backdata);
+			
+			var code = backdata.code;
+			if(code == '204')  { console.log('失败:' + backdata.err);   }  
+			if(code == '201') {
+				var role = backdata.datas;
+				
+				//刷新角色页面中
+				var rolefuns = role.rolefuns;
+				var roleusers =  role.roleusers;
+				var funs =  role.funs;
+
+			    addRoleFun(pid, rid, rolefuns , funs);
+			    addRoleUser(pid, rid,roleusers);	
+
+		    } //if end
+		}  //success end
+
+	}); //ajax end
+
+
+}
+
+
+
+
 
 
 //更改角色功能

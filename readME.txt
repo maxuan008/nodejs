@@ -1,0 +1,1 @@
+设置降低数据库的更新操作安全等级：SET SQL_SAFE_UPDATES = 0; 

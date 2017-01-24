@@ -46,8 +46,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //app.set('view options', { pretty: true });
 
-
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
@@ -74,17 +72,21 @@ app.use(session({
 
 console.log("----mongodb 信息, ip: %s , 端口: %s , 数据库: %s" , config[mgenv].mongodb.host ,  config[mgenv].mongodb.port , config[mgenv].mongodb.db );
 
+//*****项目登陆入口：login******//
+
+var login =  require('./routes/login/controller/login');
+
+//*****项目登陆入口：login END******//
+
+
+//*****项目管理控制台：MG******//
+
 var mg_login = require('./routes/mg/controller/login');
 var mg_index = require('./routes/mg/controller/index');
 var mg_manger = require('./routes/mg/controller/manger');
 
+var mg_test= require('./routes/mg/controller/ajax/test');
 
-//var index = require('./routes/mg/controller/index');
-//var users = require('./routes/mg/controller/users');
-//var login= require('./routes/mg/controller/login');
-
-//var projectSelecter = require('./routes/mg/controller/projectSelecter'); 
-//var setSession= require('./routes/mg/controller/setSession');
 var mg_logincheck = require('./routes/mg/controller/ajax/logincheck');
 var mg_getAllProjects = require('./routes/mg/controller/ajax/getAllProjects');
 var mg_addproject = require('./routes/mg/controller/ajax/addproject');
@@ -97,6 +99,13 @@ var mg_delRoleUser= require('./routes/mg/controller/ajax/delRoleUser');
 var mg_modalAddUser= require('./routes/mg/controller/ajax/modalAddUser');
 
 var mg_getUnRoleUsers= require('./routes/mg/controller/ajax/getUnRoleUsers');
+var mg_loginout= require('./routes/mg/controller/ajax/loginout');
+var mg_delproject= require('./routes/mg/controller/ajax/delproject');
+
+var mg_delRole= require('./routes/mg/controller/ajax/delRole');
+var mg_refreshRole= require('./routes/mg/controller/ajax/refreshRole');
+
+//*****项目管理控制台：MG END******//
 
 
 //*******中间件：可以用于sesssion验证, 可信任站点，log访问日志的等等*********//
@@ -157,11 +166,25 @@ app.use( function(req, res, next) {
 
 //app.use('/projectSelecter', projectSelecter);
 //app.use('/setSession', setSession);
+
+//*****项目登陆入口：login******//
+app.use('/',login);
+app.use('/index',login);
+app.use('/login',login);
+
+
+
+
+//*****项目登陆入口：END******//
+
+
+
+//*****项目管理控制台：MG******//
 app.use('/mg/login',mg_login);
 app.use('/mg/index',mg_index);
 app.use('/mg/manger',mg_manger);
 
-
+app.use('/mg/test',mg_test);
 
 app.use('/mg/logincheck',mg_logincheck);
 app.use('/mg/getAllProjects',mg_getAllProjects);
@@ -176,8 +199,12 @@ app.use('/mg/delRoleUser',mg_delRoleUser);
 app.use('/mg/modalAddUser',mg_modalAddUser);
 
 app.use('/mg/getUnRoleUsers',mg_getUnRoleUsers);
+app.use('/mg/loginout',mg_loginout);
+app.use('/mg/delproject',mg_delproject);
+app.use('/mg/delRole',mg_delRole);
+app.use('/mg/refreshRole',mg_refreshRole);
 
-
+//*****项目管理控制台：MG  END******//
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -222,9 +249,11 @@ app.use(express.logger({stream: accessLogfile}));
 	});
  */
 
+// res.render('error'
+
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
+  res.send( {
     message: err.message,
     error: {}
   });
@@ -235,7 +264,6 @@ app.listen( config[mgenv].mgport  ,  function () {
 	var time = new Date();
 	
   console.log("项目管理控制台 manger:  prot:" + config[mgenv].mgport  + ". Listen Succeed at:" + time );
-
 
 	});
 

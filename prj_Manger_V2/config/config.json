@@ -2,7 +2,7 @@
   "production" :{
       "cookiesecret":"mgsession",
 
-      "mgport": "1155",
+      "mgport": "1111",
 
       "mysql":{
 
@@ -24,7 +24,7 @@
 
   "development" :{
       "cookiesecret":"mgsession",
-      "mgport": "1155",
+      "mgport": "1111",
 
       "mysql":{
 
