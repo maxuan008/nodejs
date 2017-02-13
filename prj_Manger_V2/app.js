@@ -75,6 +75,7 @@ console.log("----mongodb 信息, ip: %s , 端口: %s , 数据库: %s" , config[m
 //*****项目登陆入口：login******//
 
 var login =  require('./routes/login/controller/login');
+var logincheck = require('./routes/login/controller/ajax/logincheck');
 
 //*****项目登陆入口：login END******//
 
@@ -111,7 +112,7 @@ var mg_refreshRole= require('./routes/mg/controller/ajax/refreshRole');
 //*******中间件：可以用于sesssion验证, 可信任站点，log访问日志的等等*********//
 
    //***permitPath中的路径为可信任路径看，无需session也能通过中间件***//
-var permitPath =['', '/','/index' , '/login' , '/mg/login' , '/mg/logincheck'   ];
+var permitPath =['', '/','/index' , '/login',  '/login/logincheck'  , '/mg/login' , '/mg/logincheck'   ];
 
 
    //***designerSessionUrl中的路径为manger控制台的:如果不包含访问base路径直接next, 如何包含访问路径则验证session***//
@@ -172,7 +173,7 @@ app.use('/',login);
 app.use('/index',login);
 app.use('/login',login);
 
-
+app.use('/login/logincheck',logincheck);
 
 
 //*****项目登陆入口：END******//

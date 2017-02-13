@@ -132,7 +132,7 @@ CREATE TABLE `mg_role` (
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`rid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,6 +141,7 @@ CREATE TABLE `mg_role` (
 
 LOCK TABLES `mg_role` WRITE;
 /*!40000 ALTER TABLE `mg_role` DISABLE KEYS */;
+INSERT INTO `mg_role` VALUES (1,15,'普通用户','1',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `mg_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,8 +195,9 @@ CREATE TABLE `mg_role_user` (
   `update_time` datetime(6) DEFAULT NULL,
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
+  `isdefault` varchar(1) CHARACTER SET utf8 DEFAULT '0' COMMENT '是否设置为登录后的默认角色: 0不默认, 1默认',
   PRIMARY KEY (`roleuserid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色用户关系';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色用户关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -204,6 +206,7 @@ CREATE TABLE `mg_role_user` (
 
 LOCK TABLES `mg_role_user` WRITE;
 /*!40000 ALTER TABLE `mg_role_user` DISABLE KEYS */;
+INSERT INTO `mg_role_user` VALUES (1,15,1,1,'1',NULL,NULL,NULL,NULL,NULL,'0');
 /*!40000 ALTER TABLE `mg_role_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,4 +284,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-24 17:53:26
+-- Dump completed on 2017-02-13 17:30:00

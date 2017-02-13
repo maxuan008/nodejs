@@ -27,7 +27,7 @@
                     <form>
                         <div class="form-group mt-md">
                             <span class="input-with-icon">
-                                    <input type="email" class="form-control" id="email" placeholder="Email">
+                                    <input type="email" class="form-control" id="username" placeholder="Account">
                                     <i class="fa fa-envelope"></i>
                             </span>
                         </div>
@@ -40,11 +40,11 @@
                         <div class="form-group">
                             <div class="checkbox-custom checkbox-primary">
                                 <input type="checkbox" id="remember-me" value="option1" checked>
-                                <label for="remember-me">Remember me</label>
+                                <label for="remember-me">Remember me</label> <div id='info' style="color:red;" ></div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <a href="#" class="btn btn-primary btn-block">Sign in</a>
+                            <a href="#" id='login' class="btn btn-primary btn-block">登录</a>
                         </div>
                         <div class="form-group text-center">
                             <a href="#">Forgot password?</a>
@@ -60,6 +60,8 @@
 <script src="/login/vendor/nano-scroller/nano-scroller.js"></script>
 <script src="/login/javascripts/template-script.min.js"></script>
 <script src="/login/javascripts/template-init.min.js"></script>
+<script src="/login/self/login.js"></script>
+
 </body>
 
 </html>

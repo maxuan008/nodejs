@@ -9,7 +9,10 @@ function user(data) {
 }
 
 
-//在fun表中删除一条数据，删除条件为数组数据wherejson
+
+
+
+//在user中删除一条数据，删除条件为数组数据wherejson
  user.delete = function (wherejson,callback){
      console.log('cog:',global.mgENV,mgconfig);
     
