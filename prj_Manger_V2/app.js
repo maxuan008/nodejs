@@ -76,6 +76,8 @@ console.log("----mongodb 信息, ip: %s , 端口: %s , 数据库: %s" , config[m
 
 var login =  require('./routes/login/controller/login');
 var logincheck = require('./routes/login/controller/ajax/logincheck');
+var projectselecter = require('./routes/login/controller/projectselecter');
+
 
 //*****项目登陆入口：login END******//
 
@@ -115,7 +117,7 @@ var mg_refreshRole= require('./routes/mg/controller/ajax/refreshRole');
 var permitPath =['', '/','/index' , '/login',  '/login/logincheck'  , '/mg/login' , '/mg/logincheck'   ];
 
 
-   //***designerSessionUrl中的路径为manger控制台的:如果不包含访问base路径直接next, 如何包含访问路径则验证session***//
+   //***designerSessionUrl中的路径为manger控制台的:如果不包含访问base路径直接next, 如果包含访问路径则验证session***//
 var designerSessionUrl = [ 'mg' ];
 
 app.use( function(req, res, next) {
@@ -142,7 +144,7 @@ app.use( function(req, res, next) {
            }
 
        } else  {  //访问路径不属于manger
-            if(req.session.userInfo  ) {  //如果通过session
+            if(req.session.userdatas  ) {  //如果通过session
                next();
            } else {  //如果没有通过session ， 代码为：333
                console.log('session未通过验证');
@@ -175,6 +177,7 @@ app.use('/login',login);
 
 app.use('/login/logincheck',logincheck);
 
+app.use('/login/projectselecter',projectselecter);
 
 //*****项目登陆入口：END******//
 

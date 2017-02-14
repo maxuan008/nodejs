@@ -23,6 +23,26 @@ user.getAllRoles =  function (uid,callback){
 
 }
 
+//获取用户所有的项目和相应的角色
+
+user.getAllPrjAndRoles =  function (uid,callback){
+
+   var table_project = mgconfig[global.mgENV].mysql.header + "_project";
+   var table_role_user =  mgconfig[global.mgENV].mysql.header + "_role_user";
+   var table_role = mgconfig[global.mgENV].mysql.header + "_role";
+
+
+   var sqlstr = "select b.roleuserid as ruid , a.prj_name , a.domain_url , a.port ,c.role_name   from `" + table_project +"` as a , `" +table_role_user+ "`  as b ,   `" +table_role+"` as c  " + 
+                " where a.pid=b.pid and b.rid = c.rid  and c.pid = a.pid and a.isvalid = '1' and b.isvalid = '1' and  c.isvalid = '1'  " + 
+                " and b.uid = '" + uid +"' ";
+   console.log(sqlstr);
+   templater.SQL(sqlstr , function(err, docs){
+         if(err) console.log(err);
+         return callback(err,docs);
+    });
+
+}
+
 
 
 

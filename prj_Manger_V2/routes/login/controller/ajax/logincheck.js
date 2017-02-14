@@ -35,8 +35,19 @@ router.post('/', function(req,res,next)  {
 				  user.getAllRoles(uid,function(err,prjRoles){
 					if(err)	 return  res.send({code:204 , err:err});
 
+					console.log(prjRoles);
+
 					 if(prjRoles.length <= 0)   return  res.send({ code:204 , err:"此账号当前没有所属项目" });
-					 else  res.send({code:201 , data:"验证通过" });
+					 else  {
+						 req.session.userdatas={
+							    info:{
+									username:username,
+									uid:uid
+								}
+							 };
+
+					     res.send({code:201 , data:"验证通过" });	 
+					 }
 					
 					
 

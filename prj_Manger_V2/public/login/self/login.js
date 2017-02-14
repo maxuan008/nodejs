@@ -25,6 +25,8 @@ $("#login").click(function(){
 				//$("#info").text(data.data);
 				//window.location.href = "/login/index"
 				$("#info").text('用户验证成功'); 
+				var newurl = "/login/projectselecter";
+				window.location.href = newurl;
 
 			}   
 		}
