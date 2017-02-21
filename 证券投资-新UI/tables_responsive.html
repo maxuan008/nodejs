@@ -22,26 +22,49 @@
 
 
 <div class="wrap">
+
+
+
+
     <div class="page-header">
+        
+        <!-- *****水平菜单  含logo  ***** !-->
         <div class="leftside-header">
             <div class="logo">
                 <a href="index.html" class="on-click">
                     <img alt="logo" src="images/header-logo.png" />
                 </a>
             </div>
+
             <div id="menu-toggle" class="visible-xs toggle-left-sidebar" data-toggle-class="left-sidebar-open" data-target="html">
                 <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
             </div>
+
         </div>
+        <!--   *****结束：水平菜单  含logo **** !-->
+
+
+        <!--   *****结束： 水平菜单右上角**** !-->
         <div class="rightside-header">
+             
+            <!--   ***** 水平菜单：中部位置**** !--> 
             <div class="header-middle"></div>
+            <!--   ***** 结束*****  水平菜单：中部位置**** !--> 
+
+            <!--   ***** 水平菜单：查询器**** !--> 
             <div class="header-section" id="search-headerbox">
                 <input type="text" name="search" id="search" placeholder="Search...">
                 <i class="fa fa-search search" id="search-icon" aria-hidden="true"></i>
                 <div class="header-separator"></div>
             </div>
+            <!--   ***** 结束*****   水平菜单：中部位置**** !--> 
+
+
+           <!--   ***** 水平菜单：含 多选框 消息通知  铃铛消息推送  分割线  **** !--> 
             <div class="header-section hidden-xs" id="notice-headerbox">
-                <div class="notice" id="checklist-notice">
+  
+                 <!--   ***** 水平菜单：多选框 下拉列表**** !--> 
+                 <div class="notice" id="checklist-notice">
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                     <div class="dropdown-box basic">
                         <div class="drop-header">
@@ -87,7 +110,12 @@
                             <a>See all Items</a>
                         </div>
                     </div>
-                </div>
+                 </div>
+                 <!--   ****** 结束*****   水平菜单：多选框 下拉列表**** !--> 
+
+
+
+                 <!--   *****          水平菜单：消息通知 下拉列表**** !--> 
                 <div class="notice" id="messages-notice">
                     <i class="fa fa-comments-o" aria-hidden="true"></i>
                     <span><i class="fa fa-exclamation-circle" aria-hidden="true"></i></span>
@@ -152,6 +180,10 @@
                         </div>
                     </div>
                 </div>
+                 <!--   ****** 结束*****水平菜单：消息通知 下拉列表**** !--> 
+
+
+                <!--   *****          水平菜单：消息推送 铃铛 下拉列表**** !--> 
                 <div class="notice" id="alerts-notice">
                     <i class="fa fa-bell-o" aria-hidden="true"></i>
                     <span>4</span>
@@ -216,20 +248,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="header-separator"></div>
+                <!--   ****** 结束***** 水平菜单：消息推送 铃铛 下拉列表**** !--> 
+
+                <div class="header-separator"></div>  <!-- ***** 分割线**** !--> 
+
             </div>
+           <!--   *****结束***** 水平菜单：含 多选框 消息通知  铃铛消息推送  分割线  **** !--> 
+
+
+            <!--   ***** 水平菜单：头像 用户信息和设置**** !--> 
             <div class="header-section" id="user-headerbox">
                 <div class="user-header-wrap">
+                    <!--   *****头像 **** !--> 
                     <div class="user-photo">
                         <img src="images/user-avatar.jpg" alt="Jane Doe" />
                     </div>
+                    <!--   **结束*头像 **** !--> 
+
+
+                    <!--   *****用户信息 **** !--> 
                     <div class="user-info">
                         <span class="user-name">Jane Doe</span>
                         <span class="user-profile">Admin</span>
                     </div>
+                    <!--   *结束*用户信息 **** !--> 
+                     
+                    <!--   *****设置 + ，- **** !--> 
                     <i class="fa fa-plus icon-open" aria-hidden="true"></i>
                     <i class="fa fa-minus icon-close" aria-hidden="true"></i>
+                    <!--   *结束*设置 + ，- **** !--> 
                 </div>
+
+
+                <!--   *****设置 下拉列表 **** !--> 
                 <div class="user-options dropdown-box">
                     <div class="drop-content basic">
                         <ul>
@@ -239,18 +290,38 @@
                         </ul>
                     </div>
                 </div>
+               <!--   *结束*设置 下拉列表 **** !--> 
+
             </div>
-            <div class="header-separator"></div>
+            <!--  *结束** 水平菜单：头像 用户信息和设置**** !--> 
+
+             <div class="header-separator"></div> <!-- ***** 分割线**** !--> 
+
+             <!--   ***** 水平菜单：登出**** !--> 
             <div class="header-section">
                 <a href="pages_sign-in.html"><i class="fa fa-sign-out log-out" aria-hidden="true"></i></a>
             </div>
+            <!--   **结束 水平菜单：登出**** !--> 
+
         </div>
+        <!--   *****结束： 水平菜单右上角**** !-->
+
     </div>
+
+
+
+
+
+
+
+
+
+
 
     <div class="page-body">
         <div class="left-sidebar">
             <div class="left-sidebar-header">
-                <div class="left-sidebar-title">Navigation</div>
+                <div class="left-sidebar-title">功能列表</div>
                 <div class="left-sidebar-toggle c-hamburger c-hamburger--htla hidden-xs" data-toggle-class="left-sidebar-collapsed" data-target="html">
                     <span></span>
                 </div>

@@ -77,6 +77,8 @@ console.log("----mongodb 信息, ip: %s , 端口: %s , 数据库: %s" , config[m
 var login =  require('./routes/login/controller/login');
 var logincheck = require('./routes/login/controller/ajax/logincheck');
 var projectselecter = require('./routes/login/controller/projectselecter');
+var selectoneprj = require('./routes/login/controller/ajax/selectoneprj');
+
 
 
 //*****项目登陆入口：login END******//
@@ -114,7 +116,7 @@ var mg_refreshRole= require('./routes/mg/controller/ajax/refreshRole');
 //*******中间件：可以用于sesssion验证, 可信任站点，log访问日志的等等*********//
 
    //***permitPath中的路径为可信任路径看，无需session也能通过中间件***//
-var permitPath =['', '/','/index' , '/login',  '/login/logincheck'  , '/mg/login' , '/mg/logincheck'   ];
+var permitPath =['', '/','/index' , '/login',  '/login/logincheck'  , '/mg/login' , '/mg/logincheck' ,'/mg/loginout'  ];
 
 
    //***designerSessionUrl中的路径为manger控制台的:如果不包含访问base路径直接next, 如果包含访问路径则验证session***//
@@ -127,6 +129,8 @@ app.use( function(req, res, next) {
     var originalUrl = req.originalUrl;
     var urlarry = reqpath.split('/');  //console.log(urlarry);
     var baseUrl = urlarry[1];  //console.log("baseur:" , baseUrl ,"arr:" , urlarry);
+
+    console.log('session数据：', req.session.userdatas);
 
     if( permitPath.indexOf(originalUrl) > -1 )  { //通过可信任路径
       next();
@@ -144,11 +148,11 @@ app.use( function(req, res, next) {
            }
 
        } else  {  //访问路径不属于manger
-            if(req.session.userdatas  ) {  //如果通过session
+            if(req.session.userdatas ) {  //如果通过session
                next();
            } else {  //如果没有通过session ， 代码为：333
                console.log('session未通过验证');
-               res.send({code:204  , err: "session不存在"   });
+               res.send({code:204  , err: "用户session不存在"   });
            }
 
        }
@@ -178,6 +182,8 @@ app.use('/login',login);
 app.use('/login/logincheck',logincheck);
 
 app.use('/login/projectselecter',projectselecter);
+app.use('/login/selectoneprj',selectoneprj);
+
 
 //*****项目登陆入口：END******//
 

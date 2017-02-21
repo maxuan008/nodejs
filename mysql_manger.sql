@@ -70,7 +70,7 @@ CREATE TABLE `mg_fun` (
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`fid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='功能模块';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='功能模块';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,6 +79,7 @@ CREATE TABLE `mg_fun` (
 
 LOCK TABLES `mg_fun` WRITE;
 /*!40000 ALTER TABLE `mg_fun` DISABLE KEYS */;
+INSERT INTO `mg_fun` VALUES (3,16,'ccc','ccc','ccc','0','1',NULL,NULL,NULL,'1',NULL),(4,16,'ddd','ddd','ddd','0','1',NULL,NULL,NULL,'1',NULL),(5,17,'eee','eee','eee','0','1',NULL,NULL,NULL,'1',NULL),(6,17,'fff','fff','fff','0','1',NULL,NULL,NULL,'1',NULL),(7,15,'股票信息',NULL,'/gupiaozhengquan','0','1',NULL,NULL,NULL,'1',NULL),(8,15,'股票资产表','gupiao_balancesheetzhengquan','/gupiao_balancesheetzhengquan','0','1',NULL,NULL,NULL,'1',NULL),(9,15,'期权信息','qiquanzhengquan','/qiquanzhengquan','0','1',NULL,NULL,NULL,'1',NULL),(10,15,'期权资产表','qiquan_balancesheetzhengquan','/qiquan_balancesheetzhengquan','0','1',NULL,NULL,NULL,'1',NULL),(11,15,'期权智能决策','autoDecisionzhengquan','/autoDecisionzhengquan','0','1',NULL,NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `mg_fun` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,7 +111,7 @@ CREATE TABLE `mg_project` (
 
 LOCK TABLES `mg_project` WRITE;
 /*!40000 ALTER TABLE `mg_project` DISABLE KEYS */;
-INSERT INTO `mg_project` VALUES (15,'证券投资','1199',NULL,'1',NULL,NULL,NULL,'1',NULL),(16,'物联网','1133',NULL,'1',NULL,NULL,NULL,'1',NULL),(17,'信用卡管理','1177',NULL,'1',NULL,NULL,NULL,'1',NULL);
+INSERT INTO `mg_project` VALUES (15,'证券投资','1199','http://localhost:1199/security','1',NULL,NULL,NULL,'1',NULL),(16,'物联网','1133',NULL,'1',NULL,NULL,NULL,'1',NULL),(17,'信用卡管理','1177',NULL,'1',NULL,NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `mg_project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -132,7 +133,7 @@ CREATE TABLE `mg_role` (
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`rid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +142,7 @@ CREATE TABLE `mg_role` (
 
 LOCK TABLES `mg_role` WRITE;
 /*!40000 ALTER TABLE `mg_role` DISABLE KEYS */;
-INSERT INTO `mg_role` VALUES (1,15,'普通用户','1',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `mg_role` VALUES (1,15,'普通用户','1',NULL,NULL,NULL,NULL,NULL),(2,16,'普通用户','1',NULL,NULL,NULL,'1',NULL),(3,17,'用户','1',NULL,NULL,NULL,'1',NULL),(4,16,'测试角色1','1',NULL,NULL,NULL,'1',NULL),(5,17,'测试角色2','1',NULL,NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `mg_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +166,7 @@ CREATE TABLE `mg_role_fun` (
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   `status` varchar(1) COLLATE utf8_bin DEFAULT '0' COMMENT '''0:未启用 , 1:启用''',
   PRIMARY KEY (`rolefunid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色功能关系';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色功能关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,6 +175,7 @@ CREATE TABLE `mg_role_fun` (
 
 LOCK TABLES `mg_role_fun` WRITE;
 /*!40000 ALTER TABLE `mg_role_fun` DISABLE KEYS */;
+INSERT INTO `mg_role_fun` VALUES (3,16,2,3,'1',NULL,NULL,NULL,NULL,NULL,'1'),(4,16,2,4,'1',NULL,NULL,NULL,NULL,NULL,'1'),(5,17,3,5,'1',NULL,NULL,NULL,NULL,NULL,'0'),(6,17,3,6,'1',NULL,NULL,NULL,NULL,NULL,'1'),(7,16,4,3,'1',NULL,NULL,NULL,NULL,NULL,'0'),(8,16,4,4,'1',NULL,NULL,NULL,NULL,NULL,'1'),(9,17,5,5,'1',NULL,NULL,NULL,NULL,NULL,'1'),(10,17,5,6,'1',NULL,NULL,NULL,NULL,NULL,'1'),(11,15,1,7,'1',NULL,NULL,NULL,NULL,NULL,'1'),(12,15,1,8,'1',NULL,NULL,NULL,NULL,NULL,'1'),(13,15,1,9,'1',NULL,NULL,NULL,NULL,NULL,'1'),(14,15,1,10,'1',NULL,NULL,NULL,NULL,NULL,'1'),(15,15,1,11,'1',NULL,NULL,NULL,NULL,NULL,'1');
 /*!40000 ALTER TABLE `mg_role_fun` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,7 +199,7 @@ CREATE TABLE `mg_role_user` (
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   `isdefault` varchar(1) CHARACTER SET utf8 DEFAULT '0' COMMENT '是否设置为登录后的默认角色: 0不默认, 1默认',
   PRIMARY KEY (`roleuserid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色用户关系';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色用户关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +208,7 @@ CREATE TABLE `mg_role_user` (
 
 LOCK TABLES `mg_role_user` WRITE;
 /*!40000 ALTER TABLE `mg_role_user` DISABLE KEYS */;
-INSERT INTO `mg_role_user` VALUES (1,15,1,1,'1',NULL,NULL,NULL,NULL,NULL,'0');
+INSERT INTO `mg_role_user` VALUES (4,16,2,17,'1',NULL,NULL,NULL,NULL,NULL,'0'),(5,17,3,17,'1',NULL,NULL,NULL,NULL,NULL,'0'),(6,15,1,17,'1',NULL,NULL,NULL,NULL,NULL,'0');
 /*!40000 ALTER TABLE `mg_role_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -231,7 +233,7 @@ CREATE TABLE `mg_user` (
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='用户';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,7 +242,7 @@ CREATE TABLE `mg_user` (
 
 LOCK TABLES `mg_user` WRITE;
 /*!40000 ALTER TABLE `mg_user` DISABLE KEYS */;
-INSERT INTO `mg_user` VALUES (1,'aaa','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(2,'bbb','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(3,'ccc','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(4,'ddd','xMpCOKC5I4INzFCab3WEmw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(8,'ggg','xMpCOKC5I4INzFCab3WEmw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(9,'efsf','xMpCOKC5I4INzFCab3WEmw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(10,'rr','NpEwjypML2mD8ogNMuKchA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(11,'erew','IsJ2oFqnyQVmriF1vMKpsA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(12,'sdf','1LJ1jaAgXB4KqVEs0YgAKg==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(13,'ffds','gDVQc0gFlKmUcNyszNjPLA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(14,'wefd','A2qcXIw8R2zUmcEr41K6XA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(15,'eee','0vIpfW6CnNNJOqfeRBahjw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(16,'qqq','ZRK9Q9nKpuAsmQsKgmUtyg==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL);
+INSERT INTO `mg_user` VALUES (1,'aaa','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(2,'bbb','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(3,'ccc','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(4,'ddd','xMpCOKC5I4INzFCab3WEmw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(8,'ggg','xMpCOKC5I4INzFCab3WEmw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(9,'efsf','xMpCOKC5I4INzFCab3WEmw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(10,'rr','NpEwjypML2mD8ogNMuKchA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(11,'erew','IsJ2oFqnyQVmriF1vMKpsA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(12,'sdf','1LJ1jaAgXB4KqVEs0YgAKg==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(13,'ffds','gDVQc0gFlKmUcNyszNjPLA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(14,'wefd','A2qcXIw8R2zUmcEr41K6XA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(15,'eee','0vIpfW6CnNNJOqfeRBahjw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(16,'qqq','ZRK9Q9nKpuAsmQsKgmUtyg==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(17,'maxuan007','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `mg_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -284,4 +286,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-13 17:30:00
+-- Dump completed on 2017-02-21 17:30:01
