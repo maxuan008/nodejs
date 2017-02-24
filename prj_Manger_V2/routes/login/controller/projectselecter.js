@@ -32,7 +32,7 @@ router.get('/', function(req,res,next)  {
 
                 projectlist = projectlist +
                             "<li>" +
-                            "   <input tabindex='8' type='radio' pid='" + pid + "' name='prjlist' " + checkedstr + "  onclick='selectOnePrj(this)'   >" +
+                            "   <input tabindex='8' type='radio' pid='" + pid + "' domain_url='" + domain_url + "'   value = '" + domain_url + "'  name='prjlist' " + checkedstr + "  onclick='selectOnePrj(this)'   >" +
                             "   <label for='minimal-radio-2'>" + prjname + "</label>" +
                             "</li>" ;
 
@@ -56,8 +56,9 @@ router.get('/', function(req,res,next)  {
                 user.setSelectRoleAndFunUrls(pidSelected,uid , function(err,datas){
                     if(err) return res.send({code:204, err:err});
                     req.session.userdatas.selectprj.rid = datas.rid;
-                    req.session.userdatas.selectprj.havfunUrls = datas.havfunUrls;
-                    req.session.userdatas.selectprj.ishavedomain = datas.ishavedomain;
+                    req.session.userdatas.selectprj.fids = datas.fids;
+                    //req.session.userdatas.selectprj.havfunUrls = datas.havfunUrls;
+                    //req.session.userdatas.selectprj.ishavedomain = datas.ishavedomain;
                     //res.send(req.session.userdatas);
                     return  res.render('login/projectselecter',data);
                 });  //user.setSelectRoleAndFunUrls end 

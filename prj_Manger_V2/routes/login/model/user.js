@@ -53,7 +53,8 @@ user.getUserAllPrj =  function (uid,callback){
    var table_role = mgconfig[global.mgENV].mysql.header + "_role";
 
    var sqlstr = "select pid , `prj_name` , port , domain_url  from `" + table_project +"`  where  `isvalid` ='1'   " + 
-                " and pid IN (select c.pid from  `" +table_role_user+ "`  as b ,   `" +table_role+"` as c where b.rid = c.rid  and b.isvalid = '1' and  c.isvalid = '1'  and  b.uid = '" + uid +"'   )";
+                " and pid IN (select c.pid from  `" +table_role_user+ "`  as b ,   `" +table_role+"` as c where b.rid = c.rid  and b.isvalid = '1' and  c.isvalid = '1'  and  b.uid = '" + uid +"' ) " +
+                " order by pid ";
 
 
    console.log(sqlstr);
@@ -110,21 +111,23 @@ user.getPrjRolesAndFuns =  function (doc,callback){
 
 
 //设置选择的项目和用户的角色， funs的url信息
-user.setSelectRoleAndFunUrls = function setSelectRoleAndFunUrls(pid,uid,callback){
+user.setSelectRoleAndFunUrls = function (pid,uid,callback){
     var sqlstr = "call stored_get_userRoleAndFunUrls(" + pid + ", " + uid +"); ";
-    var result = {} , havfunUrls = [] ,ishavedomain = [] ;
+    var result = {} , havfunUrls = [] ,ishavedomain = [] , fids = [];
     templater.SQL(sqlstr , function(err, docs){
          if(err) return  callback(err);
          
          var doc = docs[1];
-         var rid = docs[0].rid;
+         var rid = docs[0][0].rid;
          
          for(var i=0;i<doc.length;i++) {
+             fids[i]= doc[i].fid;
              havfunUrls[i]= doc[i].url;
              ishavedomain[i]= doc[i].ishavedomain;
          }
 
-         result = {rid :rid, havfunUrls:havfunUrls , ishavedomain: ishavedomain  };
+         //console.log('RRRRRRRRRRR:', rid);
+         result = {rid :rid, fids:fids, havfunUrls:havfunUrls , ishavedomain: ishavedomain  };
 
          return callback(err,result);
     });

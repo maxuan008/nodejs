@@ -17,18 +17,20 @@ router.post('/', function(req,res,next)  {
 
 	if(prjs.length <= 0)  return res.send({code:'204', err:'没有获取到此用户有权限使用的项目'});
 	
-	var flag = 0;
+	var flag = -1;
 	for(var i=0; i< prjs.length; i++) {
-		if(pid == prjs[i].pid) 	{flag = 1;break;} 
+		if(pid == prjs[i].pid) 	{flag = i;break;} 
 	} //for end
 
-	if(flag == 1) { 
+	if(flag != -1) { 
 		user.setSelectRoleAndFunUrls(pid,uid , function(err,datas){
 			if(err) return res.send({code:204, err:err});
 			req.session.userdatas.selectprj.pid = pid;
 			req.session.userdatas.selectprj.rid = datas.rid;
-			req.session.userdatas.selectprj.havfunUrls = datas.havfunUrls;
-			req.session.userdatas.selectprj.ishavedomain = datas.ishavedomain;
+			req.session.userdatas.selectprj.fids = datas.fids;
+			//req.session.userdatas.selectprj.havfunUrls = datas.havfunUrls;
+			//req.session.userdatas.selectprj.ishavedomain = datas.ishavedomain;
+			// datas:{domain_url: prjs[flag].domain_url }
 			return res.send({code:'201'});
 		});  //user.setSelectRoleAndFunUrls end 
 	}  else  return res.send({code:'204',err: '所属权限项目中未匹配到'});

@@ -55,7 +55,7 @@ var dbpath = 'mongodb://' + config[mgenv].mongodb.host +':'+config[mgenv].mongod
 
 var newstroe = new MongoStore({
 	   url:dbpath,
-	   ttl: 3000,
+	   ttl: 9000,
 	   });
 //autoRemove: 'interval',
 //autoRemoveInterval: 1 //     ttl: 7 * 24 * 60 * 60 // = 7 days. Default
@@ -130,7 +130,7 @@ app.use( function(req, res, next) {
     var urlarry = reqpath.split('/');  //console.log(urlarry);
     var baseUrl = urlarry[1];  //console.log("baseur:" , baseUrl ,"arr:" , urlarry);
 
-    console.log('session数据：', req.session.userdatas);
+    //console.log('session数据：', req.session.userdatas);
 
     if( permitPath.indexOf(originalUrl) > -1 )  { //通过可信任路径
       next();

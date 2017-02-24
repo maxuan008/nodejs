@@ -31,6 +31,7 @@ router.post('/', function(req,res,next)  {
 
 				 //req.session.designer = { id : doc[0].did , username : doc[0].username ,fullname:doc[0].fullname  };
 				 var uid = doc[0].uid;
+				 var fullname =doc[0].fullname;
 				 //获取用户所有的角色
 				  user.getAllRoles(uid,function(err,prjRoles){
 					if(err)	 return  res.send({code:204 , err:err});
@@ -41,6 +42,7 @@ router.post('/', function(req,res,next)  {
 					 else  {
 						 req.session.userdatas={
 							    info:{
+									fullname : fullname ,
 									username:username,
 									uid:uid
 								}

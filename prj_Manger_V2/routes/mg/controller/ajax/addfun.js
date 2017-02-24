@@ -11,7 +11,7 @@ router.post('/', function(req,res,next)  {
 	var mgenv = global.mgENV;
 	
 
-    if(req.body.id == '' ||  req.body.id == undefined || req.body.fun_name == '' ||   req.body.fun_name == undefined  || req.body.fun_url == '' ||   req.body.fun_url == undefined) return res.send({code:204 , err:"数据错误"});
+    if(req.body.id == '' ||  req.body.id == undefined || req.body.fun_name == '' ||   req.body.fun_name == undefined  || req.body.fun_docname == '' ||   req.body.fun_docname == undefined) return res.send({code:204 , err:"数据错误"});
 
 	var data = {};
 	var pid = req.body.id;
@@ -20,7 +20,7 @@ router.post('/', function(req,res,next)  {
 	if(req.body.id)  data.pid  = req.body.id;
 	if(req.body.fun_name)  data.fun_name  = req.body.fun_name;
 	if(req.body.fun_url)  data.url  = req.body.fun_url;
-	if(req.body.fun_docname)  data.docname  = req.body.fun_docname;
+	if(req.body.fun_docname)  { data.docname  = req.body.fun_docname; data.tag  = req.body.fun_docname;     }  
 	if(req.body.isdomain)  data.ishavedomain  = req.body.isdomain;
     
 	data.creater = req.session.designer.id;

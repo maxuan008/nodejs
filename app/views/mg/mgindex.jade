@@ -1,0 +1,242 @@
+|<!DOCTYPE html>
+|<html>
+|<head>
+|    <meta charset="utf-8">
+|    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+|    <title>首页-项目管理器</title>
+|    <link href="/mg/css/bootstrap.min.css" rel="stylesheet">
+|    <link href="/mg/font-awesome/css/font-awesome.css" rel="stylesheet">
+|    <link href="/mg/css/animate.css" rel="stylesheet">
+|    <link href="/mg/css/style.css" rel="stylesheet">
+|</head>
+|<body>
+|   
+|    <div id="wrapper">
+|      
+|        <!--  导航开始 -->       
+|       <nav class="navbar-default navbar-static-side" role="navigation">
+|            <div class="sidebar-collapse">
+|                <ul class="nav metismenu" id="side-menu">
+|  
+|                    <li class="nav-header">
+|                        <div class="dropdown profile-element">
+|  
+|                            <span>
+|                                <img alt="image" class="img-circle" src="../mg/img/profile_small.jpg" />
+|                            </span>
+|  
+|                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+|                                <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">#{fullname}</strong>
+|                                </span> <span class="text-muted text-xs block">下拉功能菜单<b class="caret"></b></span> </span>
+|                            </a>
+|  
+|                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+|                                <li><a href="profile.html">下拉功能1</a></li>
+|                                <li><a href="contacts.html">下拉功能2</a></li>
+|                                <li><a href="mailbox.html">下拉功能3</a></li>
+|                                <li class="divider"></li>
+|                                <li><a href="">退出</a></li>
+|                            </ul>
+|  
+|                        </div> <!-- class="dropdown profile-element" end -->
+|  
+|                        <div class="logo-element">
+|                            MG+
+|                        </div>
+|                    </li><!-- class="nav-header" end -->
+|      
+|                    <li class="special_link">
+|                        <a id='index' href="/mg/index"><i class="fa fa-th-large"></i> <span class="nav-label">首页</span> </a>
+|                    </li>
+|                    <li  >
+|                        <a id='manager' href="/mg/manger"><i class="fa fa-database"></i> <span class="nav-label">项目管理</span></a>
+|                    </li>
+
+|                    <li id='navmark'></li>
+|  
+|                </ul>   <!-- class="nav metismenu" end -->
+|            </div> <!-- class="sidebar-collapse" end -->
+|        </nav> <!-- class="navbar-default navbar-static-side" end -->
+|        <!--  导航结束 -->    
+| 
+|        <div id="page-wrapper" class="gray-bg">
+|           
+|           <div class="row border-bottom">
+|                <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">       
+|    
+|                    <!-- search 栏  -->
+|                    <div class="navbar-header">
+|                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+|                        <form role="search" class="navbar-form-custom" action="search_results.html">
+|                            <div class="form-group">
+|                                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+|                            </div>
+|                        </form>
+|                    </div>
+|                    <!-- search 栏 结束 -->
+|     
+|                    <!-- 右header: 说明，邮件，消息，logout， 下拉 -->
+|                    <ul class="nav navbar-top-links navbar-right">
+|                        <li>
+|                            <span class="m-r-sm text-muted welcome-message">一个简单的多项目管理器</span>
+|                        </li>
+|    
+|                        <!--   ***邮件内容***  -->
+include emailContent.html
+|                        <!--   ***邮件内容  结束***  -->|
+| 
+|                        <!--   ***消息内容***  -->
+include newsContent.html
+|                         <!--   ***消息内容结束***  -->
+|         
+| 
+| 
+|                         <!--   ***退出内容***   -->
+include loginout.html
+|                        <!--   ***退出内容  结束***   -->
+|          
+|                        <!--   右上角下拉标签   -->
+|                        <li>
+|                            <a class="right-sidebar-toggle">
+|                                <i class="fa fa-tasks"></i>
+|                            </a>
+|                        </li>
+|                        <!--   右上角下拉标签结束   -->
+|         
+|                    </ul> <!-- class="nav navbar-top-links navbar-right" end -->
+|                    <!-- 右header: 说明，邮件，消息，logout， 下拉 ，  结束-->
+|  
+|                </nav> <!-- class="navbar navbar-static-top white-bg" end -->
+|            </div> <!-- class="row border-bottom" end -->
+|   
+|  
+| 
+|             <div class="row wrapper border-bottom white-bg page-heading"> 
+|                <div class="col-lg-10">
+|                    <h2>多项目管理控制台</h2>
+|                    <ol class="breadcrumb">
+|                        <li><a href="index.html">Home</a></li>                              
+|                        <li class="active"><strong>#{position}</strong></li>
+|                    </ol>
+|                </div>
+|                <div class="col-lg-2">
+|                </div>
+| 
+|            </div>
+| 
+| 
+| 
+| 
+|            <!-- 主体内容展示区域  -->
+|            <div id='projectmanger' class="wrapper wrapper-content animated fadeInRight">
+|                    <!-- 简介展示区域  -->
+|                    <div class="row"  id='brief'>
+| 
+|                            <div class="col-lg-3">
+|                                <div class="ibox float-e-margins">
+|                                    <div class="ibox-title">
+|                                        <span class="label label-info pull-right">>>进入</span>
+|                                        <h5>证券投资</h5>
+|                                    </div>
+|                                    <div class="ibox-content">
+|                                        <h1 class="no-margins">简介</h1>
+|                                        <div class="stat-percent font-bold text-success">
+|                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> <i class="fa fa-wrench"></i> </a> 
+|                                            <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a>
+|                                            <a class="close-link"> <i class="fa fa-times"> </i> </a> 
+|                                        </div>
+|                                        <small>MX</small>
+|                                    </div>
+|                                </div>
+|                            </div>
+| 
+|                            <div class="col-lg-3">
+|                                <div class="ibox float-e-margins">
+|                                    <div class="ibox-title">
+|                                        <span class="label label-info pull-right">>>进入</span>
+|                                        <h5>信用卡管理</h5>
+|                                    </div>
+|                                    <div class="ibox-content">
+|                                        <h1 class="no-margins">简介</h1>
+|                                        <div class="stat-percent font-bold text-info">
+|                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"> <i class="fa fa-wrench"></i> </a> 
+|                                            <a class="collapse-link"> <i class="fa fa-chevron-up"></i> </a>
+|                                            <a class="close-link"> <i class="fa fa-times"> </i> </a> 
+|                                        </div>
+|                                        <small>MX</small>
+|                                    </div>
+|                                </div>
+|                            </div>
+|                    </div>
+|                    <!-- 简介展示区域 结束  -->
+|                      
+|                    <!-- 其它内容展示区域  -->
+|                <div id='other' class="row">
+include otherContent.html
+|                </div><!-- class="row" end -->
+|                    <!-- 其它内容展示区域 结束 -->  
+| 
+|   
+|                <div id='footer' class="footer">
+|                            <div class="pull-right"> 1 of <strong>250GB</strong> Free.</div>
+|                            <div> <strong>Copyright</strong> MX &copy; 2016-2017</div>
+|                </div><!-- class="footer" end -->
+|  
+|            </div>
+|            <!-- 主体内容展示区域  -->
+|  
+|            <!-- 右上角下拉内容       -->
+|            <div id="right-sidebar">
+include topRightDropdown.html
+|            </div>
+|            <!-- 右上角下拉内容    结束   -->
+|  
+|        </div> <!-- class="page-wrapper" end -->
+|      
+|    </div>  <!-- class="wrapper" end -->
+|  
+|    <!-- Mainly scripts -->
+|    <script src="/mg/js/jquery-2.1.1.js"></script>
+|    <script src="/mg/js/bootstrap.min.js"></script>
+|    <script src="/mg/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+|    <script src="/mg/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+|  
+|    <!-- Flot -->
+|    <script src="/mg/js/plugins/flot/jquery.flot.js"></script>
+|    <script src="/mg/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+|    <script src="/mg/js/plugins/flot/jquery.flot.spline.js"></script>
+|    <script src="/mg/js/plugins/flot/jquery.flot.resize.js"></script>
+|    <script src="/mg/js/plugins/flot/jquery.flot.pie.js"></script>
+|    <script src="/mg/js/plugins/flot/jquery.flot.symbol.js"></script>
+|    <script src="/mg/js/plugins/flot/jquery.flot.time.js"></script>
+|  
+|    <!-- Peity -->
+|    <script src="/mg/js/plugins/peity/jquery.peity.min.js"></script>
+|    <script src="/mg/js/demo/peity-demo.js"></script>
+|  
+|    <!-- Custom and plugin javascript -->
+|    <script src="/mg/js/inspinia.js"></script>
+|    <script src="/mg/js/plugins/pace/pace.min.js"></script>
+|  
+|    <!-- jQuery UI -->
+|    <script src="/mg/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+|  
+|    <!-- Jvectormap -->
+|    <script src="/mg/js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>
+|    <script src="/mg/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+|   
+|    <!-- EayPIE -->
+|    <script src="/mg/js/plugins/easypiechart/jquery.easypiechart.js"></script>
+|   
+|    <!-- Sparkline -->
+|    <script src="/mg/js/plugins/sparkline/jquery.sparkline.min.js"></script>
+|  
+|    <!-- Sparkline demo data  -->
+|   <script src="/mg/js/demo/sparkline-demo.js"></script>
+|   
+|    <!-- mg self    -->
+|    <script src="/mg/self/mgitself.js"></script>
+|    <script src="/mg/self/mgindex.js"></script>
+|  
+|</body>
+|</html>

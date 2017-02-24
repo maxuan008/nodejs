@@ -40,7 +40,6 @@ function getAllProjects() {
                                  " </li>";
 					$('#navmark').before(navPrjHtML);			 
 
-
 					htmlstr="" +
 							"<div id='DIVprj_" + prjinfo.pid + "' class='col-lg-12'>  " + 
 							"	<div class='ibox float-e-margins'>    " + 
@@ -88,7 +87,7 @@ function getAllProjects() {
 							"								</div>  " + 
 							"								<div class= 'form-group'>  " + 
 							"									<label for= 'exampleInputPassword2' class= 'sr-only'>程序文件名</label>  " + 
-							"									<input id= 'fun_docname_" + prjinfo.pid + "' type= 'text' placeholder= '程序文件名'  class= 'form-control'>  " + 
+							"									<input id= 'fun_docname_" + prjinfo.pid + "' type= 'text' placeholder= '程序标签'  class= 'form-control'>  " + 
 							"								</div>  " + 
 							"								<div class= 'checkbox m-r-xs'><input type= 'checkbox' id= 'fun_havedomai_" + prjinfo.pid + "'>  " + 
 							"									<label for= 'checkbox1'>链接含主域名?</label>  " + 
@@ -397,12 +396,12 @@ $("#addproject").click(function(){
 				"									<input id= 'fun_name_" + pid + "' type= 'text' placeholder= '功能名'  class= 'form-control'>  " + 
 				"								</div>  " + 
 				"								<div class= 'form-group'>  " + 
-				"									<label for= 'exampleInputPassword2' class= 'sr-only'>链接url</label>  " + 
-				"									<input id= 'fun_url_" + pid + "' type= 'text ' placeholder= '链接url'  class= 'form-control'>  " + 
-				"								</div>  " + 
-				"								<div class= 'form-group'>  " + 
 				"									<label for= 'exampleInputPassword2' class= 'sr-only'>程序文件名</label>  " + 
 				"									<input id= 'fun_docname_" + pid + "' type= 'text' placeholder= '程序文件名'  class= 'form-control'>  " + 
+				"								</div>  " + 
+				"								<div class= 'form-group'>  " + 
+				"									<label for= 'exampleInputPassword2' class= 'sr-only'>链接url</label>  " + 
+				"									<input id= 'fun_url_" + pid + "' type= 'text ' placeholder= '链接url'  class= 'form-control'>  " + 
 				"								</div>  " + 
 				"								<div class= 'checkbox m-r-xs'><input type= 'checkbox' id= 'fun_havedomai_" + pid + "'>  " + 
 				"									<label for= 'checkbox1'>链接含主域名?</label>  " + 
@@ -451,7 +450,7 @@ function addfun(ele) {
 	data.id = prjid;
 
 	if(data.fun_name == '') {alert('模块功能的名称不能为空'); $("#fun_name_" + prjid , this.el).focus();  return;  } 
-	if(data.fun_url == '') {alert('功能链接不能为空'); $("#fun_url_"+ prjid, this.el).focus();  return;  } 
+	if(data.fun_docname == '') {alert('程序开发标签不能为空'); $("#fun_docname_"+ prjid, this.el).focus();  return;  } 
 
 	var pid = prjid;
     $.ajax({

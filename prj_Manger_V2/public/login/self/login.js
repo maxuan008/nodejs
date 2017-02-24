@@ -1,6 +1,6 @@
 //定义全局变量
-
-
+ 
+var config = {};
 
 
 
@@ -51,6 +51,7 @@ $("#login").click(function(){
 
 function selectOnePrj(ele) {
    var pid =  ele.getAttribute('pid');
+   var domain_url =  ele.getAttribute('domain_url');
 
    if(pid == '') {alert("pid数据不正确");  return ;}
 
@@ -64,9 +65,9 @@ function selectOnePrj(ele) {
 			console.log(backdatas);
 			var code = backdatas.code;
 			
-			if(code == '204')  {alert("err:" , backdatas.datas.err );};   
+			if(code == '204')  {alert("err:" , backdatas.err );};   
 			if(code == '201') {
-
+				config.prjPath = domain_url;
 			}   
 		} //success end
 			
@@ -77,7 +78,19 @@ function selectOnePrj(ele) {
 }
 
 
+//点击确定按钮
+$("#goPrj").click(function(){
+    config.prjPath = $("input[name='prjlist']:checked").val();
 
+	console.log(config);
+
+
+	if(config.prjPath != undefined) {
+		var appurl  =config.prjPath;
+		window.location.href = appurl;
+	}
+
+});
 
 
 
