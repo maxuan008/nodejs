@@ -130,7 +130,7 @@ app.use( function(req, res, next) {
     var urlarry = reqpath.split('/');  //console.log(urlarry);
     var baseUrl = urlarry[1];  //console.log("baseur:" , baseUrl ,"arr:" , urlarry);
 
-    //console.log('session数据：', req.session.userdatas);
+    console.log('session数据：', req.session.userdatas);
 
     if( permitPath.indexOf(originalUrl) > -1 )  { //通过可信任路径
       next();

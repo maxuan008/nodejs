@@ -82,9 +82,10 @@ console.log("----mongodb 信息, ip: %s , 端口: %s , 数据库: %s" , config[m
 //var selectoneprj = require('./routes/login/controller/ajax/selectoneprj');
 
 //项目入口
-var appindex = require('./routes/app/appindex');
+var zhengquanindex = require('./routes/app/zhengquanindex');
 
 var sessionindex = require('./routes/session/index');
+
 
 //*****项目登陆入口：login END******//
 
@@ -146,10 +147,10 @@ app.use( function(req, res, next) {
 
 //项目入口
 
-app.use('/app/zhengquan',appindex);
+app.use('/app/zhengquan',zhengquanindex);
 
 app.use('/session',sessionindex);
-
+//app.use('/zhengquan',zhengquanindex);
 
 
 //*****项目登陆入口：END******//

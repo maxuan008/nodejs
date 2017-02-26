@@ -52,7 +52,7 @@ user.getUserAllPrj =  function (uid,callback){
    var table_role_user =  mgconfig[global.mgENV].mysql.header + "_role_user";
    var table_role = mgconfig[global.mgENV].mysql.header + "_role";
 
-   var sqlstr = "select pid , `prj_name` , port , domain_url  from `" + table_project +"`  where  `isvalid` ='1'   " + 
+   var sqlstr = "select pid , `prj_name` , port , domain_url ,dbname  from `" + table_project +"`  where  `isvalid` ='1'   " + 
                 " and pid IN (select c.pid from  `" +table_role_user+ "`  as b ,   `" +table_role+"` as c where b.rid = c.rid  and b.isvalid = '1' and  c.isvalid = '1'  and  b.uid = '" + uid +"' ) " +
                 " order by pid ";
 

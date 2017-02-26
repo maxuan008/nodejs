@@ -1,7 +1,7 @@
 /**
  * Created by mx
  */
-
+var fun5 = window.fun5;
 
 (function() {
     
@@ -112,7 +112,15 @@
 
     //执行子功能
     function doFun(fid) {
-
+        var fun = getFunInfo(fid);
+        var tag =  fun.tag; // console.log(fid, tag);
+        //调用子功能对象
+        
+        if(tag != undefined  ) {
+            var datas = {fid:fid,  info:info  ,   prjs : prjs   , selectprj : selectprj , selectprjInfo: selectroleInfo  };
+            fun5.execute(tag, datas);
+        }  
+       
 
        //高亮导航子功能
        showMyself(fid);

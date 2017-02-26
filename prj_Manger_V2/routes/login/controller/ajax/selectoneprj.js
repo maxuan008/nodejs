@@ -19,7 +19,7 @@ router.post('/', function(req,res,next)  {
 	
 	var flag = -1;
 	for(var i=0; i< prjs.length; i++) {
-		if(pid == prjs[i].pid) 	{flag = i;break;} 
+		if(pid == prjs[i].pid) 	{ req.session.userdatas.selectprj.dbname =  prjs[i].dbname ;     flag = i;break;} 
 	} //for end
 
 	if(flag != -1) { 

@@ -27,7 +27,7 @@ router.get('/', function(req,res,next)  {
                 var checkedstr = '';
                 if(i==0) { //设置选择的项目
                     checkedstr = 'checked';
-                    req.session.userdatas.selectprj = {pid:pid};
+                    req.session.userdatas.selectprj = {pid:pid, dbname:doc.dbname};
                 }
 
                 projectlist = projectlist +

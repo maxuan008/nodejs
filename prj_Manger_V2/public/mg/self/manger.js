@@ -416,16 +416,10 @@ $("#addproject").click(function(){
 				"	</div>    " + 
 				"</div>  ";
 
-			console.log("添加功能模块:");
+			//console.log("添加功能模块:");
 			$("#other").before(htmlstr);
 
 	}
-
-
-
-
-
-
 
 
 
@@ -460,7 +454,7 @@ function addfun(ele) {
 		dataType:'json',   
 
 		success: function(backdata){
-			console.log(backdata);
+			//console.log(backdata);
 			var code = backdata.code;
 			if(code == '204')  {$("#warninfo").text('创建失败:' + backdata.err); console.log(backdata.err);  }  
 			if(code == '201') {
