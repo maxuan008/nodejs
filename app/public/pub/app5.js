@@ -21,7 +21,9 @@ var fun5 = window.fun5;
 
 
 
-
+   //app5:主要用于网页框架的基础信息构建，包含设置 用户基本信息，网页头部信息，  左侧功能导航信息； 
+  //      函数：高亮自己; 
+  //      函数：执行子功能， 调用子功能对象fun5.  将子功能数据： 开发标签， 基础信息传入fun5.
     var app5 = {
             
             //setHeader:  setHeader ,            //设置头部信息
@@ -110,7 +112,7 @@ var fun5 = window.fun5;
 
     }
 
-    //执行子功能
+    //执行子功能， 调用子功能对象fun5.  将子功能数据： 开发标签， 基础信息传入fun5.
     function doFun(fid) {
         var fun = getFunInfo(fid);
         var tag =  fun.tag; // console.log(fid, tag);

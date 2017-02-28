@@ -15,6 +15,8 @@ router.post('/addzhengquan',addzhengquan);  //添加证券
 router.post('/delzhengquan',delzhengquan);  //删除证券
 
 router.get('/getqiquans',getqiquans);  //获取期权列表信息
+router.post('/updatezhengquan',updatezhengquan);  //更新数据库证券信息
+
 
 
 
@@ -143,6 +145,29 @@ function getqiquans(req,res) {
         res.send({code:201,datas:docs[0]});
 
     });  //templater.SQL end 
+
+}
+
+
+//
+function updatezhengquan(req,res) {
+    var id = req.body.id ,  flag = req.body.flag,  name =  req.body.name  , price = req.body.price;
+    if(flag =='' || flag == undefined  || name == '' ||  name == undefined   || price == '' ||  price == undefined   ) return res.send({code:204,err:'传递参数不正确'});
+    
+    var data ={name:name ,  price:price };
+    if(flag == "qiquan")   {
+        var table = 'qiquan' ,  wherejson = {qq_id:id };
+    } else if(flag == "gupiao") {
+        var table = 'gupiao' ,  wherejson =  {gp_id:id  } ;
+    }
+    
+
+    //更新数据库
+    templater.update( table, wherejson,  data , function(err,docs) {
+         if(err) return res.send({code:204,err:err});
+         else return res.send({code:201});
+    });
+
 
 }
 

@@ -74,7 +74,7 @@ CREATE TABLE `mg_fun` (
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`fid`),
   UNIQUE KEY `tag_UNIQUE` (`tag`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='功能模块';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='功能模块';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,7 +172,7 @@ CREATE TABLE `mg_role_fun` (
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   `status` varchar(1) COLLATE utf8_bin DEFAULT '0' COMMENT '''0:未启用 , 1:启用''',
   PRIMARY KEY (`rolefunid`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色功能关系';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色功能关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +205,7 @@ CREATE TABLE `mg_role_user` (
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   `isdefault` varchar(1) CHARACTER SET utf8 DEFAULT '0' COMMENT '是否设置为登录后的默认角色: 0不默认, 1默认',
   PRIMARY KEY (`roleuserid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色用户关系';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色用户关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -214,7 +214,7 @@ CREATE TABLE `mg_role_user` (
 
 LOCK TABLES `mg_role_user` WRITE;
 /*!40000 ALTER TABLE `mg_role_user` DISABLE KEYS */;
-INSERT INTO `mg_role_user` VALUES (4,16,2,17,'1',NULL,NULL,NULL,NULL,NULL,'0'),(5,17,3,17,'1',NULL,NULL,NULL,NULL,NULL,'0'),(6,15,1,17,'1',NULL,NULL,NULL,NULL,NULL,'0');
+INSERT INTO `mg_role_user` VALUES (4,16,2,17,'1',NULL,NULL,NULL,NULL,NULL,'0'),(5,17,3,17,'1',NULL,NULL,NULL,NULL,NULL,'0'),(6,15,1,17,'1',NULL,NULL,NULL,NULL,NULL,'0'),(8,16,2,12,'1',NULL,NULL,NULL,NULL,NULL,'0'),(10,15,1,12,'1',NULL,NULL,NULL,NULL,NULL,'0');
 /*!40000 ALTER TABLE `mg_role_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +239,7 @@ CREATE TABLE `mg_user` (
   `creater` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='用户';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,7 +248,7 @@ CREATE TABLE `mg_user` (
 
 LOCK TABLES `mg_user` WRITE;
 /*!40000 ALTER TABLE `mg_user` DISABLE KEYS */;
-INSERT INTO `mg_user` VALUES (1,'aaa','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(2,'bbb','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(3,'ccc','ICy5YqxZB1uWSwcVLSNLcA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(4,'ddd','xMpCOKC5I4INzFCab3WEmw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(8,'ggg','xMpCOKC5I4INzFCab3WEmw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(9,'efsf','xMpCOKC5I4INzFCab3WEmw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(10,'rr','NpEwjypML2mD8ogNMuKchA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(11,'erew','IsJ2oFqnyQVmriF1vMKpsA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(12,'sdf','1LJ1jaAgXB4KqVEs0YgAKg==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(13,'ffds','gDVQc0gFlKmUcNyszNjPLA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(14,'wefd','A2qcXIw8R2zUmcEr41K6XA==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(15,'eee','0vIpfW6CnNNJOqfeRBahjw==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(16,'qqq','ZRK9Q9nKpuAsmQsKgmUtyg==',NULL,NULL,NULL,'1',NULL,NULL,NULL,'1',NULL),(17,'maxuan007','ICy5YqxZB1uWSwcVLSNLcA==','马旋',NULL,NULL,'1',NULL,NULL,NULL,'1',NULL);
+INSERT INTO `mg_user` VALUES (12,'maxuan007','ICy5YqxZB1uWSwcVLSNLcA==','马旋',NULL,NULL,'1',NULL,NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `mg_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,4 +292,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-24 17:49:15
+-- Dump completed on 2017-02-28 17:30:01

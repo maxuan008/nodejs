@@ -12,10 +12,17 @@
    var flag,codes,code_ids , evalStr , evalstrArr  ,  uuID , key;
 
     var zhengquan5 = {
-            setNewPricesInfo : setNewPricesInfo     //设置证券的集合，并从网络获取证券的实时信息
+            setNewPricesInfo : setNewPricesInfo,     //设置证券的集合，并从网络获取证券的实时信息
+            getNetInfo:getNetInfo,                   //获取一个证券的实时信息
+            getevalstrArr: getevalstrArr             //获取所有证券的实时信息集合
         
         };
       
+      //获取所有证券的实时信息集合
+      function getevalstrArr() {
+        return evalstrArr;
+      }
+
 
     //设置证券的集合，并从网络获取证券的实时信息
     function setNewPricesInfo(data) {
@@ -45,11 +52,9 @@
                     var  tmpcode = processCode(codes[i]);
                     listid= listid + "," +tmpcode;
                 } //for end 
-                
-                //从网络上获取证券股价的实时信息
-                
-
+                                
        } //if end
+
 
        //从网络上获取证券股价的实时信息
        getNewPriceInfos(listid);
@@ -79,9 +84,8 @@
                     evalstrArr[code] = eval(evalStr[code]).split(',');
                 } //for end
                 
-                console.log(evalstrArr );
-
-                updateZhengquanPrice();   //开始更新证券价格
+                //console.log('证券实时信息集合：',evalstrArr);
+                //updateZhengquanPrice();   //开始更新证券价格     
                  
             } //success end
 
@@ -90,49 +94,8 @@
     } //function end
 
 
-    //开始更新页面所有的证券价格
-    function updateZhengquanPrice() {
-   
-            for(var i=0;i<codes.length; i++ ) {          
-                changePrice_html(codes[i] )  ; //更新网页上的证券价格       
-            } //for end
-
-    }
 
 
-   //更新网页上的证券价格
-   function  changePrice_html(code ) {
-        var netInfo = getNetInfo(code);
-        var newPrice = netInfo.newPrice ;
-        var newName = netInfo.newName ;
-
-        var td_priceID = "#td_" + key + "_" + code_ids[code]  + "_" + uuID;  //获取价格的td的id值
-        var td_nameID = "#td_name_" + code_ids[code]  + "_" + uuID;  //获取名称的td的id值
-
-        var zhengquanInfo = getTd_zhengquanInfo(code);
-        var oldPrice = zhengquanInfo.oldPrice;
-        var oldName = zhengquanInfo.oldName;
-
-        if(oldPrice != newPrice) $(td_priceID).text(newPrice);  //股价变化，则更新
-        if(oldName != newName) $(td_nameID).text(newName);      //证券名变化，则更新
-
-   }
-
-
-   //从页面上获取价格和名称信息
-   function getTd_zhengquanInfo(code) {
-        var result = {};
-
-        var td_priceID = "#td_" + key + "_" + code_ids[code]  + "_" + uuID;  //获取价格的td的id值
-        var td_nameID = "#td_name_" + code_ids[code]  + "_" + uuID;  //获取名称的td的id值
-        var oldPrice = $(td_priceID).text().trim();
-        var oldName = $(td_nameID).text().trim();
-
-        result.oldPrice = oldPrice;
-        result.oldName = oldName;
-
-        return result;
-   }
 
 
 
@@ -149,20 +112,23 @@
             //股票类型
             if(flag == 'gupiao') {  
                 if(code.length == 5) {  //香港证券
-                    result.newPrice=evalstrArr[code][6];
+                    result.newPrice=evalstrArr[code][10];
                     result.newName=evalstrArr[code][1];
+                    result.yesterPrice = evalstrArr[code][3];
                 }
                 if(code.length == 6) { //大陆证券
-                    result.newPrice=evalstrArr[code][3];
-                    result.newName=evalstrArr[code][0];
+                    result.newPrice=evalstrArr[code][3] ;
+                    result.newName=evalstrArr[code][0] ;
+                    result.yesterPrice = evalstrArr[code][2] ;
                 }
 
             } //if(flag == 'gupiao') end
 
             //期权类型
             if(flag == 'qiquan') {  //获取期权的价格，名称， 买1，买1数量， 卖1，卖1数量
-                    result.newPrice=evalstrArr[code][2];
+                    result.newPrice=evalstrArr[code][2] * 1.00;
                     result.newName=evalstrArr[code][37];
+                    result.yesterPrice = evalstrArr[code][9];
 
                     result.buy1=evalstrArr[code][1];
                     result.buy1_count=evalstrArr[code][0];
