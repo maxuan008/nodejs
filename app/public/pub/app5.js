@@ -79,7 +79,7 @@ var fun5 = window.fun5;
                } //for end
 
 
-            console.log("info",info); console.log("prjs",prjs);console.log("selectprj",selectprj);
+            //console.log("info",info); console.log("prjs",prjs);console.log("selectprj",selectprj);
             console.log("selectprjInfo",selectprjInfo);console.log("selectroleInfo",selectroleInfo);
 
               init();
@@ -107,13 +107,14 @@ var fun5 = window.fun5;
 
     //执行默认子功能
     function doDefaultFun(){
-        console.log('初始化FID：',defaultFid);
+        //console.log('初始化FID：',defaultFid);
         doFun(defaultFid);
 
     }
 
     //执行子功能， 调用子功能对象fun5.  将子功能数据： 开发标签， 基础信息传入fun5.
     function doFun(fid) {
+
         var fun = getFunInfo(fid);
         var tag =  fun.tag; // console.log(fid, tag);
         //调用子功能对象
@@ -222,7 +223,7 @@ var fun5 = window.fun5;
 
     if (typeof window.define === 'function' && window.define.amd) {
         window.define('app5', [], function () {
-            console.log('AAAAAAA');
+            //console.log('AAAAAAA');
             return app5;
         });
     } else  {global.app5 = app5;}

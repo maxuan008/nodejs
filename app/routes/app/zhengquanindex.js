@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var assert=require('assert');
+var async = require('async');
 var moment = require('moment');
 var mysql = require('./mysql/mysql');
 var templater = require("./module/templater");
@@ -17,7 +18,8 @@ router.post('/delzhengquan',delzhengquan);  //删除证券
 router.get('/getqiquans',getqiquans);  //获取期权列表信息
 router.post('/updatezhengquan',updatezhengquan);  //更新数据库证券信息
 
-
+router.get('/getgupiaobalance',getgupiaobalance);  //获取股票交易数据
+router.get('/getqiquanbalance',getqiquanbalance);  //获取股票交易数据
 
 
 
@@ -170,6 +172,173 @@ function updatezhengquan(req,res) {
 
 
 }
+
+
+
+//获取股票交易数据
+function getgupiaobalance(req,res) {
+        var userid = req.session.userdatas.info.uid;
+        templater.SQL("CALL s_zhengquan_getgupiaobalance(" + userid + ")", function(err,docs){
+        if(err) return res.send({code:204,err:err});
+         var results =docs[0];
+         
+         var t = -1;
+         async.eachSeries(results,function(doc,callback){
+            var gp_id = doc.gp_id;
+            t++;
+            templater.SQL("CALL s_zhengquan_getgupiaodeal( " + userid + "," + gp_id + ")", function(err,docs){
+                if(err) console.log(err);
+                var dealDocs = docs[0];
+                //console.log(dealDocs);
+                if(docs.length <= 0) { return  callback(); }  
+                else { 
+                    
+                    var totalBuy = 0 ,count = 0 , jiaoge_yingli = 0 , shiji_yingli=0  ,days=0;
+                    var  buyStamp = 0, sellStamp = 0;
+                    for(var i=0;i< dealDocs.length;i++) { //遍历此股票的交易记录
+                        if(dealDocs[i].flag == 1) {  //买入股票记录
+                            totalBuy = totalBuy + 0 +  dealDocs[i].count;
+                            count = count + 0 +  dealDocs[i].count;
+                            jiaoge_yingli  = jiaoge_yingli - 0.00 - dealDocs[i].deal_money;
+
+                            buyStamp = buyStamp + dealDocs[i].count * Date.parse( dealDocs[i].dealdate  );  //累加买入时长
+                        }  //if end
+
+                        if(dealDocs[i].flag == 2) {  //卖出股票记录
+                             count =count + 0 -  dealDocs[i].count;
+                             jiaoge_yingli  = jiaoge_yingli - 0.00 + dealDocs[i].deal_money;
+                             sellStamp = sellStamp + dealDocs[i].count * Date.parse( dealDocs[i].dealdate  );//累加卖出时长
+
+                        }//if end
+
+
+                    }//for  end
+                    
+                    days = [ count * Date.parse(new Date()) + sellStamp -  buyStamp ] / (totalBuy * 86400000) ;
+                    days = days.toFixed(0);
+                    shiji_yingli = jiaoge_yingli + 0 + count*doc.price;
+                    jiaoge_yingli = jiaoge_yingli.toFixed(2);
+                    shiji_yingli = shiji_yingli.toFixed(2);
+                    
+                    results[t].jiaoge_yingli = jiaoge_yingli ;
+                    results[t].shiji_yingli = shiji_yingli ;
+                    results[t].count = count ;
+                    results[t].days = days ;
+                    
+                   return callback();
+
+                } // if end
+            });
+
+
+         },function(err){
+             if(err) return res.send({code:204,err:err});
+             res.send({code:201,datas:results});
+
+         });
+
+
+       
+
+    });  //templater.SQL end 
+
+
+}
+
+
+
+
+
+
+
+
+//获取股期权交易数据
+function getqiquanbalance(req,res) {
+        var userid = req.session.userdatas.info.uid;
+        templater.SQL("CALL s_zhengquan_getqiquanbalance(" + userid + ")", function(err,docs){
+        if(err) return res.send({code:204,err:err});
+         var results =docs[0];
+         
+         var t = -1;
+         async.eachSeries(results,function(doc,callback){
+            var qq_id = doc.qq_id;
+            t++;
+            templater.SQL("CALL s_zhengquan_getqiquandeal( " + userid + "," + qq_id + ")", function(err,docs){
+                if(err) console.log(err);
+                var dealDocs = docs[0];
+                //console.log(dealDocs);
+                if(docs.length <= 0) { return  callback(); }  
+                else { 
+                    
+                    var  totalBuy = 0 ,count = 0 , jiaoge_yingli = 0 , shiji_yingli=0  ,days=0;
+                    var  buyStamp = 0, sellStamp = 0;
+                    for(var i=0;i< dealDocs.length;i++) { //遍历此证券的交易记录
+                        if(dealDocs[i].flag == 1) {  //买入证券记录
+                            totalBuy = totalBuy + 0 +  dealDocs[i].count;
+                            count = count + 0 +  dealDocs[i].count;
+                            jiaoge_yingli  = jiaoge_yingli - 0.00 - dealDocs[i].deal_money;
+
+                            buyStamp = buyStamp + dealDocs[i].count * Date.parse( dealDocs[i].dealdate  );  //累加买入时长
+                        }  //if end
+
+                        if(dealDocs[i].flag == 2) {  //卖出股票记录
+                             count =count + 0 -  dealDocs[i].count;
+                             jiaoge_yingli  = jiaoge_yingli - 0.00 + dealDocs[i].deal_money;
+                             sellStamp = sellStamp + dealDocs[i].count * Date.parse( dealDocs[i].dealdate  );//累加卖出时长
+
+                        }//if end
+
+
+                    }//for  end
+                    
+                    count = count *10000;
+                    days = [ count * Date.parse(new Date()) + sellStamp -  buyStamp ] / (totalBuy * 86400000) ;
+                    days = days.toFixed(0);
+                    shiji_yingli = jiaoge_yingli + 0 + count*doc.price;
+                    jiaoge_yingli = jiaoge_yingli.toFixed(2);
+                    shiji_yingli = shiji_yingli.toFixed(2);
+                    
+                    results[t].jiaoge_yingli = jiaoge_yingli ;
+                    results[t].shiji_yingli = shiji_yingli ;
+                    results[t].count = count ;
+                    results[t].days = days ;
+                    
+                   return callback();
+
+                } // if end
+            });
+
+
+         },function(err){
+             if(err) return res.send({code:204,err:err});
+             res.send({code:201,datas:results});
+
+         });
+
+
+       
+
+    });  //templater.SQL end 
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

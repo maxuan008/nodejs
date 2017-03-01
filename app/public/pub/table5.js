@@ -43,10 +43,12 @@ function uuid(len, radix) {
    
   
    var config = {
-       pageLength:25,
 
-        morning_starttime_tmp:" 09:29:00" ,   morning_endtime_tmp:" 09:35:00",
-        afternoon_starttime_tmp:" 14:55:00" , afternoon_endtime_tmp:" 15:25:00"
+        actual:{flag:true, starttime:" 00:00:00" , endtime:" 23:59:00" ,  key:'price'  } ,   //实时更新股价的时间段
+        pageLength:25,     //table页显示长度
+
+        morning_starttime_tmp:" 09:29:00" ,   morning_endtime_tmp:" 09:35:00",                   //更新证券信息数据库，早上时间段
+        afternoon_starttime_tmp:" 14:55:00" , afternoon_endtime_tmp:" 15:25:00"                  //更新证券信息数据库，晚上时间段
    };
 
 
@@ -73,49 +75,90 @@ function uuid(len, radix) {
 
     }
 
+    //判断当前是否属于股价实时更新的时间段
+    function isTimeIn(){
+         var result = false;
+         var  starttime = config.actual.starttime , endtime=config.actual.endtime ;
+         if(config.actual.flag && starttime && endtime ) {
+             //console.log('ttttttttt');
+              var oDate = new Date();
+              var oMonth = oDate.getMonth() +1;
+              var oDay = oDate.getFullYear() + "-" + oMonth + "-" + oDate.getDate();
+              var headTime = oDay + starttime;
+              var footTime = oDay + endtime;
+            
+              var time1 = Date.parse(headTime);
+              var time2 = Date.parse(footTime);
+              var nowtimeStamp = Date.parse(new Date());
+
+             // console.log(time1, nowtimeStamp, time2 );
+
+               if(nowtimeStamp >= time1 && nowtimeStamp <= time2)   result = true;
+               
+
+         } //if end
+
+         return result;
+    }
+
+
+
+
 
     //type：1不带分页， 2，带分页.  id:为HTML元素的ID， datas为数据  3.tag:为此table的标识
     function grid(id,dataSource, tag) {
         
         dataSource_global[tag]= dataSource;
         dataSource_global[tag].table_datas = "table_datas";
-        console.log("datasouce:",dataSource_global);
+        if(!dataSource.blanceinfo) {
+           dataSource_global[tag].blanceinfo = {blanceinfoFlag : false , blanceinfoKey : 'null'};;
+        }
+        //console.log("datasouce:",dataSource_global);
 
 
-
+        /*
         placeholder = dataSource.placeholder;
         columns = dataSource.columns;
         datas = dataSource.data;
         actual = dataSource.actual;
         cancel = dataSource.cancel;
+        zhengquanAdd = dataSource.zhengquanAdd;
         chg = dataSource.chg;
         zhengquanName = dataSource.zhengquanName;
         pkID = dataSource.pkID;
         type =dataSource.type;
         key= dataSource.key;     //要更新的字;
         table_datas = "table_datas";
+        */
+
+        var placeholder = dataSource_global[tag].placeholder;
+        var columns = dataSource_global[tag].columns;
+        var datas = dataSource_global[tag].data;
+        var actual = dataSource_global[tag].actual;
+        var cancel = dataSource_global[tag].cancel;
+        var zhengquanAdd = dataSource.zhengquanAdd;
+
+        if(dataSource_global[tag].blanceinfo) {
+           var blanceinfoFlag = dataSource_global[tag].blanceinfo.flag;
+           var blanceinfoKey= dataSource_global[tag].blanceinfo.key;
+        } else {
+           var blanceinfoFlag = false;
+           var blanceinfoKey= 'null';        
+        }
 
 
-        
+
+        var chg = dataSource_global[tag].chg;
+        var zhengquanName = dataSource_global[tag].zhengquanName;
+        var pkID = dataSource_global[tag].pkID;
+        var type =dataSource_global[tag].type;
+        var key= dataSource_global[tag].key;     //要更新的字;
+        var table_datas = dataSource_global[tag].table_datas;
         
         var htmlstr = '';
 
-        config.morning_starttime= config.morning_starttime_tmp ,   config.morning_endtime=config.morning_endtime_tmp;
-        config.afternoon_starttime=config.afternoon_starttime_tmp , config.afternoon_endtime=config.afternoon_endtime_tmp;
-
-        var oDate = new Date();
-        var oMonth = oDate.getMonth() +1;
-        var oDay = oDate.getFullYear() + "-" + oMonth + "-" + oDate.getDate();
         
-        config.morning_starttime = oDay + config.morning_starttime;
-        config.morning_endtime = oDay + config.morning_endtime;
-        config.afternoon_starttime = oDay + config.afternoon_starttime;
-        config.afternoon_endtime = oDay + config.afternoon_endtime;
-
-        config.morning_starttime = Date.parse(config.morning_starttime);
-        config.morning_endtime = Date.parse(config.morning_endtime);
-        config.afternoon_starttime = Date.parse(config.afternoon_starttime );
-        config.afternoon_endtime = Date.parse(config.afternoon_endtime );
+        initTimeInfo();  //初始化证券在数据库里的更新时段
 
 
 
@@ -129,42 +172,34 @@ function uuid(len, radix) {
         var uuID = uuid(8,16);
         dataSource_global[tag].uuID = uuID;
 
-        var placeholder = dataSource_global[tag].placeholder;
-        var columns = dataSource_global[tag].columns;
-        var datas = dataSource_global[tag].data;
-        var actual = dataSource_global[tag].actual;
-        var cancel = dataSource_global[tag].cancel;
-        var chg = dataSource_global[tag].chg;
-        var zhengquanName = dataSource_global[tag].zhengquanName;
-        var pkID = dataSource_global[tag].pkID;
-        var type =dataSource_global[tag].type;
-        var key= dataSource_global[tag].key;     //要更新的字;
-        var table_datas = dataSource_global[tag].table_datas;
+
 
               
               //console.log('uuid',uuID);
 
             //****资产信息表  fa-hand-o-right
-            htmlstr = htmlstr + 
-               " <div class='col-sm-12'> " +
-               "     <div class='panel'> " +
-               "         <div class='panel-content'> " +
-               "             <div style='font-size:14px;' class='alert alert-warning m-none'> " +
-               "                 <i  class='fa fa-hand-o-right'></i> " +
-               "                  总资产:10000000元，盈利：10000000元 " +
-               "             </div> " +
-               "         </div> " +
-               "     </div> " +
-               " </div> " ;
-
-
+           if(blanceinfoFlag) {
+                    htmlstr = htmlstr + 
+                    " <div class='col-sm-12'> " +
+                    "     <div class='panel'> " +
+                    "         <div class='panel-content' > " +
+                    "             <div id='blanceInfo_" + uuID + "' style='font-size:14px;' class='alert alert-warning m-none'> " +
+                    "                 <i  class='fa fa-hand-o-right'></i> " +
+                    "             </div> " +
+                    "         </div> " +
+                    "     </div> " +
+                    " </div> " ;
+           }
 
 
 
               htmlstr = htmlstr + 
                     "<div class='col-sm-12'>" +
                     "   <div class='panel'>" +
-                    "       <div class='panel-content'>" +
+                    "       <div class='panel-content'>" ;
+             
+              //添加增加证券功能
+              if(zhengquanAdd) htmlstr = htmlstr +
                     "            <table id='table_add_" + uuID + "' class='table table-striped table-hover'>" +
                     "                <thead>" +
                     "                        <tr>" +    //onclick='addZhengQuan(this)'
@@ -176,7 +211,10 @@ function uuid(len, radix) {
                     "                            <th></th>" +
                     "                        </tr>" +
                     "                    </thead>" +
-                    "            </table>" +
+                    "            </table>" ;
+
+
+              htmlstr = htmlstr + 
                     "            <table id='" + table_datas + "_" + uuID + "' class='data-table table table-striped table-hover responsive nowrap' cellspacing='0' width='100%'>" ;
 
              //1.***生成table, thead. 和 <tbody> 框架.    2.***逐条生成tr
@@ -225,11 +263,15 @@ function uuid(len, radix) {
 
     function showprice()
     {   
-        //***循环table */
-        for(var tag in  dataSource_global ) {
-            console.log("++++++++++++++++开始执行table：",tag , dataSource_global[tag]);
-            doIt(tag);
-        } //for end 
+        if(isTimeIn()) {   //如果处于更新时间段， 则实时更新证券价格
+            //***循环table */
+            for(var tag in  dataSource_global ) {
+                //console.log("++++++++++++++++开始执行table：",tag , dataSource_global[tag]);
+                doIt(tag);
+            } //for end 
+
+        }
+
 
     }  
 
@@ -299,8 +341,7 @@ function uuid(len, radix) {
         
         var listid = zhengquanObj.setEvalStr();
         
-        
-
+    
 
 	  $.ajax({
 	        cache : true,
@@ -309,7 +350,7 @@ function uuid(len, radix) {
 	        dataType : "script",
 	
             success : function(){
-                console.log('-----------网络股价信息获取成功。');
+                //console.log('-----------网络股价信息获取成功。');
                
                 var evalStr = zhengquanObj.getevalStr();
                 var evalstrArr = {};
@@ -322,33 +363,17 @@ function uuid(len, radix) {
                 } //for end
 
 
-                console.log("********************" + zhengquanName + "信息集合:",evalstrArr);
+                //console.log("********************" + zhengquanName + "信息集合:",evalstrArr);
 
                 updateZhengquanPrice(zhengquanObj ,tag ,evalstrArr);   //开始更新证券价格
                 //console.log('证券实时信息集合：',evalstrArr);
-                   
-                 
+  
             } //success end
 
       })  //$.ajax end 
 
 
 
-
-
-
-
-       // zhengquanObj.setEvalstrArr();
-
-        //backStatus =  zhengquanObj.getBackStatus();
-        
-
-
-
-            //updateZhengquanPrice(zhengquanObj ,tag);   //开始更新证券价格
-
-       // zhengquan5.setNewPricesInfo(data , codes , code_ids );   //获取证券的实时股价集合信息
-        //dataSource_global[tag].evalstrArr = zhengquan5.getevalstrArr(tag);
         //console.log('证券实时价格信息集合：',tag,dataSource_global[tag].evalstrArr);
        
        
@@ -362,16 +387,44 @@ function uuid(len, radix) {
 
     //开始更新页面指定table的证券价格
     function updateZhengquanPrice(zhengquanObj , tag , evalstrArr_tmp) {
-            console.log('开始更新网页');
+            //console.log('开始更新网页');
+            var blanceinfoFlag = dataSource_global[tag].blanceinfo.flag;
+            var blanceinfoKey= dataSource_global[tag].blanceinfo.key;
 
             var uuID =   dataSource_global[tag].uuID; 
             var codes = dataSource_global[tag].codes ;
+
+            
             //var evalstrArr = dataSource_global[tag].evalstrArr ;
 
             //if(evalstrArr) //当数据返回后，开始执行
+
+            //*** *总市值和总盈利更新
+            var shizhi_total = 0, yingli_total = 0 ;
+            
             for(var i=0;i<codes.length; i++ ) {          
-                changePrice_html(zhengquanObj ,codes[i],tag,evalstrArr_tmp)  ; //更新网页上的证券价格       
+              var  infoTmp = changePrice_html(zhengquanObj ,codes[i],tag,evalstrArr_tmp)  ; //更新网页上的证券价格  
+              shizhi_total = shizhi_total + infoTmp.shizhi;
+              yingli_total = yingli_total + infoTmp.shiji_yingli;   
             } //for end
+
+        if(blanceinfoFlag ) {  //如果显示资产表:总市值 ， 总盈利，
+
+            //****更新资产表:总市值 ， 总盈利    id='blanceInfo_" + uuID + "'
+            shizhi_total = shizhi_total.toFixed(0) , yingli_total.toFixed(2) ; 
+            var sheetstr = "总市值：" + shizhi_total +　" ， 总盈利： " + yingli_total + " ";
+            
+            var htmlstr = " <i  class='fa fa-hand-o-right'></i> " + sheetstr;
+            $("#blanceInfo_" + uuID).html(htmlstr);        
+            
+        }  //if(blanceinfoFlag ) end
+
+
+
+
+
+
+
     }
 
    //更新网页上的证券价格
@@ -383,13 +436,16 @@ function uuid(len, radix) {
             //var evalstrArr = dataSource_global[tag].evalstrArr ;
             var key= dataSource_global[tag].key;     //要更新的字;
             var zhengquanName = dataSource_global[tag].zhengquanName;
-
+            var blanceinfoFlag = dataSource_global[tag].blanceinfo.flag;
+            var blanceinfoKey= dataSource_global[tag].blanceinfo.key;
+            var chg = dataSource_global[tag].chg;
+ 
 
         var netInfo = zhengquanObj.getNetInfo(code,evalstrArr_tmp);
         var newPrice = netInfo.newPrice ;
         var newName = netInfo.newName ;
         var yesterPrice = netInfo.yesterPrice;
-        console.log('开始更新股票：' + newName);
+
 
         var zhengquanInfo = getTd_zhengquanInfo(code,tag);
         var oldPrice = zhengquanInfo.oldPrice;
@@ -397,39 +453,105 @@ function uuid(len, radix) {
 
         
 
-          console.log('股票价格：' + newName + "原价：" + oldPrice + ",新价：" + newPrice + "  昨天收盘价："  + yesterPrice);
+          //console.log('股票价格：' + newName + "原价：" + oldPrice + ",新价：" + newPrice + "  昨天收盘价："  + yesterPrice);
 
         var td_priceID = "#td_" + key + "_" + code_ids[code]  + "_" + uuID;  //获取价格的td的id值
         var td_nameID = "#td_name_" + code_ids[code]  + "_" + uuID;  //获取名称的td的id值
 
 
 
-            //****显示涨跌百分比*/
-            console.log('显示涨跌百分比:  新股  昨天收盘价：', newPrice , yesterPrice);
-            
-            var chg_num = (newPrice - yesterPrice) * 100 / yesterPrice;
-            chg_num = chg_num.toFixed(2);
-            if(newPrice == yesterPrice)  chg_num='0.00';
-            $("#chg_" + code_ids[code]  + "_" + uuID).text(chg_num + '%');
+        //console.log("+++++++:",blanceinfoFlag , blanceinfoKey);
+        //如果显示资产表， 更改实际盈利。。。
+        if(blanceinfoFlag ) {  //如果显示资产表: 更改td实际盈利。。。
+            //if(field == blanceinfoKey)
+            //1.获取持仓数， 最新价 , 交割盈利 
+            var coutTmp = $("#td_count_" + code_ids[code]  + "_" + uuID).text().trim();
+            var jiaoge_yingli = $("#td_jiaoge_yingli_" + code_ids[code]  + "_" + uuID).text().trim(); 
+
+            //console.log("--仓数， 最新价 , 交割盈利---",coutTmp,newPrice, jiaoge_yingli );
+            if( code.length <= 5) { //如果为港股
+                //获取港币汇率
+                var hk = zhengquanObj.getNetInfo('fx_shkdcny',evalstrArr_tmp); 
+                var hk_exchange = hk.newPrice; 
+                //console.log("--港币汇率---",hk_exchange );
+                //计算实际盈利
+                var shiji_yingli =  jiaoge_yingli  - 0 + coutTmp * newPrice * hk_exchange;
+
+            } else {    //非港股
+                //计算实际盈利
+                var shiji_yingli =  jiaoge_yingli - 0 + coutTmp * newPrice ;
+
+            } //if end
+
+            //****更新实际盈利
+             //console.log("--++++++++++=--更新实际盈利-",shiji_yingli );
+                shiji_yingli = shiji_yingli.toFixed(2);
+               
+                $("#td_" + blanceinfoKey + "_" + code_ids[code]  + "_" + uuID).text(shiji_yingli);
+                if(shiji_yingli >= 0) $("#td_" + blanceinfoKey + "_" + code_ids[code]  + "_" + uuID).css({"font-weight":"bold","font-size":"12px","color":"red"});
+                if(shiji_yingli < 0) $("#td_" + blanceinfoKey + "_" + code_ids[code]  + "_" + uuID).css({"font-weight":"bold","font-size":"12px","color":"green"});
+
+
+        }  //if(blanceinfoFlag ) end
+
+
+
+
+            //****显示涨跌百分比*/  //console.log('显示涨跌百分比:  新股  昨天收盘价：', newPrice , yesterPrice);
+           if(chg) {
+                var chg_num = (newPrice - yesterPrice) * 100 / yesterPrice;
+                chg_num = chg_num.toFixed(2);
+                if(newPrice == yesterPrice)  chg_num='0.00';
+                $("#chg_" + code_ids[code]  + "_" + uuID).text(chg_num + '%');
+           }
+
+
 
           /****控制涨跌箭头：，控制涨跌箭头：隐藏跌箭头，缓慢显示涨箭头*/
-        if(oldPrice != newPrice)  changePrice(code , yesterPrice ,oldPrice , newPrice,tag  );  //股价变化，则更新  
-
-        if(oldName != newName) $(td_nameID).text(newName);      //证券名变化，则更新
+          if(oldPrice != newPrice)  changePrice(code , yesterPrice ,oldPrice , newPrice,tag  );  //股价变化，则更新  
+          if(oldName != newName) $(td_nameID).text(newName);      //证券名变化，则更新
 
          
+
+
+
+
         //更新数据库股价信息;条件： 1.名字不一样  2.在早晚规定时间段
         var datatmp = {id:code_ids[code],  name:newName , price : newPrice , flag:zhengquanName  };
          if(oldName != newName) {  //证券名变化，则更新
              $(td_nameID).text(newName);    
              updataZhengquanDB(datatmp);  //更新数据库证券信息
          }  
-
          //数据更新时段；
         var nowtimeStamp = Date.parse(new Date());
         //console.log(config);
         if(nowtimeStamp >= config.morning_starttime && nowtimeStamp <= config.morning_endtime) updataZhengquanDB(datatmp);  //更新数据库证券信息	
         if(nowtimeStamp >= config.afternoon_starttime && nowtimeStamp <= config.afternoon_endtime) updataZhengquanDB(datatmp);  //更新数据库证券信息	
+
+
+
+
+         //*****返回数据：市值和总盈利
+         var result = {shizhi:0, shiji_yingli:0};
+            if( code.length <= 5) { //如果为港股
+                //获取港币汇率
+                var hk = zhengquanObj.getNetInfo('fx_shkdcny',evalstrArr_tmp); 
+                var hk_exchange = hk.newPrice; 
+                //console.log("--港币汇率---",hk_exchange );
+                //计算实际盈利
+                var shiji_yingli_re =  jiaoge_yingli  - 0 + coutTmp * newPrice * hk_exchange;
+                var shizhi_re = coutTmp * newPrice * hk_exchange;
+
+            } else {    //非港股
+                //计算实际盈利
+                var shiji_yingli_re =  jiaoge_yingli - 0 + coutTmp * newPrice ;
+                var shizhi_re = coutTmp * newPrice ;
+
+            } //if end
+
+            result.shizhi = shizhi_re  ,  result.shiji_yingli = shiji_yingli_re ;
+            return result;
+
 
 
 
@@ -557,8 +679,8 @@ function uuid(len, radix) {
         var key= dataSource_global[tag].key;     //要更新的字;
         var table_datas = dataSource_global[tag].table_datas;
 
-
-
+        var blanceinfoFlag = dataSource_global[tag].blanceinfo.flag;
+        var blanceinfoKey= dataSource_global[tag].blanceinfo.key;
 
               var zq_id = data[pkID];  //证券的主键ID
                 //if(zhengquanName == 'gupiao') zq_id = data.gp_id;   
@@ -575,7 +697,8 @@ function uuid(len, radix) {
 
                     var value = '';
                     if(field != undefined)   value = data[field];
-                    
+
+
                     trstr = trstr +   value;
                     trstr = trstr +   "</td>   ";
                 } //fro end 
@@ -640,7 +763,7 @@ function uuid(len, radix) {
                         if(code == 205)  {alert('检测到未登陆.'); console.log('检测到未登陆.');  }  
                         if(code == 204)  {alert('错误:' + datasBack.err); console.log('错误:addzhengquan -->',datasBack.err);  }  
                         if(code == 201) { //获取成功
-                            console.log('addzhengquan',datasBack);
+                            //console.log('addzhengquan',datasBack);
                             var insertID =datasBack.datas.id;
 
                             var doc = {code:codevalue}; doc[pkID] = insertID;
@@ -674,7 +797,7 @@ function uuid(len, radix) {
 
                  
                 $("#del_" + zq_id + "_" + uuID).click(function(){
-                    console.log('注销按钮被点击,uuid：',uuID);
+                    //console.log('注销按钮被点击,uuid：',uuID);
                     var data = {zhengquanname:zhengquanName , id: zq_id};
 
                     $.post('/app/zhengquan/delzhengquan', data,function(datasBack){ 
@@ -683,7 +806,7 @@ function uuid(len, radix) {
                         if(code == 205)  {alert('检测到未登陆.'); console.log('检测到未登陆.');  }  
                         if(code == 204)  {alert('错误:' + datasBack.err); console.log('错误:addzhengquan -->',datasBack.err);  }  
                         if(code == 201) { //获取成功
-                           // console.log('delzhengquan',datasBack)
+                           //console.log('delzhengquan',datasBack)
                            $("#tr_" +  zq_id + "_" + uuID).remove();
 
                         }
@@ -693,6 +816,29 @@ function uuid(len, radix) {
                 }); //$(#del_" + zq_id + "_" + uuID).click end
 
         }      
+
+
+
+        //初始化证券在数据库里的更新时段
+        function  initTimeInfo(){
+                config.morning_starttime= config.morning_starttime_tmp ,   config.morning_endtime=config.morning_endtime_tmp;
+                config.afternoon_starttime=config.afternoon_starttime_tmp , config.afternoon_endtime=config.afternoon_endtime_tmp;
+
+                var oDate = new Date();
+                var oMonth = oDate.getMonth() +1;
+                var oDay = oDate.getFullYear() + "-" + oMonth + "-" + oDate.getDate();
+                
+                config.morning_starttime = oDay + config.morning_starttime;
+                config.morning_endtime = oDay + config.morning_endtime;
+                config.afternoon_starttime = oDay + config.afternoon_starttime;
+                config.afternoon_endtime = oDay + config.afternoon_endtime;
+
+                config.morning_starttime = Date.parse(config.morning_starttime);
+                config.morning_endtime = Date.parse(config.morning_endtime);
+                config.afternoon_starttime = Date.parse(config.afternoon_starttime );
+                config.afternoon_endtime = Date.parse(config.afternoon_endtime );          
+        }
+
 
 
 
