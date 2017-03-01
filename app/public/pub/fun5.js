@@ -4,6 +4,7 @@
    var table5 = window.table5;
   // var table6 = window.table5;
    var table6 =  table5;
+   var intervalID;
 
     //调用table5对象中实时股价的功能
     function showprice(){
@@ -18,7 +19,7 @@
 
    var config = {
        //是否股价实时显示， true:是， 时间：starttime:'', endtime:'', space:更新间隔时间秒
-       actual:{flag:true, starttime:" 09:00:00" , endtime:" 23:50:00" , space:3000 , key:'price'  } ,
+       actual:{flag:true, starttime:" 00:00:00" , endtime:" 23:59:00" , space:3000 , key:'price'  } ,
        gridID : 'grid'
 
 
@@ -37,7 +38,9 @@
     
       //执行子功能 ， tag为子功能的标签，存于数据库中
       function execute(tag,datas) {
+        //table5.empty();
 
+         if(intervalID)   clearInterval(intervalID);
          var contentID = config.gridID;
           
         $("#" + contentID).empty();
@@ -196,7 +199,7 @@
 
              // console.log(time1, nowtimeStamp, time2 );
 
-               if(nowtimeStamp >= time1 && nowtimeStamp <= time2)  var int=self.setInterval("showprice()",space);	
+               if(nowtimeStamp >= time1 && nowtimeStamp <= time2)   intervalID=self.setInterval("showprice()",space);	
 
          } //if end
 
