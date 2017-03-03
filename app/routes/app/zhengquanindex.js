@@ -18,9 +18,12 @@ router.post('/delzhengquan',delzhengquan);  //删除证券
 router.get('/getqiquans',getqiquans);  //获取期权列表信息
 router.post('/updatezhengquan',updatezhengquan);  //更新数据库证券信息
 
-router.get('/getgupiaobalance',getgupiaobalance);  //获取股票交易数据
-router.get('/getqiquanbalance',getqiquanbalance);  //获取股票交易数据
+router.get('/getgupiaobalance',getgupiaobalance);  //获取用户的所有股票交易数据
+router.get('/getqiquanbalance',getqiquanbalance);  //获取用户的所有期权交易数据
 
+router.post('/deallistzhengquan',deallistzhengquan);  //获取用户的某个证券的交易数据
+
+router.get('/getautoqiquans',getautoqiquans);  //获取期权智能决策的信息
 
 
 
@@ -321,6 +324,66 @@ function getqiquanbalance(req,res) {
     });  //templater.SQL end 
 
 
+}
+
+
+
+//获取用户的某个证券的交易数据
+function deallistzhengquan(req,res){
+    var userid = req.session.userdatas.info.uid;
+
+    var flag = req.body.zhengquanname, id = req.body.id;
+
+    if(flag =='' || flag == undefined  || id == '' ||  id == undefined   ) return res.send({code:204,err:'传递参数不正确'});
+    
+    console.log(flag ,id );
+    var sql = "CALL  s_zhengquan_getzhengquandeal( '" + flag + "', " + id + ")";
+    templater.SQL(sql, function(err,docs){
+         if(err) return res.send({code:204,err:err});
+         var results =docs[0];
+         
+         return res.send({code:201,datas:results});
+   });
+
+}  
+
+//获取期权智能决策的信息
+function getautoqiquans(req,res) {
+    var userid = req.session.userdatas.info.uid;
+    var results = [];
+    var qiquans = {};
+    var sqlstr  = "select a.qq_id, a.flag, a.count, a.deal_money, b.code ,b.price ,b.name  from `qiquan_deal` as a, `qiquan` as b where a.qq_id = b.qq_id and a.`status` =1  and a.userid = " + userid ;
+    templater.SQL(sqlstr, function(err,docs){
+         if(err) return res.send({code:204,err:err});
+
+         if(docs.length <= 0) return res.send({code:201,datas:results});
+         else {
+             //初始化期权信息
+            for(var i=0;i<docs.length; i++) {var doc =docs[i]; qiquans[doc.code] = {name:doc.name ,qq_id:doc.qq_id,price:doc.price,count:0,jiaoge_yingli:0  } };
+
+            //计算期权信息
+            for(var j=0;j<docs.length; j++) {
+                var doc = docs[j];
+                var flag = doc.flag, deal_money = doc.deal_money , count =doc.count ,  code = doc.code ;
+    
+                if(flag == 1) {qiquans[code].count = qiquans[code].count - 0  + count; qiquans[code].jiaoge_yingli = qiquans[code].jiaoge_yingli - 0  - deal_money;    }
+                if(flag == 2) {qiquans[code].count = qiquans[code].count - 0  - count; qiquans[code].jiaoge_yingli = qiquans[code].jiaoge_yingli - 0  + deal_money;    }
+            }
+
+
+            //遍历期权， 挑选持仓的期权
+            for(var code in qiquans ) {
+                if(qiquans[code].count > 0) 
+                    results[results.length] = {name:qiquans[code].name ,code: code, count: qiquans[code].count , price:qiquans[code].price , jiaoge_yingli:qiquans[code].jiaoge_yingli };
+            }
+
+
+          return res.send({code:201,datas:results});
+         }
+        
+         
+         
+   });
 }
 
 

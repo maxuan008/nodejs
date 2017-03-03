@@ -3,6 +3,13 @@
  */
 var fun5 = window.fun5;
 
+    //显示时间
+    function showTime() {
+       var  todaynowtime = moment().format(' MMMM Do YYYY , h:mm:ss a'); 
+       $("#todaynowtime").text(todaynowtime);
+    }
+
+
 (function() {
     
    var sessionInfo = {};      //session信息
@@ -183,7 +190,12 @@ var fun5 = window.fun5;
     function setPostion(){
         $("#prjname").text(selectprjInfo.prj_name);
 
+   
+        var timeInterID = window.setInterval('showTime()',1000); 
+
     }
+
+
 
     //高亮子功能
     function showMyself(fid){

@@ -68,8 +68,12 @@
                                     zhengquanName:"gupiao",                         //作为一种标志，显示当前的证券类型
                                     //actual:{flag:false, starttime:config.starttime , endtime:config.endtime , space:config.space , key:'price'  },  //是否股价实时显示， true:是， 时间：starttime:'', endtime:'', space:更新间隔时间秒
                                     key:'price',     //要更新的字段
-                                    cancel:true,    //是否注销
+                                    cancel:true,     //是否注销
                                     chg:true,        //是否显示涨跌
+                                    needHeader: true,       //是否需要头部信息
+                                    needshowpric: true,   //是否需要实时更新股价
+                                    isdataTable:true,  //是否需要isdataTable模板的jS效果：1.搜索内容，2.分页，3.自适应“+”
+                                    zhengquanAdd:true,       //是否需要添加证券的功能
                                     type:2,           //显示table的类型， 1不带分页， 2，带分页
                                     columns:columns,
                                     data:datas,
@@ -104,6 +108,9 @@
                                     key:'price',               //要更新的字段
                                     cancel:true,               //是否显示注销
                                     chg:true,                 //是否显示涨跌
+                                    needHeader: true,       //是否需要头部信息
+                                    needshowpric: true,   //是否需要实时更新股价
+                                    isdataTable:true,            //是否需要isdataTable模板的jS效果：1.搜索内容，2.分页，3.自适应“+”
                                     zhengquanAdd:true,       //是否需要添加证券的功能
                                     blanceinfo: false ,       //是否需要证券盈利信息
                                     type:2,                  //显示table的类型， 1不带分页， 2，带分页
@@ -152,6 +159,9 @@
                                 key:'price',           //要更新的字段
                                 cancel:true,           //是否显示注销
                                 chg:true,              //是否显示涨跌
+                                needHeader: true,       //是否需要头部信息
+                                needshowpric: true,   //是否需要实时更新股价
+                                isdataTable:true,        //是否需要isdataTable模板的jS效果：1.搜索内容，2.分页，3.自适应“+”
                                 zhengquanAdd:true,      //是否需要添加证券的功能
                                 blanceinfo: false ,       //是否需要证券盈利信息 
                                 type:2,                   //显示table的类型， 1不带分页， 2，带分页
@@ -161,7 +171,7 @@
                             };
 
                             
-                            table5.grid(config.gridID,dataSource);
+                            table5.grid(config.gridID,dataSource ,'qiquan');
 
                             priceUpdate();
 
@@ -195,18 +205,19 @@
                                     {field: "shiji_yingli" ,title:"实际盈利" }                                  
                                     ];
 
-                      //console.log(datas);
-
                       var dataSource = {
                           zhengquanName:"gupiao",  //作为一种标志，显示当前的证券类型
                           key:'price',             //要更新的字段
                           cancel:false,            //是否显示注销
                           chg:false,               //是否显示涨跌
+                          needHeader: true,       //是否需要头部信息
+                          needshowpric: true,   //是否需要实时更新股价
+                          isdataTable:true,            //是否需要isdataTable模板的jS效果：1.搜索内容，2.分页，3.自适应“+”
+                          dealList :true,          //是否需要列出交易明细
                           zhengquanAdd:false,      //是否需要添加证券的功能
 
                           blanceinfo: {flag:true, key:'shiji_yingli'} ,       //是否需要证券盈利信息   
-                          
-                          
+
                           type:2,                  //显示table的类型， 1不带分页， 2，带分页
                           columns:columns,
                           data:datas,
@@ -214,7 +225,7 @@
                       };
 
                       
-                      table5.grid(config.gridID,dataSource);
+                      table5.grid(config.gridID,dataSource , 'gupiao');
 
                       priceUpdate();
 
@@ -256,6 +267,10 @@
                           key:'price',             //要更新的字段
                           cancel:false,            //是否显示注销
                           chg:false,               //是否显示涨跌
+                          needHeader: true,       //是否需要头部信息
+                          needshowpric: true,   //是否需要实时更新股价
+                          isdataTable:true,            //是否需要isdataTable模板的jS效果：1.搜索内容，2.分页，3.自适应“+”
+                          dealList :true,          //是否需要列出交易明细
                           zhengquanAdd:false,      //是否需要添加证券的功能
 
                           blanceinfo: {flag:true, key:'shiji_yingli'} ,       //是否需要证券盈利信息   
@@ -266,8 +281,7 @@
                           pkID:'qq_id'            //主键的ID名
                       };
 
-                      
-                      table5.grid(config.gridID,dataSource);
+                      table5.grid(config.gridID,dataSource, 'qiquan');
 
                       priceUpdate();
 
@@ -284,6 +298,97 @@
           if(tag == "qiquan_autoDecision") {
             var fid = datas.fid;
  
+                    $.get('/app/zhengquan/getautoqiquans',{},function(datasBack){
+                        var code = datasBack.code;
+                        if(code == 205)  {console.log('检测到未登陆.');  }  
+                        if(code == 204)  {console.log('错误:getautoqiquans -->',datasBack.err);  }  
+                        if(code == 201) { //获取成功
+                            var datas = datasBack.datas;
+                            var columns = [{field:"name" ,title:"持仓期权" }, {field: "code",title: "代码"}, {field:"price" ,title:"价格" }   ];
+
+                            //console.log(datas);
+
+                            var myself_dataSource = {
+                                zhengquanName:"qiquan",                         //作为一种标志，显示当前的证券类型
+                                //actual:{flag:true, starttime:config.starttime , endtime:config.endtime , space:config.space , key:'price' },  //是否股价实时显示， true:是， 时间：starttime:'', endtime:''
+                                key:'price',           //要更新的字段
+                                cancel:false,           //是否显示注销
+                                chg:true,              //是否显示涨跌
+                                needHeader: true,       //是否需要头部信息
+                                needshowpric: true,     //是否需要实时更新股价
+                                isdataTable:false,      //是否需要isdataTable模板的jS效果：1.搜索内容，2.分页，3.自适应“+”
+                                zhengquanAdd:false,      //是否需要添加证券的功能
+                                blanceinfo: false ,       //是否需要证券盈利信息 
+                                type:2,                   //显示table的类型， 1不带分页， 2，带分页
+                                columns:columns,
+                                data:datas,
+                                pkID:'qq_id'    //主键的ID名
+                            };
+                            table5.grid(config.gridID,myself_dataSource, 'qiquan1');
+
+
+                            //显示50ETF
+                           var etf_columns = [{field:"name" ,title:"期权对象:50ETF" }, {field: "code",title: "代码"},  {field:"price" ,title:"价格" }   ];
+                           var etf_datas = [{code:510050, name:'50ETF' , price:'0' }];
+                           var etf_dataSource = {
+                                zhengquanName:"gupiao",                         //作为一种标志，显示当前的证券类型
+                                //actual:{flag:true, starttime:config.starttime , endtime:config.endtime , space:config.space , key:'price' },  //是否股价实时显示， true:是， 时间：starttime:'', endtime:''
+                                key:'price',             //要更新的字段
+                                cancel:false,            //是否显示注销
+                                chg:true,                //是否显示涨跌
+                                needHeader: false,       //是否需要头部信息
+                                needshowpric: true,      //是否需要实时更新股价
+                                isdataTable:false,       //是否需要isdataTable模板的jS效果：1.搜索内容，2.分页，3.自适应“+”
+                                zhengquanAdd:false,      //是否需要添加证券的功能
+                                blanceinfo: false ,       //是否需要证券盈利信息 
+                                type:2,                   //显示table的类型， 1不带分页， 2，带分页
+                                columns:etf_columns,
+                                data:etf_datas,
+                                pkID:'qq_id'    //主键的ID名
+                            };
+                            table5.grid(config.gridID,etf_dataSource, 'etf50');
+                            priceUpdate();
+
+
+                            //显示漏洞信息
+                           var leak_columns = [ {field:"myselfqiquan" ,title:"持仓期权" },{field:"referenceqiquan" ,title:"参照物期权" },{field: "to",title: "转化"},  {field:"gains" ,title:"漏洞金额" }   ];
+                           var leak_datas = [];
+                           var leak_dataSource = {
+                                zhengquanName:"leak",                         //作为一种标志，显示当前的证券类型
+                                //actual:{flag:true, starttime:config.starttime , endtime:config.endtime , space:config.space , key:'price' },  //是否股价实时显示， true:是， 时间：starttime:'', endtime:''
+                                key:'price',             //要更新的字段
+                                cancel:false,            //是否显示注销
+                                chg:false,                //是否显示涨跌
+                                needHeader: true,       //是否需要头部信息
+                                needshowpric: false,   //是否需要实时更新股价
+                                isdataTable:false,       //是否需要isdataTable模板的jS效果：1.搜索内容，2.分页，3.自适应“+”
+                                zhengquanAdd:false,      //是否需要添加证券的功能
+                                blanceinfo: false ,       //是否需要证券盈利信息 
+                                type:2,                   //显示table的类型， 1不带分页， 2，带分页
+                                columns:leak_columns,
+                                data:leak_datas,
+                                pkID:'qq_id'    //主键的ID名
+                            };
+                            table5.grid(config.gridID,leak_dataSource, 'leak');
+                            priceUpdate();
+
+                            //显示标的对比物
+
+
+
+
+
+                        }       
+
+                    });  //get end
+
+
+
+
+
+
+
+
 
           } //if end
 

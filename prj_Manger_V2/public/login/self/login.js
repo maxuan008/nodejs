@@ -82,7 +82,7 @@ function selectOnePrj(ele) {
 $("#goPrj").click(function(){
     config.prjPath = $("input[name='prjlist']:checked").val();
 
-	console.log(config);
+	//console.log(config);
 
 
 	if(config.prjPath != undefined) {
