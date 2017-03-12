@@ -1,7 +1,7 @@
 //链接mysql
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
-    host     : '192.168.0.100',
+    host     : '192.168.0.102',
     user     : 'nodejs',
     password : '123456',
     database : 'test'
@@ -10,11 +10,11 @@ connection.connect();
 
 
 //链接redis
-var redis = require("redis"),client = redis.createClient({host:'192.168.0.100' , port:6379});
+var redis = require("redis"),client = redis.createClient({host:'192.168.0.102' , port:6379});
 
 
 
-
+var async = require('async');
 
 
 /************测试redis性能*****************/
@@ -28,6 +28,14 @@ var redis = require("redis"),client = redis.createClient({host:'192.168.0.100' ,
 /************十万次：0.248，0.461，0.219，0.23 ，0.194 ， 0.177 ， 0.204 ，0.207 秒*******/
 /************百万次：1.702，2.154，2.39，1.644 ， 1.569 秒*******/
 
+/************同步方式:读取**********************/
+/************一万次： 10.2 ， 10.1 ,10.076 秒*******/
+/************二万次： 20.214  秒*******/
+/************五万次： 秒*******/
+/************十万次： 秒*******/
+/************百万次： 秒*******/
+
+
 /************异步方式:写**********************/
 /************一万次：*******/
 /************二万次：0.021 ,0.164   秒*******/
@@ -37,7 +45,7 @@ var redis = require("redis"),client = redis.createClient({host:'192.168.0.100' ,
 
 
 
-console.log((1489215260678 - 1489215260514)/1000 );
+//console.log((1489215260678 - 1489215260514)/1000 );
 
 var max = 1;
 var frist, end;
@@ -46,6 +54,37 @@ for(var i=1;i<=max;i++) {
   //redisGo(i,max);
   //redisInsert(i,max);
 }
+
+
+//同步redis
+// var count = 0;
+// var max2 = 20000;
+// async.whilst(
+//     function () { if( count < max2)  return true; else return false;},   //条件判断
+//     function (callback) {                    //循环执行的主体程序
+//         count++;
+        
+//         var key = "b50001";
+//         setTimeout(function () {
+            
+//             client.get( "b50001", function(err, reply) {
+//                 //console.log(count);
+//                 if(count == 1) {  frist = new Date().getTime();  console.log("第一次",reply,frist); return callback(null, count);}
+//                 else if(count ==max2) {end = new Date().getTime() ;console.log("第" + max2 + "次:",reply ,end);console.log("用时：",(end-frist)/1000); return callback(null, count); }
+//                 else  return callback(null, count);
+//             });
+//             //callback(null, count);
+//         }, 0);
+
+//     },
+//     function (err, n) {                   //返回结果
+//         // 5 seconds have passed, n = 5
+// console.log('end');
+//     }
+// );
+
+
+
 
 
 function redisGo(i,max) {
@@ -89,6 +128,13 @@ function redisInsert(i,max) {
 /************十万次：35.956，37.212 ，37.89，37.369 ，37.977  存储过程： 17.204 ，17.037 ， 17.086 秒*******/
 /************百万次：出现BUG，内存问题*******/
 
+/************同步方式:读取**********************/
+/************一万次： 10.307 ， 10.118 秒*******/
+/************二万次： 20.44  ,   秒*******/
+/************五万次： 秒*******/
+/************十万次： 秒*******/
+/************百万次： 秒*******/
+
 
 var max = 1;
 var frist, end;
@@ -100,7 +146,7 @@ for(var i=1;i<=max;i++) {
 
 function mysqlGo(i,max) {
     //var sqlstr = "select id from `conn` where 1 ";
-    var sqlstr = "CALL test()"
+    var sqlstr = "CALL test()";
 
     connection.query( sqlstr, function (error, results) {
     if (error) throw error;
@@ -117,6 +163,38 @@ function mysqlGo(i,max) {
 }
 //connection.end();
 
+//同步mysql
+var count3 = 0;
+var max3 = 20000;
+async.whilst(
+    function () { if( count3 < max3)  return true; else return false;},   //条件判断
+    function (callback) {                    //循环执行的主体程序
+        count3++;
+        
+        var sqlstr = "CALL test()"
+        setTimeout(function () {
+            
+                connection.query( sqlstr, function (error, results) {
+                if (error) throw error;
+
+
+                    if(count3==1) {  frist = new Date().getTime();  console.log("第一次",frist); return callback(null, count3) }
+                    else if(count3==max3) {
+                        end = new Date().getTime() ; 
+                        console.log("第" + max3 + "次:" + end);
+                        console.log("用时：",(end-frist)/1000); 
+                        return callback(null, count3)
+                    }
+                   else  return callback(null, count3);
+                });
+        }, 0);
+
+    },
+    function (err, n) {                   //返回结果
+        // 5 seconds have passed, n = 5
+console.log('end');
+    }
+);
 
 
 
