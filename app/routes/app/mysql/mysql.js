@@ -12,7 +12,8 @@ var connection = mysql.createConnection({
 	  host     : appconfig[mgENV].mysql.host,
 	  user     : appconfig[mgENV].mysql.user,
 	  password : appconfig[mgENV].mysql.password,
-	  database : appconfig[mgENV].mysql.db
+	  database : appconfig[mgENV].mysql.db,
+	  connectTimeout: 900000
 });
 
 connection.connect();

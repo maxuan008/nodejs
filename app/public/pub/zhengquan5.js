@@ -9,11 +9,10 @@
     //this.data = data;
     this.tag=data.tag;
 
-    this.flag=data.type ;
+    this.flag=data.type;
     this.uuID=data.uuID;
     this.key=data.key;
     
-
     this.codes = codes;
     this.code_ids = code_ids;
    
@@ -43,24 +42,19 @@ zhengquan5.prototype.setEvalStr = function setEvalStr(){
        if(flag == 'gupiao') {  //如果为股票类型
                 var listid = "list=fx_shkdcny"; //添加港币汇率
                 this.evalStr = {fx_shkdcny:'hq_str_fx_shkdcny'}; //设置港币汇率
-                for(var i=0; i<codes.length; i++) {
-                    var  tmpcode = this.processCode_EvalStr(codes[i]);
-                    listid= listid + "," +tmpcode;
-
-                } //for end 
                 
        } //if end
 
 
-       if(flag == 'qiquan') {  //如果为股票类型
+       if(flag == 'qiquan' || flag == 'refer_qiquan' ) {  //如果为50etf期权类型
                 var listid = "list=sh510050"; //添加港币汇率
-                this.evalStr = { "510050" : "hq_str_sh510050" }; //设置510050
-                for(var i=0; i<codes.length; i++) {
-                    var  tmpcode = this.processCode_EvalStr(codes[i]);
-                    listid= listid + "," +tmpcode;
-                } //for end 
-                                
+                this.evalStr = { "510050" : "hq_str_sh510050" }; //设置510050                                
        } //if end
+
+        for(var i=0; i<codes.length; i++) {
+            var  tmpcode = this.processCode_EvalStr(codes[i]);
+            listid= listid + "," +tmpcode;
+        } //for end 
 
        this.listid = listid;
 
@@ -94,7 +88,7 @@ zhengquan5.prototype.setEvalStr = function setEvalStr(){
        } //if end
 
 
-    if(flag == 'qiquan') {  //如果为期权类型
+    if(flag == 'qiquan' || flag == 'refer_qiquan' ) {  //如果为期权类型
          tmpcode= "CON_OP_" + code;
          this.evalStr[code] = "hq_str_CON_OP_" + code;
     } //if end
@@ -163,7 +157,7 @@ zhengquan5.prototype.setEvalStr = function setEvalStr(){
     //获取证券的实时信息
     zhengquan5.prototype.getNetInfo = function (code,evalstrArr_tmp ) {
 
-        var result={};
+        var result={code:code};
  
       //var flag  =datas_global[tag].flag  ,  codes  =datas_global[tag].codes  ,   code_ids  =datas_global[tag].code_ids  ;
       //var uuID  =datas_global[tag].uuID  ,  key  =datas_global[tag].key   ; 
@@ -175,8 +169,9 @@ zhengquan5.prototype.setEvalStr = function setEvalStr(){
 
         
         //获取港币汇率
+        //console.log(code ,evalstrArr_tmp );
         if(code == 'fx_shkdcny')   {result.newPrice = evalstrArr_tmp[code][1]; result.newName=evalstrArr_tmp[code][0];   }
-        //else if(code == '510050')  {result.newPrice = evalstrArr_tmp[code][3]; result.newName=evalstrArr_tmp[code][0];   }  
+        else if(code == '510050')  {result.newPrice = evalstrArr_tmp[code][3]; result.newName=evalstrArr_tmp[code][0]; result.yesterPrice = evalstrArr_tmp[code][2] ;  }  
         else {
             //股票类型
             if(flag == 'gupiao') {  
@@ -194,7 +189,7 @@ zhengquan5.prototype.setEvalStr = function setEvalStr(){
             } //if(flag == 'gupiao') end
 
             //期权类型
-            if(flag == 'qiquan') {  //获取期权的价格，名称， 买1，买1数量， 卖1，卖1数量
+            if(flag == 'qiquan' || flag == 'refer_qiquan' ) {  //获取期权的价格，名称， 买1，买1数量， 卖1，卖1数量
                     result.newPrice=evalstrArr_tmp[code][2] ;
                     result.newName=evalstrArr_tmp[code][37];
                     result.yesterPrice = evalstrArr_tmp[code][9];

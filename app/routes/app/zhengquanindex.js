@@ -23,7 +23,10 @@ router.get('/getqiquanbalance',getqiquanbalance);  //获取用户的所有期权
 
 router.post('/deallistzhengquan',deallistzhengquan);  //获取用户的某个证券的交易数据
 
-router.get('/getautoqiquans',getautoqiquans);  //获取期权智能决策的信息
+router.get('/getautoqiquans',getautoqiquans);  //获取期权智能决策的期权信息
+
+router.get('/getreferqiquans',getreferqiquans);  //获取期权智能决策的期权信息
+
 
 
 
@@ -77,7 +80,9 @@ function addzhengquan(req,res) {
         table ='gupiao';
     } else if(zhengquanname == 'qiquan') {  //添加期权
         table ='qiquan';
-    } 
+    } else if(zhengquanname == 'refer_qiquan') {
+        table ='refer_qiquan';
+    }
     
     else  return res.send({code:204,err:'传递证券名无法匹配'});
 
@@ -120,7 +125,9 @@ function delzhengquan(req , res) {
         table ='gupiao';  wherestr = " `gp_id` = " + ID  ;
     } else if(zhengquanname == 'qiquan') {  //添加期权
         table ='qiquan';  wherestr = " `qq_id` = " + ID;
-    } 
+    } else if(zhengquanname == 'refer_qiquan') {
+        table ='refer_qiquan';
+    }
     else  return res.send({code:204,err:'传递证券名无法匹配'});
 
     sqlstr = "update `" + table + "` set `status` = 0 where  " + wherestr;
@@ -159,10 +166,22 @@ function updatezhengquan(req,res) {
     var id = req.body.id ,  flag = req.body.flag,  name =  req.body.name  , price = req.body.price;
     if(flag =='' || flag == undefined  || name == '' ||  name == undefined   || price == '' ||  price == undefined   ) return res.send({code:204,err:'传递参数不正确'});
     
-    var data ={name:name ,  price:price };
-    if(flag == "qiquan")   {
+
+    if(flag == "qiquan")   {  //更新股票
+        var data ={name:name ,  price:price };
         var table = 'qiquan' ,  wherejson = {qq_id:id };
-    } else if(flag == "gupiao") {
+
+    } else if(flag == "gupiao") {  //更新期权
+        var data ={name:name ,  price:price };        
+        var table = 'gupiao' ,  wherejson =  {gp_id:id  } ;
+
+    } else if(flag == "refer_qiquan") { //更新期权参造物
+        var data ={name:name ,  sale1:price };        
+        var table = 'refer_qiquan' ,  wherejson =  {rq_id:id  } ;
+        
+    } else {
+
+        var data ={name:name ,  price:price };        
         var table = 'gupiao' ,  wherejson =  {gp_id:id  } ;
     }
     
@@ -294,10 +313,10 @@ function getqiquanbalance(req,res) {
 
                     }//for  end
                     
-                    count = count *10000;
+                    count = count ;
                     days = [ count * Date.parse(new Date()) + sellStamp -  buyStamp ] / (totalBuy * 86400000) ;
                     days = days.toFixed(0);
-                    shiji_yingli = jiaoge_yingli + 0 + count*doc.price;
+                    shiji_yingli = jiaoge_yingli + 0 + count*10000*doc.price;
                     jiaoge_yingli = jiaoge_yingli.toFixed(2);
                     shiji_yingli = shiji_yingli.toFixed(2);
                     
@@ -374,14 +393,13 @@ function getautoqiquans(req,res) {
             //遍历期权， 挑选持仓的期权
             for(var code in qiquans ) {
                 if(qiquans[code].count > 0) 
-                    results[results.length] = {name:qiquans[code].name ,code: code, count: qiquans[code].count , price:qiquans[code].price , jiaoge_yingli:qiquans[code].jiaoge_yingli };
+                    results[results.length] = {qq_id:qiquans[code].qq_id ,name:qiquans[code].name ,code: code, count: qiquans[code].count , price:qiquans[code].price , jiaoge_yingli:qiquans[code].jiaoge_yingli };
             }
 
 
           return res.send({code:201,datas:results});
          }
-        
-         
+
          
    });
 }
@@ -390,9 +408,19 @@ function getautoqiquans(req,res) {
 
 
 
+//获取期权对比物列表信息
+function getreferqiquans(req,res) {
+    //global.db = req.session.userdatas.selectprj.dbname;
+    var userid = req.session.userdatas.info.uid;
 
+    templater.SQL("CALL s_zhengquan_getreferqiquans(" + userid + ")", function(err,docs){
+        if(err) return res.send({code:204,err:err});
 
+        res.send({code:201,datas:docs[0]});
 
+    });  //templater.SQL end 
+
+}
 
 
 

@@ -87,7 +87,7 @@ var fun5 = window.fun5;
 
 
             //console.log("info",info); console.log("prjs",prjs);console.log("selectprj",selectprj);
-            console.log("selectprjInfo",selectprjInfo);console.log("selectroleInfo",selectroleInfo);
+            //console.log("selectprjInfo",selectprjInfo);console.log("selectroleInfo",selectroleInfo);
 
               init();
                 
