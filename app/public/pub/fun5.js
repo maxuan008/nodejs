@@ -344,62 +344,62 @@
                             table5.grid(config.gridID,leak_dataSource, 'leak');
                             
 
-                     //显示标的对比物
-                    $.get('/app/zhengquan/getreferqiquans',{},function(datasBack){
-                        var code = datasBack.code;
-                        if(code == 205)  {console.log('检测到未登陆.');  }  
-                        if(code == 204)  {console.log('错误:getreferqiquans -->',datasBack.err);  }  
-                        if(code == 201) { //获取成功
-                            var datas = datasBack.datas;
-                            var columns = [{field:"name" ,title:"期权参考物" }, {field: "code",title: "代码"}, {field:"sale1" ,title:"卖一价" } , {field:"leakvalue" ,title:"漏洞价值" }   ];
+                            //显示标的对比物
+                            $.get('/app/zhengquan/getreferqiquans',{},function(datasBack){
+                                var code = datasBack.code;
+                                if(code == 205)  {console.log('检测到未登陆.');  }  
+                                if(code == 204)  {console.log('错误:getreferqiquans -->',datasBack.err);  }  
+                                if(code == 201) { //获取成功
+                                    var datas = datasBack.datas;
+                                    var columns = [{field:"name" ,title:"期权参考物" }, {field: "code",title: "代码"}, {field:"sale1" ,title:"卖一价" } , {field:"leakvalue" ,title:"漏洞价值" }   ];
 
-                            //console.log(datas);
+                                    //console.log(datas);
 
-                            var myself_dataSource = {
-                                zhengquanName:"refer_qiquan",                         //作为一种标志，显示当前的证券类型
-                                targetTag : "target",          //我的持仓期权的table的tag
-                                leakTag : "leak",              //显示漏洞的table的tag
-                                leakvalueFiled : "leakvalue",  //漏洞值的字段，用于网页上漏洞值得实时更新
-                                qiquan_fee: 13.5,              //期权双向手续费   
-                                //actual:{flag:true, starttime:config.starttime , endtime:config.endtime , space:config.space , key:'price' },  //是否股价实时显示， true:是， 时间：starttime:'', endtime:''
-                                key:'sale1',           //要更新的字段
-                                keyArrow: true,    //是否显示更新字段的箭头
-                                cancel:true,           //是否显示注销
-                                chg:false,              //是否显示涨跌
-                                needHeader: true,       //是否需要头部信息
-                                needshowpric: true,     //是否需要实时更新股价
-                                needupdateToDB: true,     //是否需要更新证券信息到数据库
-                                isdataTable:true,      //是否需要isdataTable模板的jS效果：1.搜索内容，2.分页，3.自适应“+”
-                                zhengquanAdd:true,      //是否需要添加证券的功能
-                                blanceinfo: false ,       //是否需要证券盈利信息 
-                                etfautofindleak:true  ,       //是否需要智能分析50etf期权的漏洞， 如果为True,必须要有targetTag ，leakTag 参数获取自身标的。
-                                type:2,                   //显示table的类型， 1不带分页， 2，带分页
-                                columns:columns,
-                                data:datas,
-                                pageLength:100,     //table页显示长度
-                                pkID:'rq_id'    //主键的ID名
-                            };
-                            table5.grid(config.gridID,myself_dataSource, 'qiquan_auto');
+                                    var myself_dataSource = {
+                                        zhengquanName:"refer_qiquan",                         //作为一种标志，显示当前的证券类型
+                                        targetTag : "target",          //我的持仓期权的table的tag
+                                        leakTag : "leak",              //显示漏洞的table的tag
+                                        leakvalueFiled : "leakvalue",  //漏洞值的字段，用于网页上漏洞值得实时更新
+                                        qiquan_fee: 13.5,              //期权双向手续费   
+                                        //actual:{flag:true, starttime:config.starttime , endtime:config.endtime , space:config.space , key:'price' },  //是否股价实时显示， true:是， 时间：starttime:'', endtime:''
+                                        key:'sale1',           //要更新的字段
+                                        keyArrow: true,    //是否显示更新字段的箭头
+                                        cancel:true,           //是否显示注销
+                                        chg:false,              //是否显示涨跌
+                                        needHeader: true,       //是否需要头部信息
+                                        needshowpric: true,     //是否需要实时更新股价
+                                        needupdateToDB: true,     //是否需要更新证券信息到数据库
+                                        isdataTable:true,      //是否需要isdataTable模板的jS效果：1.搜索内容，2.分页，3.自适应“+”
+                                        zhengquanAdd:true,      //是否需要添加证券的功能
+                                        blanceinfo: false ,       //是否需要证券盈利信息 
+                                        etfautofindleak:true  ,       //是否需要智能分析50etf期权的漏洞， 如果为True,必须要有targetTag ，leakTag 参数获取自身标的。
+                                        type:2,                   //显示table的类型， 1不带分页， 2，带分页
+                                        columns:columns,
+                                        data:datas,
+                                        pageLength:100,     //table页显示长度
+                                        pkID:'rq_id'    //主键的ID名
+                                    };
+                                    table5.grid(config.gridID,myself_dataSource, 'qiquan_auto');
 
-                            priceUpdate();
-                        }  //if(code == 201) end 
-
-
-                    });
+                                    priceUpdate();
+                                }  //if(code == 201) end 
 
 
+                            }); //$.get end
 
-
-
-
-
-
-
-                        }       
+                        }   //if(code == 201) end     
 
                     });  //get end
 
 
+          } //if(tag == "qiquan_autoDecision")  end
+
+
+          //执行子功能：批量导入交易文件
+          if(tag == "deal_file") {
+
+
+          }
 
 
 
@@ -407,7 +407,7 @@
 
 
 
-          } //if end
+
 
 
 

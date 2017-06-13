@@ -74,7 +74,7 @@ CREATE TABLE `mg_fun` (
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`fid`),
   UNIQUE KEY `tag_UNIQUE` (`tag`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='功能模块';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='功能模块';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,7 +83,7 @@ CREATE TABLE `mg_fun` (
 
 LOCK TABLES `mg_fun` WRITE;
 /*!40000 ALTER TABLE `mg_fun` DISABLE KEYS */;
-INSERT INTO `mg_fun` VALUES (3,16,'ccc','ccc','ccc',NULL,'0','1',NULL,NULL,NULL,'1',NULL),(4,16,'ddd','ddd','ddd',NULL,'0','1',NULL,NULL,NULL,'1',NULL),(5,17,'eee','eee','eee',NULL,'0','1',NULL,NULL,NULL,'1',NULL),(6,17,'fff','fff','fff',NULL,'0','1',NULL,NULL,NULL,'1',NULL),(7,15,'股票信息','gupiaoInfo','/gupiaozhengquan','gupiaoInfo','0','1',NULL,NULL,NULL,'1',NULL),(8,15,'股票资产表','gupiao_balancesheet','/gupiao_balancesheetzhengquan','gupiao_balancesheet','0','1',NULL,NULL,NULL,'1',NULL),(9,15,'期权信息','qiquanInfo','/qiquanzhengquan','qiquanInfo','0','1',NULL,NULL,NULL,'1',NULL),(10,15,'期权资产表','qiquan_balancesheet','/qiquan_balancesheetzhengquan','qiquan_balancesheet','0','1',NULL,NULL,NULL,'1',NULL),(11,15,'期权智能决策','qiquan_autoDecision','/autoDecisionzhengquan','qiquan_autoDecision','0','1',NULL,NULL,NULL,'1',NULL);
+INSERT INTO `mg_fun` VALUES (3,16,'ccc','ccc','ccc',NULL,'0','1',NULL,NULL,NULL,'1',NULL),(4,16,'ddd','ddd','ddd',NULL,'0','1',NULL,NULL,NULL,'1',NULL),(5,17,'eee','eee','eee',NULL,'0','1',NULL,NULL,NULL,'1',NULL),(6,17,'fff','fff','fff',NULL,'0','1',NULL,NULL,NULL,'1',NULL),(7,15,'股票信息','gupiaoInfo','/gupiaozhengquan','gupiaoInfo','0','1',NULL,NULL,NULL,'1',NULL),(8,15,'股票资产表','gupiao_balancesheet','/gupiao_balancesheetzhengquan','gupiao_balancesheet','0','1',NULL,NULL,NULL,'1',NULL),(9,15,'期权信息','qiquanInfo','/qiquanzhengquan','qiquanInfo','0','1',NULL,NULL,NULL,'1',NULL),(10,15,'期权资产表','qiquan_balancesheet','/qiquan_balancesheetzhengquan','qiquan_balancesheet','0','1',NULL,NULL,NULL,'1',NULL),(11,15,'期权智能决策','qiquan_autoDecision','/autoDecisionzhengquan','qiquan_autoDecision','0','1',NULL,NULL,NULL,'1',NULL),(13,15,'交易文件导入','deal_file',NULL,'deal_file','0','1',NULL,NULL,NULL,'1',NULL);
 /*!40000 ALTER TABLE `mg_fun` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +172,7 @@ CREATE TABLE `mg_role_fun` (
   `creater_time` varchar(6) COLLATE utf8_bin DEFAULT NULL,
   `status` varchar(1) COLLATE utf8_bin DEFAULT '0' COMMENT '''0:未启用 , 1:启用''',
   PRIMARY KEY (`rolefunid`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色功能关系';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色功能关系';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +181,7 @@ CREATE TABLE `mg_role_fun` (
 
 LOCK TABLES `mg_role_fun` WRITE;
 /*!40000 ALTER TABLE `mg_role_fun` DISABLE KEYS */;
-INSERT INTO `mg_role_fun` VALUES (3,16,2,3,'1',NULL,NULL,NULL,NULL,NULL,'1'),(4,16,2,4,'1',NULL,NULL,NULL,NULL,NULL,'1'),(5,17,3,5,'1',NULL,NULL,NULL,NULL,NULL,'0'),(6,17,3,6,'1',NULL,NULL,NULL,NULL,NULL,'1'),(7,16,4,3,'1',NULL,NULL,NULL,NULL,NULL,'0'),(8,16,4,4,'1',NULL,NULL,NULL,NULL,NULL,'1'),(9,17,5,5,'1',NULL,NULL,NULL,NULL,NULL,'1'),(10,17,5,6,'1',NULL,NULL,NULL,NULL,NULL,'1'),(11,15,1,7,'1',NULL,NULL,NULL,NULL,NULL,'1'),(12,15,1,8,'1',NULL,NULL,NULL,NULL,NULL,'1'),(13,15,1,9,'1',NULL,NULL,NULL,NULL,NULL,'1'),(14,15,1,10,'1',NULL,NULL,NULL,NULL,NULL,'1'),(15,15,1,11,'1',NULL,NULL,NULL,NULL,NULL,'1');
+INSERT INTO `mg_role_fun` VALUES (3,16,2,3,'1',NULL,NULL,NULL,NULL,NULL,'1'),(4,16,2,4,'1',NULL,NULL,NULL,NULL,NULL,'1'),(5,17,3,5,'1',NULL,NULL,NULL,NULL,NULL,'0'),(6,17,3,6,'1',NULL,NULL,NULL,NULL,NULL,'1'),(7,16,4,3,'1',NULL,NULL,NULL,NULL,NULL,'0'),(8,16,4,4,'1',NULL,NULL,NULL,NULL,NULL,'1'),(9,17,5,5,'1',NULL,NULL,NULL,NULL,NULL,'1'),(10,17,5,6,'1',NULL,NULL,NULL,NULL,NULL,'1'),(11,15,1,7,'1',NULL,NULL,NULL,NULL,NULL,'1'),(12,15,1,8,'1',NULL,NULL,NULL,NULL,NULL,'1'),(13,15,1,9,'1',NULL,NULL,NULL,NULL,NULL,'1'),(14,15,1,10,'1',NULL,NULL,NULL,NULL,NULL,'1'),(15,15,1,11,'1',NULL,NULL,NULL,NULL,NULL,'1'),(17,15,1,13,'1',NULL,NULL,NULL,NULL,NULL,'1');
 /*!40000 ALTER TABLE `mg_role_fun` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,4 +292,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-09 17:30:00
+-- Dump completed on 2017-06-13 17:30:00

@@ -115,10 +115,7 @@ function uuid(len, radix) {
          //if(!dataSource.leakTag)  dataSource_global[tag].leakTag = false;
          
 
-         
-         
         //console.log("datasouce:",dataSource_global);
-
 
 
         var placeholder = dataSource_global[tag].placeholder;
@@ -407,18 +404,18 @@ function uuid(len, radix) {
         //*******绑定明细按钮事件,  //证券的主键ID
         function dealListZhengQuanEvent( zq_id ,tag){
 
-        var uuID =   dataSource_global[tag].uuID;       
-        var placeholder = dataSource_global[tag].placeholder;
-        var columns = dataSource_global[tag].columns;
-        var datas = dataSource_global[tag].data;
-        var actual = dataSource_global[tag].actual;
-        var cancel = dataSource_global[tag].cancel;
-        var chg = dataSource_global[tag].chg;
-        var zhengquanName = dataSource_global[tag].zhengquanName;
-        var pkID = dataSource_global[tag].pkID;
-        var type =dataSource_global[tag].type;
-        var key= dataSource_global[tag].key;     //要更新的字;
-        var table_datas = dataSource_global[tag].table_datas;
+            var uuID =   dataSource_global[tag].uuID;       
+            var placeholder = dataSource_global[tag].placeholder;
+            var columns = dataSource_global[tag].columns;
+            var datas = dataSource_global[tag].data;
+            var actual = dataSource_global[tag].actual;
+            var cancel = dataSource_global[tag].cancel;
+            var chg = dataSource_global[tag].chg;
+            var zhengquanName = dataSource_global[tag].zhengquanName;
+            var pkID = dataSource_global[tag].pkID;
+            var type =dataSource_global[tag].type;
+            var key= dataSource_global[tag].key;     //要更新的字;
+            var table_datas = dataSource_global[tag].table_datas;
 
                  
                 $("#dealList_" + zq_id + "_" + uuID).click(function(){
@@ -521,18 +518,18 @@ function uuid(len, radix) {
         //*******绑定注销按钮事件,  //证券的主键ID
         function delZhengQuanEvent( zq_id ,tag){
 
-        var uuID =   dataSource_global[tag].uuID;       
-        var placeholder = dataSource_global[tag].placeholder;
-        var columns = dataSource_global[tag].columns;
-        var datas = dataSource_global[tag].data;
-        var actual = dataSource_global[tag].actual;
-        var cancel = dataSource_global[tag].cancel;
-        var chg = dataSource_global[tag].chg;
-        var zhengquanName = dataSource_global[tag].zhengquanName;
-        var pkID = dataSource_global[tag].pkID;
-        var type =dataSource_global[tag].type;
-        var key= dataSource_global[tag].key;     //要更新的字;
-        var table_datas = dataSource_global[tag].table_datas;
+            var uuID =   dataSource_global[tag].uuID;       
+            var placeholder = dataSource_global[tag].placeholder;
+            var columns = dataSource_global[tag].columns;
+            var datas = dataSource_global[tag].data;
+            var actual = dataSource_global[tag].actual;
+            var cancel = dataSource_global[tag].cancel;
+            var chg = dataSource_global[tag].chg;
+            var zhengquanName = dataSource_global[tag].zhengquanName;
+            var pkID = dataSource_global[tag].pkID;
+            var type =dataSource_global[tag].type;
+            var key= dataSource_global[tag].key;     //要更新的字;
+            var table_datas = dataSource_global[tag].table_datas;
 
                  
                 $("#del_" + zq_id + "_" + uuID).click(function(){

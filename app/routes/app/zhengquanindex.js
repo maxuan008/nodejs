@@ -126,11 +126,11 @@ function delzhengquan(req , res) {
     } else if(zhengquanname == 'qiquan') {  //添加期权
         table ='qiquan';  wherestr = " `qq_id` = " + ID;
     } else if(zhengquanname == 'refer_qiquan') {
-        table ='refer_qiquan';
+        table ='refer_qiquan'; wherestr = " `rq_id` = " + ID;
     }
     else  return res.send({code:204,err:'传递证券名无法匹配'});
 
-    sqlstr = "update `" + table + "` set `status` = 0 where  " + wherestr;
+    sqlstr = "update `" + table + "` set `status` = 0  where  " + wherestr;
 
     templater.SQL(sqlstr, function(err,docs){
         if(err) return res.send({code:204,err:err});
