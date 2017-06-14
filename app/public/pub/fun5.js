@@ -395,18 +395,48 @@
           } //if(tag == "qiquan_autoDecision")  end
 
 
+
           //执行子功能：批量导入交易文件
           if(tag == "deal_file") {
 
+            //获取交易文件
+            $.get('/app/zhengquan/getdealfiles',{},function(datasBack){
+                var code = datasBack.code;
+                if(code == 205)  {console.log('检测到未登陆.');  }  
+                if(code == 204)  {console.log('错误:getdealfiles -->',datasBack.err);  }  
+                if(code == 201) { //获取成功
+                    var datas = datasBack.datas;
+                    var columns = [{field:"filename" ,title:"文件名" } ,  {field: "createtime",title: "上传时间"}   ];
 
-          }
+                    console.log(datas , columns );
+                    var myself_dataSource = {
+                        tableName:"deal_file",                         //作为一种标志，显示当前的证券类型
+
+                        qiquan_fee: 13.5,              //期权双向手续费   
+
+                        needHeader: true,       //是否需要头部信息
+                        cancel: true ,           //是否显示注销
+                        isanalyse :true,        //是否添加 ：分析并导入功能
+                        isdataTable:true,      //是否需要isdataTable模板的jS效果：1.搜索内容，2.分页，3.自适应“+”
+                        addfile: true,         //是否在头部增加：上传交易文件的功能。
+                        
+                        
+
+                        type:2,                   //显示table的类型， 1不带分页， 2，带分页
+                        columns:columns,
+                        data:datas,
+                        pageLength:100,     //table页显示长度
+                        pkID:'df_id'    //主键的ID名
+                    };
+
+                    // config.gridID为内容的div ID
+                   table_file.grid(config.gridID, myself_dataSource , 'deal_file');
 
 
+                } //if(code == 201) end
+            });
 
-
-
-
-
+        } //if(tag == "deal_file")  end
 
 
 

@@ -27,7 +27,7 @@ router.get('/getautoqiquans',getautoqiquans);  //获取期权智能决策的期�
 
 router.get('/getreferqiquans',getreferqiquans);  //获取期权智能决策的期权信息
 
-
+router.get('/getdealfiles',getdealfiles);  //获取交易文件的数据
 
 
 function index(req,res) {
@@ -424,6 +424,18 @@ function getreferqiquans(req,res) {
 
 
 
+
+//获取交易文件的数据
+function getdealfiles(req,res){
+    var userid = req.session.userdatas.info.uid;
+    var sqlstr  = "select df_id, filename , type , createtime , isanalyse  from `deal_file`  where `status` = 1  and userid = '" + userid +"'  order by createtime desc   "  ;
+    console.log(sqlstr);
+    templater.SQL(sqlstr, function(err,docs){
+         if(err) return res.send({code:204,err:err});
+        
+         res.send({code:201,datas:docs});
+    });    
+}
 
 
 
