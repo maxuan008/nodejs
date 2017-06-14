@@ -119,8 +119,10 @@ function uuid(len, radix) {
                     "            <table id='table_add_" + uuID + "' class='table table-striped table-hover'>" +
                     "                <thead>" +
                     "                        <tr>" +    //onclick='addZhengQuan(this)'
-                    "                            <th  style='width:130px;'><input   id='code_" + uuID + "'  type='text'  style='width:120px;'    placeholder='代码' required autofocus /></th>" +
-                    "                            <th><button type='button' class='btn btn-success btn-xs' uuid='" + uuID + "' id='add_" + uuID + "' style='width:60px;'  > 添加 </button></th>" +
+                    "                            <th  style='width:130px;'> <select id='type_" + uuID + "'   style='width:120px;'  ><option value='1'>50etf期权</option><option value='2'>股票</option></select> </th>" +                 
+                    "                            <th> <span class='j-upload-btn'> 导入文件 " +
+                    "                           <form id='file-form' enctype='multipart/form-data'><input title='点击选择文件' id='myfile_" + uuID + "' type='file' name='myfile'> </form></span>   " + 
+                    "</th>" +
                     "                            <th></th>" +
                     "                            <th></th>" +
                     "                            <th></th>" +
@@ -169,8 +171,8 @@ function uuid(len, radix) {
            //*******调用模板的JS
            var pageLength = dataSource_global[tag].pageLength;
            if(pageLength == undefined) pageLength = config.pageLength ;
-           console.log(uuID , {pageLength:25});
-           if(isdataTable)  $('.data-table_' + uuID).DataTable({pageLength:25});     
+           //console.log(uuID , {pageLength:25});
+           if(isdataTable)  $('.data-table_' + uuID).DataTable({pageLength:pageLength});     
            
            //*******绑定add按钮事件
             addFileEvent(tag);
@@ -182,6 +184,52 @@ function uuid(len, radix) {
 
 
     function  addFileEvent(tag){
+        var uuID =   dataSource_global[tag].uuID;
+        var typevalue = $("#type_" + uuID).val();
+        $("#myfile_" + uuID ).on('change',function(){
+            console.log(111,typevalue);
+            var me = this;
+
+            var completeHandler = function(data){
+                $(me).val('');
+            };
+
+             var progressHandler = function(e){
+                console.log(e);
+            };
+
+            var beforeSendHandler = function(){
+                console.log(1);
+            };
+            var errorHandler = function(){
+                $(me).val('');
+            };
+            console.log(222);
+            var formData = new FormData($(this).parents('form')[0]);
+            console.log(333);
+            $.ajax({
+                url: "/app/zhengquan/uploaddealfile?typevalue=" + typevalue,
+                type: 'POST',
+                xhr: function() {  // custom xhr
+                    myXhr = $.ajaxSettings.xhr();
+                    if(myXhr.upload){ // check if upload property exists
+                        myXhr.upload.addEventListener('progress',progressHandler, false); // for handling the progress of the upload
+                    }
+                    return myXhr;
+                },
+                //Ajax事件
+                beforeSend: beforeSendHandler,
+                success: completeHandler,
+                error: errorHandler,
+                // Form数据
+                data: formData,
+                //Options to tell JQuery not to process data or worry about content-type
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+
+        })
 
     } 
 
@@ -217,8 +265,10 @@ function uuid(len, radix) {
 
 
             if(cancel || isanalyse ) { //加入注销和导入操作.
-                if(isanalyse)  trstr = trstr +   "<th><button id='analyse_" + main_id + "_" + uuID + "' type='button' class='btn btn-success btn-xs ' >分析并导入</button></th> ";
-                if(cancel)     trstr = trstr +   "<th><button id='del_" + main_id + "_" + uuID + "' type='button' class='btn btn-warning btn-xs ' >注销</button></th> ";
+                trstr = trstr +   "<th>";
+                if(isanalyse)  trstr = trstr  + "<button id='analyse_" + main_id + "_" + uuID + "' type='button' class='btn btn-success btn-xs ' >分析并导入</button> ";
+                if(cancel)     trstr = trstr +   "<button id='delFile_" + main_id + "_" + uuID + "' type='button' class='btn btn-warning btn-xs ' >注销</button> ";
+                trstr = trstr +   "</th>";
             } 
 
             trstr = trstr +   "</tr>   ";
@@ -234,6 +284,39 @@ function uuid(len, radix) {
 
       //*******绑定"分析导入"按钮事件
       function analyse_import_inEvent(main_id,tag) {
+            var uuID =   dataSource_global[tag].uuID; 
+            var needHeader = dataSource_global[tag].needHeader;
+            var cancel = dataSource_global[tag].cancel;
+            var isanalyse = dataSource_global[tag].isanalyse;
+            var isdataTable = dataSource_global[tag].isdataTable;
+            var addfile = dataSource_global[tag].addfile;
+
+            var columns = dataSource_global[tag].columns;
+            var datas = dataSource_global[tag].data;
+            var pkID = dataSource_global[tag].pkID;
+            var type = dataSource_global[tag].type;
+            var tableName =dataSource_global[tag].tableName;
+
+                $("#analyse_" + main_id + "_" + uuID).click(function(){
+  
+                    var data = { id: main_id};
+
+                    $.post('/app/zhengquan/analyseimportfile', data,function(datasBack){ 
+                        
+                        var code = datasBack.code;
+                        if(code == 205)  {alert('检测到未登陆.'); console.log('检测到未登陆.');  }  
+                        if(code == 204)  {alert('错误:' + datasBack.err); console.log('错误:addzhengquan -->',datasBack.err);  }  
+                        if(code == 201) { //获取成功
+                            
+                           alert("导入成功");
+                          
+                        }
+
+                    }); //$.post end
+
+                }); //$(#del_" + zq_id + "_" + uuID).click end
+
+
 
       }
 
@@ -260,9 +343,9 @@ function uuid(len, radix) {
             //var main_id = data[pkID];  //主键ID
 
                  
-                $("#del_" + main_id + "_" + uuID).click(function(){
+                $("#delFile_" + main_id + "_" + uuID).click(function(){
   
-                    var data = {tableName:tableName , id: main_id};
+                    var data = { id: main_id};
 
                     $.post('/app/zhengquan/deldealfile', data,function(datasBack){ 
                         

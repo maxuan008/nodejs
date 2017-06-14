@@ -2,6 +2,10 @@
   "production" :{
       "cookiesecret":" ",
 
+      "file": {
+           "pathroot":"./filedatas"
+      },
+
       "mysql":{
           "host":"127.0.0.1",
           "db":"zhengquan",    
@@ -24,7 +28,9 @@
 
   "development" :{
       "cookiesecret":" ",
-
+      "file": {
+           "pathroot":"./filedatas"
+      },
       "mysql":{
           "host":"127.0.0.1",
           "db":"zhengquan",   

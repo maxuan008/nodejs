@@ -406,7 +406,12 @@
                 if(code == 204)  {console.log('错误:getdealfiles -->',datasBack.err);  }  
                 if(code == 201) { //获取成功
                     var datas = datasBack.datas;
-                    var columns = [{field:"filename" ,title:"文件名" } ,  {field: "createtime",title: "上传时间"}   ];
+                    for(var i=0;i<datas.length; i++) {
+                        if(datas[i].type == 1)  datas[i].type = "50etf期权";
+                        if(datas[i].type == 2)  datas[i].type = "股票";
+                        if(datas[i].createtime) datas[i].createtime = moment(datas[i].createtime).format('YYYY-MM-DD');
+                    }
+                    var columns = [{field:"filename" ,title:"文件名" } ,  {field: "type",title: "类型"} , {field: "createtime",title: "上传时间"}   ];
 
                     console.log(datas , columns );
                     var myself_dataSource = {

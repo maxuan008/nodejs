@@ -1,10 +1,16 @@
 var express = require('express');
+var fs = require('fs');
 var path = require('path');
 var assert=require('assert');
 var async = require('async');
 var moment = require('moment');
 var mysql = require('./mysql/mysql');
 var templater = require("./module/templater");
+var cloudfile = require("../zhengquan/model/cloudfile");
+var appconfig = require('./config/appconfig.json');
+
+var xl =require('xlsx');
+var lineReader = require('line-reader');
 
 
 var router = express.Router();
@@ -28,6 +34,107 @@ router.get('/getautoqiquans',getautoqiquans);  //获取期权智能决策的期�
 router.get('/getreferqiquans',getreferqiquans);  //获取期权智能决策的期权信息
 
 router.get('/getdealfiles',getdealfiles);  //获取交易文件的数据
+router.post('/deldealfile',deldealfile);  //删除交易文件
+router.post('/uploaddealfile',uploaddealfile);  //上传交易文件
+router.post('/analyseimportfile',analyseimportfile);  //分析并导入交易文件
+
+var exceltype = ['csv'];
+
+
+
+
+//分析并导入交易文件
+function analyseimportfile(req ,res) {
+    console.log(111);
+    var df_id = req.body.id , userid = req.session.userdatas.info.uid  ;
+    if(df_id =='' || df_id == undefined ) return  res.send({code:204,err:"id数据不正确" });
+    var sqlstr  = "select * from `deal_file`  where df_id = " + df_id + " and `status` =1  and userid = '" + userid +"'" ;
+    console.log(sqlstr);
+    templater.SQL(sqlstr, function(err,docs){
+         if(err) return res.send({code:204,err:err});
+
+         if(docs.length <= 0)   return  res.send({code:204,err:"文件数据信息不存在"});
+         else if(docs.length > 1) return  res.send({code:204,err:"文件数据信息多份"});
+         else {
+            var fileinfo = docs[0] , filepath = fileinfo.path + "/"  +  fileinfo.diskname;
+            if(exceltype.indexOf(docs[0].filetype)   == -1 )  return  res.send({code:204,err:"文件类型不正确"});
+
+            fs.exists(filepath,function(flag){ //检查交易文件是否存在
+                 if(flag == false )   return res.send({code:204,err:"文件不存在"});
+// var csv = require('csv');
+// csv()
+// .from.stream(fs.createReadStream(filepath))
+// .to.path(__dirname+'/sample.out')
+// .on('record', function(row,index){
+//   console.log('#'+index+' '+JSON.stringify(row));
+// });
+
+                 //开始提取excel的
+                //  lineReader.eachLine(filepath, function(line, last) {
+                //     console.log(line, last);
+                //     return res.send({code:201,datas:line});
+                //  });
+
+fs.readFile(filepath, 'utf8',function (err, data) { if(err) return res.send({code:204,err:err.stack});
+    var table = new Array();
+    ConvertToTable(data, function (table) {
+        console.log(table[34]);
+           var data_3 = {code:table[34][3] , name:table[34][4] ,  userid: userid  , createtime:new Date()  };
+            templater.add("qiquan",data_3,function(err,doc){
+                if(err) return res.send({code:204,err:err});
+                return res.send({code:201,datas:{id:doc.insertId}});
+            });
+
+        //return res.send({code:201,datas:table});
+    })
+});
+
+                
+
+           }); //fs.exists end 
+
+         } //if end 
+
+    });
+
+}
+
+function ConvertToTable(data, callBack) {
+    data = data.toString();
+    var table = new Array();
+    var rows = new Array();
+    rows = data.split("\r\n");
+    for (var i = 0; i < rows.length; i++) {
+        table.push(rows[i].split(","));
+    }
+    callBack(table);
+}
+
+
+
+ //上传交易文件
+function uploaddealfile(req ,res) {
+    var type = req.query.typevalue , userid = req.session.userdatas.info.uid  ;
+    if(type =='' || type == undefined ) return  res.send({code:204,err:"type数据不正确" });
+
+    var rootpath = appconfig[global.mgENV].file.pathroot + "/" + req.session.userdatas.info.username + "_" + userid ;
+
+    console.log(type , rootpath );
+    //1.向将文件保存到指定目录   2.数据库中存入文件
+    cloudfile.uploadfile(rootpath,req,function(err,data){
+        if(err)  return  res.send({code:204 , err:err});
+        console.log(data);
+        var table = "deal_file" ,time = new Date();
+        var datajson = {path:rootpath ,filetype:data.filetype, filename:data.filename, diskname:data.diskname, size:data.size,  userid: userid ,type: type , createtime:time  };
+        templater.add(table,datajson,function(err,doc){
+            if(err) return res.send({code:204,err:err});
+            datajson.df_id =  doc.insertId;
+            return res.send({code:201,datas:datajson });
+        });
+
+    });
+
+}
 
 
 function index(req,res) {
@@ -101,17 +208,13 @@ function addzhengquan(req,res) {
             templater.add(table,data,function(err,doc){
                 if(err) return res.send({code:204,err:err});
                 return res.send({code:201,datas:{id:doc.insertId}});
-
             });
-
         }
-
 
     });  //templater.SQL end 
 
-
-
 }
+
 
 
 //删除证券
@@ -140,8 +243,32 @@ function delzhengquan(req , res) {
     });  //templater.SQL end 
 
 
+}
+
+
+
+//删除交易文件
+function deldealfile(req , res) {
+    var  ID =req.body.id , userid = req.session.userdatas.info.uid;
+
+    //console.log(req.session.userdatas);
+
+    if( ID == '' ||  ID == undefined  )  return res.send({code:204,err:'传递参数不正确'});
+
+    var table ='deal_file' ,  wherestr = " userid = '" + userid + "'  and   `df_id` = " + ID 
+    var sqlstr = "update `" + table + "` set `status` = 0  where  " + wherestr;
+
+    templater.SQL(sqlstr, function(err,docs){
+        if(err) return res.send({code:204,err:err});
+
+        res.send({code:201});
+
+    });  //templater.SQL end 
+
 
 }
+
+
 
 
 

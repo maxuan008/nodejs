@@ -25,7 +25,11 @@ DROP TABLE IF EXISTS `deal_file`;
 CREATE TABLE `deal_file` (
   `df_id` int(11) NOT NULL AUTO_INCREMENT,
   `path` varchar(150) DEFAULT NULL,
+  `filetype` varchar(125) DEFAULT NULL, 
   `filename` varchar(125) DEFAULT NULL,
+  `diskname` varchar(125) DEFAULT NULL,
+  `size` varchar(125) DEFAULT NULL,
+  
   `userid` varchar(45) DEFAULT NULL,
   `type` int(2) DEFAULT '1' COMMENT '1:50etf期权； 2：股票',
   `status` tinyint(1) DEFAULT '1',
@@ -40,11 +44,6 @@ CREATE TABLE `deal_file` (
 -- Dumping data for table `deal_file`
 --
 
-LOCK TABLES `deal_file` WRITE;
-/*!40000 ALTER TABLE `deal_file` DISABLE KEYS */;
-INSERT INTO `deal_file` VALUES (1,'/qqq','aa','12',1,1,NULL,0,NULL);
-/*!40000 ALTER TABLE `deal_file` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `gupiao`
