@@ -36,6 +36,7 @@ module.exports = templater;
     //向数据库中插入多个数据data, data为数组数据类型
     templater.add_Arry = function (table,datas,callback){
         console.log('EEEEEEE' , table ,datas  );
+        if(datas.length <=0 ) return callback(null);
         var me = require("./templater");
         
         async.eachSeries(datas, function(data, callback) { 

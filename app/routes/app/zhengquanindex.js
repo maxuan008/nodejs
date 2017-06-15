@@ -506,7 +506,7 @@ function getreferqiquans(req,res) {
 //获取交易文件的数据
 function getdealfiles(req,res){
     var userid = req.session.userdatas.info.uid;
-    var sqlstr  = "select df_id, filename , type , createtime , isanalyse  from `deal_file`  where `status` = 1  and userid = '" + userid +"'  order by createtime desc   "  ;
+    var sqlstr  = "select df_id, filename , type , createtime , isanalyse  from `deal_file`  where `status` = 1  and userid = '" + userid +"'  order by createtime    "  ;
     console.log(sqlstr);
     templater.SQL(sqlstr, function(err,docs){
          if(err) return res.send({code:204,err:err});

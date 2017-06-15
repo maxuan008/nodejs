@@ -8,7 +8,7 @@ var templater = require('../../module/templater');
 var zhengquan = require("./zhengquan");
 var async = require("async");
 
-var exceltype = ['csv'];
+var exceltype = ['xlsx'];
 
 function cloudfile(data) {
      this.data = data;
@@ -65,11 +65,83 @@ cloudfile.uploadfile = function(rootpath,req,callback) {
              var oldFilepath =  files.myfile.path;
 
              var diskname = filename + "_" + UUID.v1()+ "." + filetype;
-             var newFilepath = rootpath + "/" + diskname ;
+             var newFilepath = rootpath + "/" + diskname , newFilepath_csv =rootpath + "/" +  filename + "_" + UUID.v1()+ "." + "csv";
+             
+             if(exceltype.indexOf(filetype) == -1 ) return callback("文件类型不正确,只能为xlsx格式");
 
-             fs.renameSync(oldFilepath, newFilepath);
-             var data = {diskname:diskname, filename:filename, filetype:filetype  , size:size  };
-             return callback(err,data);
+             //生成处理后的文件
+//读取excel数据，并转换成数组
+                fs.renameSync(oldFilepath, newFilepath);
+                var data = {diskname:diskname, filename:filename, filetype:filetype  , size:size  };
+
+                var xlsx = require('node-xlsx');
+                var obj = xlsx.parse(newFilepath);
+                var csvtable=obj[0].data;
+                for(var i=0;i<csvtable.length;i++ ) {
+                    csvtable[0][13]='手续费'; csvtable[i][13]='';csvtable[i][14]=UUID.v1();
+                    if(i != 0 ) {console.log(csvtable[i][0]); csvtable[i][0] = new Date(1900, 0, csvtable[i][0] - 1);  console.log(csvtable[i][0]); csvtable[i][1] = new Date(1900, 0, csvtable[i][1] - 1);} 
+                 }
+
+var buffer = xlsx.build([
+    {
+        name:'sheet1',
+        data:csvtable
+    }        
+]);
+
+fs.writeFileSync(newFilepath,buffer,{'flag':'w'});
+
+                return callback(err,data);
+
+
+// fs.readFile(oldFilepath, 'utf8',function (err, data) { if(err) callback(err); 
+//     var csvtable = new Array();
+//     ConvertToTable(data, function (csvtable) {
+//                 //csvtable[0] = ['成交日期','成交时间' ,'交易所' ,'合约编码' ,'合约名称' ,'买卖' ,'开平' ,'成交价格' ,'成交数量' ,'成交金额' ,'备兑' ,'成交编码' ,'备注','手续费' ,'交易编码'  ];
+//                 csvtable.shift();
+//                 for(var i=0;i<csvtable.length;i++ ) csvtable[i][14]=UUID.v1();
+//                 console.log(csvtable);
+
+//                 var excelPort = require('excel-export');
+//                 var conf = {};
+
+//                 conf.cols = [
+//                     {caption:'成交日期', type:'string', width:18},
+//                     {caption:'成交时间', type:'string', width:18},
+//                     {caption:'交易所', type:'string', width:18},
+//                     {caption:'合约编码', type:'string', width:15},
+//                     {caption:'合约名称', type:'string', width:18},
+//                     {caption:'买卖', type:'string', width:15},
+//                     {caption:'开平', type:'string', width:15},
+//                     {caption:'成交价格', type:'string', width:15},
+//                     {caption:'成交数量', type:'string', width:15},
+//                     {caption:'成交金额', type:'string', width:15},
+//                     {caption:'备兑', type:'string', width:15},
+//                     {caption:'成交编码', type:'string', width:20},
+//                     {caption:'备注', type:'string', width:15},
+//                     {caption:'手续费', type:'string', width:10},
+//                     {caption:'交易编码', type:'string', width:25}
+//                 ];
+
+//             var array = csvtable;
+
+//             conf.rows = array;
+//             var result = excelPort.execute(conf);
+            
+//             //var filePath_2 = rootpath + "/" + "test.csv";
+// 	        fs.writeFile(newFilepath, result, 'binary',function(err){ if(err) console.log(err);
+//                 //fs.unlinkSync(oldFilepath);
+//                 fs.renameSync(oldFilepath, newFilepath_csv);
+//                 var data = {diskname:diskname, filename:filename, filetype:filetype  , size:size  };
+//                 return callback(err,data);
+// 	        });
+
+//     });
+// });             
+
+            
+             
+
 
         }); //form.parse end
 
@@ -95,49 +167,101 @@ cloudfile.analyseimportfile = function(df_id, userid ,callback) {
              fs.exists(filepath,function(flag){ //检查交易文件是否存在
                  if(flag == false )   return callback("文件不存在"); 
 
+
+
+
+
+
+
 //读取excel数据，并转换成数组
-fs.readFile(filepath, 'utf8',function (err, data) { if(err) callback(err); 
-    var csvtable = new Array();
-    ConvertToTable(data, function (csvtable) {
+var xlsx = require('node-xlsx');
+var obj = xlsx.parse(filepath);
+var csvtable=obj[0].data;
+
+// console.log(excelObj);
+
+// var csvtable = [];
+// for(var i in excelObj){
+//     var arr=[];
+//     var value=excelObj[i];
+//     for(var j in value){
+//         arr.push(value[j]);
+//     }
+//     csvtable.push(arr);
+// }
+
+// var excelParser = require('excel-parser');
+
+// excelParser.parse({
+//   inFile: filepath,
+//   worksheet: 1,
+//   skipEmpty: true,
+//   searchFor: {
+//     term: ['my serach term'],
+//     type: 'loose'
+//   }
+// },function(err, csvtable){
+//   if(err) console.error(err);
+
+
+
+
+// fs.readFile(filepath, 'utf8',function (err, data) { if(err) callback(err); 
+//     var csvtable = new Array();
+//     ConvertToTable(data, function (csvtable) {
+        console.log(csvtable);   //return callback(err);
          //console.log(csvtable.length,csvtable[0],csvtable[csvtable.length - 1]); return res.send({code:201});
          if(fileinfo.type==1) var table="qiquan", table_2="qiquan_deal";   if(fileinfo.type==2) var table="gupiao", table_2="gupiao_deal"; 
         //获取交易数据: 1.先判断证券是否存在，不存在则先添加; 2.添加交易
-        var flag =1 , len = csvtable.length, dealdatas = [],  zhengquanID = {};
+        var  len = csvtable.length, dealdatas = [],  zhengquanID = {};
        
        
         var i=-1;   //从第二行开始，遍历数据。1.先判断证券是否存在，不存在则先添加; 2.添加交易
         async.eachSeries(csvtable, function(data, callback) { i++; if(i==0) return callback(); 
-                var codevalue = data[3],dealdate = data[0] , price=data[7] , count = data[8], jine = data[9], dealcode= data[11] ,zhengquanName = data[4] ; 
+                    var codevalue = data[3],dealdate = new Date(1900, 0, data[0] - 1) , price=data[7] , count = data[8],
+                    fangxiang= data[5], jine = data[9], dealcode= data[11] ,zhengquanName = data[4],deal_code =  data[14]; 
+                    if(jine < 0) jine = jine * -1;
 
-                //添加证券，存在直接返回证券的主键； 如果不存在则插入证券，并返回证券的主键。
-                zhengquan.addzhengquan_V2(table,codevalue,userid,fileinfo.type ,zhengquanName, function(err,doc){  if(err) { console.log(err);  return callback(); }
+                    //添加证券，存在直接返回证券的主键； 如果不存在则插入证券，并返回证券的主键。
+                    zhengquan.addzhengquan_V2(table,codevalue,userid,fileinfo.type ,zhengquanName, function(err,doc){  if(err) { console.log(err);  return callback(); }
 
-                    var len = dealdatas.length - 1;
-                    dealdatas[len] = {userid:userid, count:1*count, price: 1*price, dealdate: dealdate };
-                    if(fileinfo.type==1) { //期权
-                        if(jine < 0) {dealdatas[len].flag  = 1; dealdatas[len].deal_money = jine*-1 + count*7;  }  //买方向
-                        if(jine >= 0) {dealdatas[len].flag  = 2; dealdatas[len].deal_money = jine - count*7;  }  //卖方向
-                    } //if end
-                    if(fileinfo.type==2) {//股票
-                        if(jine < 0) {dealdatas[len].flag  = 1; dealdatas[len].deal_money = jine*-1 + jine*-1*0.0015;  }  //买方向
-                        if(jine >= 0) {dealdatas[len].flag  = 2; dealdatas[len].deal_money = jine -  jine*-1*0.0015;  }  //卖方向
-                    }  
+                        //查看此交易编码是否存在
+                        templater.isExist(table_2,{deal_code:deal_code, status:1 , userid:userid},function(err,flag){ 
+                            if(flag) console.log(codevalue,"存在"); else  console.log(codevalue,"不存在");
+                            
+                            if(err || flag) return callback();
+                            else { //如果交易编码不存在
+                                    var len = dealdatas.length ;
+                                    dealdatas[len] = {userid:userid, count:1*count, price: 1*price, dealdate: dealdate , deal_code :deal_code };
+                                    if(fileinfo.type==1) { //期权
+                                        if(fangxiang == '买入') {dealdatas[len].flag  = 1; dealdatas[len].deal_money = jine + count*7;  }  //买方向
+                                        if(fangxiang == '卖出') {dealdatas[len].flag  = 2; dealdatas[len].deal_money = jine - count*7;  }  //卖方向
+                                    } //if end
+                                    if(fileinfo.type==2) {//股票
+                                        if(fangxiang == '买入') {dealdatas[len].flag  = 1; dealdatas[len].deal_money = jine + jine*0.0015;  }  //买方向
+                                        if(fangxiang == '卖出') {dealdatas[len].flag  = 2; dealdatas[len].deal_money = jine -  jine*0.0015;  }  //卖方向
+                                    }  
 
-                    zhengquanID[codevalue] = doc.id;
-                    if(fileinfo.type==1) dealdatas[len].qq_id = doc.id;   if(fileinfo.type==2)  dealdatas[len].gp_id = doc.id;
-                    return callback();
+                                    zhengquanID[codevalue] = doc.id;
+                                    if(fileinfo.type==1) dealdatas[len].qq_id = doc.id;   if(fileinfo.type==2)  dealdatas[len].gp_id = doc.id;
+                                    return callback();
+                            } 
+                            
+                        });
+
                 }); //zhengquan.addzhengquan_V2 end 
 
         }, function(err){  if(err) { console.log(err); return callback(err); }
+                console.log("交易数据：",dealdatas);
                 templater.add_Arry(table_2,dealdatas,function(err){
                     if(err) console.log(err);
                     return callback(err);
                 });
         }); //async.eachSeries end 
 
-    }) //ConvertToTable end
+   // }) //ConvertToTable end
 
-}); //fs.readFile end
+// }); //fs.readFile end
 
              }); //fs.exists end
 
