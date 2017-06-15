@@ -4,7 +4,9 @@ var path = require('path');
 var formidable = require('formidable');
 var UUID = require('uuid');
 var mgenv = global.mgENV;
-var templater = require('../../app/module/templater');
+var templater = require('../../module/templater');
+var zhengquan = require("./zhengquan");
+var async = require("async");
 
 var exceltype = ['csv'];
 
@@ -89,29 +91,54 @@ cloudfile.analyseimportfile = function(df_id, userid ,callback) {
          else {
              var fileinfo = docs[0] , filepath = fileinfo.path + "/"  +  fileinfo.diskname;
              if(exceltype.indexOf(docs[0].filetype)   == -1 )  return  callback("文件类型不正确"); 
-
+             if(fileinfo.type !=1 && fileinfo.type !=2 )  return  callback("证券类型不正确"); 
              fs.exists(filepath,function(flag){ //检查交易文件是否存在
                  if(flag == false )   return callback("文件不存在"); 
 
 //读取excel数据，并转换成数组
 fs.readFile(filepath, 'utf8',function (err, data) { if(err) callback(err); 
-    var table = new Array();
-    ConvertToTable(data, function (table) {
-        console.log(table[0],table[1]);
+    var csvtable = new Array();
+    ConvertToTable(data, function (csvtable) {
+         //console.log(csvtable.length,csvtable[0],csvtable[csvtable.length - 1]); return res.send({code:201});
+         if(fileinfo.type==1) var table="qiquan", table_2="qiquan_deal";   if(fileinfo.type==2) var table="gupiao", table_2="gupiao_deal"; 
         //获取交易数据: 1.先判断证券是否存在，不存在则先添加; 2.添加交易
-        for(var i=1;i<table.length;i++){
+        var flag =1 , len = csvtable.length, dealdatas = [],  zhengquanID = {};
+       
+       
+        var i=-1;   //从第二行开始，遍历数据。1.先判断证券是否存在，不存在则先添加; 2.添加交易
+        async.eachSeries(csvtable, function(data, callback) { i++; if(i==0) return callback(); 
+                var codevalue = data[3],dealdate = data[0] , price=data[7] , count = data[8], jine = data[9], dealcode= data[11] ,zhengquanName = data[4] ; 
 
-        }
-        return callback(null);
-            //var data_3 = {code:table[34][3] , name:table[34][4] ,  userid: userid  , createtime:new Date()  };
-            // templater.add("qiquan",data_3,function(err,doc){
-            //     if(err) return res.send({code:204,err:err});
-            //     return res.send({code:201,datas:{id:doc.insertId}});
-            // });
+                //添加证券，存在直接返回证券的主键； 如果不存在则插入证券，并返回证券的主键。
+                zhengquan.addzhengquan_V2(table,codevalue,userid,fileinfo.type ,zhengquanName, function(err,doc){  if(err) { console.log(err);  return callback(); }
 
-        //return res.send({code:201,datas:table});
-    })
-});
+                    var len = dealdatas.length - 1;
+                    dealdatas[len] = {userid:userid, count:1*count, price: 1*price, dealdate: dealdate };
+                    if(fileinfo.type==1) { //期权
+                        if(jine < 0) {dealdatas[len].flag  = 1; dealdatas[len].deal_money = jine*-1 + count*7;  }  //买方向
+                        if(jine >= 0) {dealdatas[len].flag  = 2; dealdatas[len].deal_money = jine - count*7;  }  //卖方向
+                    } //if end
+                    if(fileinfo.type==2) {//股票
+                        if(jine < 0) {dealdatas[len].flag  = 1; dealdatas[len].deal_money = jine*-1 + jine*-1*0.0015;  }  //买方向
+                        if(jine >= 0) {dealdatas[len].flag  = 2; dealdatas[len].deal_money = jine -  jine*-1*0.0015;  }  //卖方向
+                    }  
+
+                    zhengquanID[codevalue] = doc.id;
+                    if(fileinfo.type==1) dealdatas[len].qq_id = doc.id;   if(fileinfo.type==2)  dealdatas[len].gp_id = doc.id;
+                    return callback();
+                }); //zhengquan.addzhengquan_V2 end 
+
+        }, function(err){  if(err) { console.log(err); return callback(err); }
+                templater.add_Arry(table_2,dealdatas,function(err){
+                    if(err) console.log(err);
+                    return callback(err);
+                });
+        }); //async.eachSeries end 
+
+    }) //ConvertToTable end
+
+}); //fs.readFile end
+
              }); //fs.exists end
 
          } //if end
@@ -124,8 +151,8 @@ function ConvertToTable(data, callBack) {
     var table = new Array();
     var rows = new Array();
     rows = data.split("\r\n");
-    for (var i = 0; i < rows.length; i++) {
-        table.push(rows[i].split(","));
+    for (var i = 0; i < rows.length; i++) {   
+      if(rows[i])  table.push(rows[i].split(","));
     }
     callBack(table);
 }

@@ -25,11 +25,10 @@ DROP TABLE IF EXISTS `deal_file`;
 CREATE TABLE `deal_file` (
   `df_id` int(11) NOT NULL AUTO_INCREMENT,
   `path` varchar(150) DEFAULT NULL,
-  `filetype` varchar(125) DEFAULT NULL, 
+  `filetype` varchar(125) DEFAULT NULL,
   `filename` varchar(125) DEFAULT NULL,
   `diskname` varchar(125) DEFAULT NULL,
   `size` varchar(125) DEFAULT NULL,
-  
   `userid` varchar(45) DEFAULT NULL,
   `type` int(2) DEFAULT '1' COMMENT '1:50etf期权； 2：股票',
   `status` tinyint(1) DEFAULT '1',
@@ -37,13 +36,18 @@ CREATE TABLE `deal_file` (
   `isanalyse` tinyint(1) DEFAULT '0' COMMENT '0:没有被分析； 1：已被分析',
   `analysetime` datetime DEFAULT NULL COMMENT '分析时间',
   PRIMARY KEY (`df_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=89 DEFAULT CHARSET=utf8 COMMENT='交易文件';
+) ENGINE=MyISAM AUTO_INCREMENT=94 DEFAULT CHARSET=utf8 COMMENT='交易文件';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `deal_file`
 --
 
+LOCK TABLES `deal_file` WRITE;
+/*!40000 ALTER TABLE `deal_file` DISABLE KEYS */;
+INSERT INTO `deal_file` VALUES (93,'./filedatas/maxuan007_12','csv','50etf-海通-2017.1.1至2017.6.15.csv','50etf-海通-2017.1.1至2017.6.15.csv_d90a8c80-5120-11e7-90d0-3fae6dfd8080.csv','4051','12',1,1,'2017-06-15 00:45:18',0,NULL);
+/*!40000 ALTER TABLE `deal_file` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `gupiao`
@@ -128,7 +132,7 @@ CREATE TABLE `qiquan` (
   `createtime` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`qq_id`),
   UNIQUE KEY `qq_id_UNIQUE` (`qq_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,12 +158,12 @@ CREATE TABLE `qiquan_deal` (
   `userid` int(11) NOT NULL,
   `buysell` float DEFAULT NULL,
   `flag` tinyint(1) NOT NULL,
-  `count` int(11) NOT NULL,
+  `count` int(11) DEFAULT NULL,
   `dealdate` date DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
-  `price` float NOT NULL,
+  `price` float DEFAULT NULL,
   `deal_money` float DEFAULT '0',
-  `remark` text NOT NULL COMMENT '备注',
+  `remark` text COMMENT '备注',
   `deal_code` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`qd_id`),
   UNIQUE KEY `qd_id_UNIQUE` (`qd_id`)
@@ -218,4 +222,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-14 17:30:00
+-- Dump completed on 2017-06-15 20:07:10
