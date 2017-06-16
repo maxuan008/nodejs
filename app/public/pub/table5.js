@@ -44,7 +44,7 @@ function uuid(len, radix) {
         pageLength:25,     //table页显示长度
 
         morning_starttime_tmp:" 09:29:00" ,   morning_endtime_tmp:" 09:35:00",                   //更新证券信息数据库，早上时间段
-        afternoon_starttime_tmp:" 14:55:00" , afternoon_endtime_tmp:" 15:25:00"                  //更新证券信息数据库，晚上时间段
+        afternoon_starttime_tmp:" 14:55:00" , afternoon_endtime_tmp:" 19:25:00"                  //更新证券信息数据库，晚上时间段
    };
 
 
@@ -609,11 +609,10 @@ function uuid(len, radix) {
                 //console.log("++++++++++++++++开始执行table：",tag , dataSource_global[tag]);
               if( dataSource_global[tag].needshowpric)   doIt(tag);
             } //for end 
-
         }
-
-
     }  
+
+
 
 
     function  doIt(tag) {
@@ -752,7 +751,6 @@ function uuid(len, radix) {
             for(var i=0;i<codes.length; i++ ) {          
               var  infoTmp = changePrice_html(zhengquanObj ,codes[i],tag,evalstrArr_tmp)  ; //更新网页上的证券价格 
                    
-
               shizhi_total = shizhi_total + infoTmp.shizhi;
               yingli_total = yingli_total + infoTmp.shiji_yingli;   
             } //for end
@@ -803,7 +801,7 @@ function uuid(len, radix) {
 
 
         //***获取对比物的新价格和名称 */
-        var newPrice = referInfo.newPrice ;
+        var newPrice = referInfo.sale1 ;
         var newName = referInfo.newName ;
         
         //分析对比物的漏洞价值
@@ -837,42 +835,43 @@ function uuid(len, radix) {
             var referqiquan_month = changeMonthToNum(referqiquan_analys.month);
 
             var monthdrop = myqiquan_month - referqiquan_month;
+        
 
             //显示到漏洞
             var background = -1;  //// #DCDCDC 灰色   #D19275 红色    #FFFFFF
             //1.同一月份的， 漏洞查10-20,为白色，>20 为红色
 
-            if(monthdrop == 1) {  //同一月份的
-                if(leakdrop>10 && leakdrop<20) background = '#FFFFFF';  //显示白色     
-                if(leakdrop>=20 ) background = '#D19275';  //显示红色
+            if(monthdrop == 0) {  //同一月份的
+                if(leakdrop>20 && leakdrop<30) background = '#FFFFFF';  //显示白色     
+                if(leakdrop>=30 ) background = '#D19275';  //显示红色
             }
 
-            //2.持仓期权月份大于对比物的：大于1个月的， 漏洞差>100元时显示红色，50--100元以内时显示白色，0--50之间灰色；
+            //2.持仓期权月份大于对比物的：大于1个月的， 漏洞差>120元时显示红色，100--120元以内时显示白色，80--100之间灰色；
             //                          大于1个月以上的上的，漏洞差>200元时显示红色.100--200元以内的显示白色，0--100灰色；
             
             if(monthdrop == 1) {  //大于1个月的
-                if(leakdrop>=100 ) background = '#D19275';   //显示红色
-                if(leakdrop>=50 && leakdrop<100 )  background = '#FFFFFF';  //显示白色
-                if(leakdrop>0 && leakdrop<50 )  background = '#DCDCDC';  //灰色
+                if(leakdrop>=200 ) background = '#D19275';   //显示红色
+                if(leakdrop>=130 && leakdrop<200 )  background = '#FFFFFF';  //显示白色
+                if(leakdrop>100 && leakdrop<130 )  background = '#DCDCDC';  //灰色
             }
 
              if(monthdrop > 1) { //大于1个月以上的上的
-                if(leakdrop>=200 )  background = '#D19275';  //显示红色
-                if(leakdrop>=100 && leakdrop<200 )  background = '#FFFFFF';   //显示白色
-                if(leakdrop>0 && leakdrop<100 )  background = '#DCDCDC';  //灰色
+                if(leakdrop>=250 ) background = '#D19275';   //显示红色
+                if(leakdrop>=200 && leakdrop<250 )  background = '#FFFFFF';  //显示白色
+                if(leakdrop>150 && leakdrop<200 )  background = '#DCDCDC';  //灰色
             }           
 
             //3.持仓期权月份小于等于对比物的：小于1个月的，-30<漏洞差<=-15元显示灰色，-15----5以内的显示白色,-5<漏洞差显示红色；
             //                         大于1个月以上的，-40<漏洞差<=-20元显示灰色，-20---10以内的显示白色, -10<漏洞差显示红色；
 
-            if(monthdrop == -1) {  //大于1个月的
+            if(monthdrop == -1) {  //小于1个月的
                 if(leakdrop>=-5 )  background = '#D19275';  //显示红色
                 if(leakdrop>=-15 && leakdrop<-5 ) background = '#FFFFFF';   //显示白色
                 if(leakdrop>=-30 && leakdrop<-15 ) background = '#DCDCDC';     //灰色
             }
 
 
-             if(monthdrop <  -1) { //大于1个月以上的上的
+             if(monthdrop <  -1) { //小于1个月以上的上的
                 if(leakdrop>=-10 ) background = '#D19275';    //显示红色
                 if(leakdrop>=-20 && leakdrop<-10 ) background = '#FFFFFF';    //显示白色
                 if(leakdrop>=-40 && leakdrop<-20 ) background = '#DCDCDC';   //灰色
@@ -882,9 +881,9 @@ function uuid(len, radix) {
            if(background != -1) {
                 //#DCDCDC灰色   #D19275红色   //"font-weight":"bold","font-size":"12px","color":"red"
                 var html_tr="<tr style='background:" + background + ";' id=''>" +   
-                            "    <td> <div style='float:left;'>" + myQiquanInfo.oldName + "[" + myqiquan_analys.leakVaue + "]</div> <br> <div ></div></td>" +
+                            "    <td> <div style='float:left;'>" + myQiquanInfo.oldName + "[ " + myqiquan_analys.leakVaue + ", ￥" + myQiquanInfo.oldPrice + " ]</div> <br> <div ></div></td>" +
                             "    <td>===></td>" +
-                            "    <td>" + newName + "[" + referqiquan_analys.leakVaue +"]</td>" +
+                            "    <td>" + newName + "[" + referqiquan_analys.leakVaue +", ￥" + newPrice+ " ]</td>" +
                             "    <td><div style='float:left;font-weight:bold; font-size:16px; color:red; ' >" + leakdrop + "</div></td>" +
                             "</tr>";
                 
@@ -901,7 +900,7 @@ function uuid(len, radix) {
   function  changeMonthToNum(month){
     var result = month;
     var d = new Date();
-    var now_month = d.getMonth() - 0 + 1;
+    var now_month = d.getMonth() - 0 + 1;      
     if(month < now_month) result = month + 12;
 
     return result;
@@ -973,19 +972,27 @@ function uuid(len, radix) {
             var chg = dataSource_global[tag].chg;
  
 
-        var netInfo = zhengquanObj.getNetInfo(code,evalstrArr_tmp);
+        var netInfo = zhengquanObj.getNetInfo(code,evalstrArr_tmp); // console.log(85888,netInfo);
         var newPrice = netInfo.newPrice ;
         var newName = netInfo.newName ;
         var yesterPrice = netInfo.yesterPrice;
 
+
         //如果为期权对比物， 新价格为：最新的卖一价格
-        if(zhengquanName == 'refer_qiquan' ) newPrice = netInfo.sale1;
+        if(tag == 'qiquan_auto' ) newPrice = netInfo.sale1;
+
+        //如果为期权对比物， 新价格为：最新的卖一价格
+        if(tag == 'target' ) newPrice = netInfo.buy1;
 
 
         var zhengquanInfo = getTd_zhengquanInfo(code,tag);
         var oldPrice = zhengquanInfo.oldPrice;
         var oldName = zhengquanInfo.oldName;
 
+        //如果是过期的期权,则价格为网页上的价格
+        if(netInfo.newPrice == undefined) newPrice = oldPrice;  
+
+        if(netInfo.yesterPrice == undefined) yesterPrice = oldPrice
         
           //console.log('股票价格：' + newName + "原价：" + oldPrice + ",新价：" + newPrice + "  昨天收盘价："  + yesterPrice);
 
@@ -1012,6 +1019,8 @@ function uuid(len, radix) {
                 chg_num = chg_num.toFixed(2);
                 if(newPrice == yesterPrice)  chg_num='0.00';
                 $("#chg_" + code_ids[code]  + "_" + uuID).text(chg_num + '%');
+                if(chg_num < 0 ) $("#chg_" + code_ids[code]  + "_" + uuID).css({"font-weight":"bold","font-size":"16px","color":"green"});
+                if(chg_num >= 0 ) $("#chg_" + code_ids[code]  + "_" + uuID).css({"font-weight":"bold","font-size":"16px","color":"red"});
            }
 
 
@@ -1022,17 +1031,18 @@ function uuid(len, radix) {
 
 
 
-        //更新数据库股价信息;条件： 1.名字不一样  2.在早晚规定时间段
+        //更新数据库股价信息;条件： 1.名字不一样  2.在早晚规定时间段. 3.获取的数据有效
         var datatmp = {id:code_ids[code],  name:newName , price : newPrice , flag:zhengquanName  };
-         if(oldName != newName) {  //证券名变化，则更新
+        
+         if(oldName != newName && newName != undefined) {  //证券名变化，则更新
              $(td_nameID).text(newName);    
              updataZhengquanDB(datatmp,tag);  //更新数据库证券信息
          }  
          //数据更新时段；
         var nowtimeStamp = Date.parse(new Date());
         //console.log(config);
-        if(nowtimeStamp >= config.morning_starttime && nowtimeStamp <= config.morning_endtime) updataZhengquanDB(datatmp,tag);  //更新数据库证券信息	
-        if(nowtimeStamp >= config.afternoon_starttime && nowtimeStamp <= config.afternoon_endtime) updataZhengquanDB(datatmp,tag);  //更新数据库证券信息	
+        if(newName != undefined && nowtimeStamp >= config.morning_starttime && nowtimeStamp <= config.morning_endtime) updataZhengquanDB(datatmp,tag);  //更新数据库证券信息	
+        if(newName != undefined &&  nowtimeStamp >= config.afternoon_starttime && nowtimeStamp <= config.afternoon_endtime) updataZhengquanDB(datatmp,tag);  //更新数据库证券信息	
 
 
 
@@ -1101,6 +1111,7 @@ function uuid(len, radix) {
    //更新数据库证券信息
    function updataZhengquanDB(datatmp,tag){
 
+       //console.log(9999,datatmp);
        var needupdateToDB = dataSource_global[tag].needupdateToDB;
        if(!needupdateToDB)  return  ;
 
