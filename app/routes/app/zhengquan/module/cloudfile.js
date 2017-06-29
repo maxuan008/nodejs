@@ -82,14 +82,14 @@ cloudfile.uploadfile = function(rootpath,req,callback) {
                     if(i != 0 ) {console.log(csvtable[i][0]); csvtable[i][0] = new Date(1900, 0, csvtable[i][0] - 1);  console.log(csvtable[i][0]); csvtable[i][1] = new Date(1900, 0, csvtable[i][1] - 1);} 
                  }
 
-var buffer = xlsx.build([
-    {
-        name:'sheet1',
-        data:csvtable
-    }        
-]);
-
-fs.writeFileSync(newFilepath,buffer,{'flag':'w'});
+                //生成处理后的文件
+                var buffer = xlsx.build([
+                    {
+                        name:'sheet1',
+                        data:csvtable
+                    }        
+                ]);
+                fs.writeFileSync(newFilepath,buffer,{'flag':'w'});
 
                 return callback(err,data);
 
@@ -176,7 +176,7 @@ cloudfile.analyseimportfile = function(df_id, userid ,callback) {
 //读取excel数据，并转换成数组
 var xlsx = require('node-xlsx');
 var obj = xlsx.parse(filepath);
-var csvtable=obj[0].data;
+var csvtable=obj[0].data;  //读取excel数据
 
 // console.log(excelObj);
 
@@ -222,6 +222,7 @@ var csvtable=obj[0].data;
                     fangxiang= data[5], jine = data[9], dealcode= data[11] ,zhengquanName = data[4],deal_code =  data[14]; 
                     if(jine < 0) jine = jine * -1;
 
+                    
                     //添加证券，存在直接返回证券的主键； 如果不存在则插入证券，并返回证券的主键。
                     zhengquan.addzhengquan_V2(table,codevalue,userid,fileinfo.type ,zhengquanName, function(err,doc){  if(err) { console.log(err);  return callback(); }
 
