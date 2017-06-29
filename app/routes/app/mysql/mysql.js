@@ -1,12 +1,12 @@
 //console.log("11");
-var appconfig = require('../config/appconfig.json');
+var appconfig = require('../../../config/appconfig.json');
 
 var mysql = require('mysql');
 
 var mgENV=global.mgENV;
 var db = global.db;
 
-//console.log(mgconfig);
+console.log(appconfig[mgENV]);
 
 var connection = mysql.createConnection({
 	  host     : appconfig[mgENV].mysql.host,

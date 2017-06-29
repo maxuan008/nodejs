@@ -5,7 +5,11 @@
       "port": "1199",
 
       "mysql":{
-
+          "host":"127.0.0.1",
+          "db":"zhengquan",    
+          "user":"nodejs",
+          "password":"node666888",
+          "header":"mg"
       },
 
       "mongodb": {
@@ -27,7 +31,11 @@
       "port": "1199",
 
       "mysql":{
-
+          "host":"127.0.0.1",
+          "db":"zhengquan",    
+          "user":"nodejs",
+          "password":"node666888",
+          "header":"mg"
       },
 
       "mongodb": {

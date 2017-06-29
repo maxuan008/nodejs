@@ -7,7 +7,7 @@ var moment = require('moment');
 var mysql = require('./mysql/mysql');
 var templater = require("./module/templater");
 
-var appconfig = require('./config/appconfig.json');
+var appconfig = require('../../config/appconfig.json');
 var cloudfile = require("./zhengquan/module/cloudfile");
 var zhengquan = require("./zhengquan/module/zhengquan");
 
