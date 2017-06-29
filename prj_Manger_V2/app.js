@@ -8,7 +8,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 var os = require('os');
 
-var config = require('./config/config.json');
+var config = require('./config/mgconfig.json');
 
 var app = express();
 var mgenv = app.get('env');

@@ -3,7 +3,7 @@ var router = express.Router();
 var crypto = require('crypto');
 var templater = require("../../model/templater");
 var user = require("../../model/user");
-var mgconfig = require("../../config/mgconfig.json");
+var mgconfig = require("../../../../config/mgconfig.json");
 
 router.post('/', function(req,res,next)  {    
 	var md5 = crypto.createHash('md5');

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
 var templater = require("../../model/templater");
-var mgconfig = require("../../config/mgconfig.json");
+var mgconfig = require("../../../../config/mgconfig.json");
 
 var project = require("../../model/project");
 

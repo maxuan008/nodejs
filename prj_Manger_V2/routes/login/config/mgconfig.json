@@ -6,7 +6,7 @@
           "host":"127.0.0.1",
           "db":"manger",    
           "user":"nodejs",
-          "password":"123456",
+          "password":"MX123456",
           "header":"mg"
       },
 
@@ -29,7 +29,7 @@
           "host":"127.0.0.1",
           "db":"manger",    
           "user":"nodejs",
-          "password":"123456",
+          "password":"MX123456",
           "header":"mg"
       },
 

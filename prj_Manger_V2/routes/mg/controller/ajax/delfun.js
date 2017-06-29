@@ -4,7 +4,7 @@ var router = express.Router();
 //var templater = require("../../model/templater");
 
 var fun = require("../../model/fun");
-var mgconfig = require("../../config/mgconfig.json");
+var mgconfig = require("../../../../config/mgconfig.json");
 var rolefun = require("../../model/rolefun");
 
 var EventProxy =   require('eventproxy');

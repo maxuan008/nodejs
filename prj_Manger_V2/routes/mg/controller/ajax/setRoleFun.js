@@ -4,7 +4,7 @@ var router = express.Router();
 //var templater = require("../../model/templater");
 
 var rolefun = require("../../model/rolefun");
-var mgconfig = require("../../config/mgconfig.json");
+var mgconfig = require("../../../../config/mgconfig.json");
 
 router.post('/', function(req,res,next)  {
 

@@ -1,7 +1,7 @@
 var Mysql = require("../mysql/mysql");
 var templater = require("./templater");
 var async = require("async");
-var mgconfig = require("../config/mgconfig.json");
+var mgconfig = require("../../../config/mgconfig.json");
 
 function user(data) {
      this.data = data;

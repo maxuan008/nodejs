@@ -1,5 +1,5 @@
 //console.log("11");
-var mgconfig = require('../config/mgconfig.json');
+var mgconfig = require('../../../config/mgconfig.json');
 
 var mysql = require('mysql');
 

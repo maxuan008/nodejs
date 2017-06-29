@@ -5,7 +5,11 @@
       "mgport": "1111",
 
       "mysql":{
-
+          "host":"127.0.0.1",
+          "db":"manger",    
+          "user":"nodejs",
+          "password":"MX123456",
+          "header":"mg"
       },
 
       "mongodb": {
@@ -26,8 +30,12 @@
       "cookiesecret":"mgsession",
       "mgport": "1111",
 
-      "mysql":{
-
+      "mysql":{         
+          "host":"127.0.0.1",
+          "db":"manger",    
+          "user":"nodejs",
+          "password":"MX123456",
+          "header":"mg"
       },
 
       "mongodb": {
