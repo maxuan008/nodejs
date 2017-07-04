@@ -67,7 +67,7 @@ function analyseimportfile(req ,res) {
 function uploaddealfile(req ,res) {
     var type = req.query.typevalue , userid = req.session.userdatas.info.uid  ;
     if(type =='' || type == undefined ) return  res.send({code:204,err:"type数据不正确" });
-
+    console.log(appconfig[global.mgENV]);
     var rootpath = appconfig[global.mgENV].file.pathroot + "/" + req.session.userdatas.info.username + "_" + userid ;
 
     console.log(type , rootpath );

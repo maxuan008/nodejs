@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 var os = require('os');
-
+   
 var config = require('./config/appconfig.json');
 
 var app = express();
@@ -174,7 +174,7 @@ if (app.get('env') === 'development') {
 	//console.log('AAAAA');
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.send( {
       message: err.message,
       error: err
     });
